@@ -1,7 +1,8 @@
 import express from 'express';
+import * as Lists from './Lists';
 const app = express();
-app.get('/', (req, res) =>
-  res.send('Hello World!')
+app.get('/lists', (req, res) =>
+  res.json(Lists.default)
 );
 
 const server = app.listen(3000, () => {
