@@ -19,6 +19,7 @@ app.get('/lists', (req, res) => {
 });
 
 app.post('/lists', (req, res) => {
+  console.log(req.body);
   const list = new ListModel(req.body);
   list.save();
 });
