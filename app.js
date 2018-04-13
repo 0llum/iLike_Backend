@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import ListModel from './models/list';
 import * as Lists from './Lists';
@@ -6,6 +7,7 @@ import * as Lists from './Lists';
 mongoose.connect('mongodb://localhost:27017/iLike');
 
 const app = express();
+app.use(bodyParser.json());
 
 app.get('/lists', (req, res) => {
   ListModel.find({}, (err, data) => {
