@@ -17,11 +17,18 @@ const list = new ListModel({
   }]
 });
 
-list.save();
+// list.save();
 
 const app = express();
 app.get('/lists', (req, res) =>
-  res.json(Lists.default)
+  ListModel.find({}, (err, data) => {
+    if (err) {
+      console.log(error);
+    } else {
+      console.log(data);
+      res.json(data);
+    }
+  })
 );
 
 const server = app.listen(3000, () => {
