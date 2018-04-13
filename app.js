@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import ListModel from './models/list';
 import * as Lists from './Lists';
 
-mongoose.connect('mongodb://localhost:27017');
+mongoose.connect('mongodb://localhost:27017/iLike');
 
 const list = new ListModel({
   name: 'test',
