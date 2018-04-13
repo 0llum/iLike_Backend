@@ -1,0 +1,22 @@
+{
+  "name": "ilike_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0llum/iLike_Backend.git"
+  },
+  "author": "Oliver Dolgener",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0llum/iLike_Backend/issues"
+  },
+  "homepage": "https://github.com/0llum/iLike_Backend#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
