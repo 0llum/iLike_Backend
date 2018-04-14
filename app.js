@@ -81,7 +81,7 @@ app.patch('/lists/:id/:itemId', (req, res) => {
           }
           if (req.body.picks) {
             item.set({
-              count: item.picks + 1
+              picks: item.picks + 1
             });
           }
           list.save(err => {
