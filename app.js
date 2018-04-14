@@ -42,7 +42,8 @@ app.patch('/lists/:id', (req, res) => {
       res.end();
     } else {
       const list = data;
-      console.log(data);
+      res.status(200);
+      res.json(data);
     }
   })
 });
