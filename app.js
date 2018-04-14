@@ -46,16 +46,15 @@ app.get('/lists/:id', (req, res) => {
   })
 });
 
-app.patch('/lists/:id/:itemId', (req, res) => {
+app.get('/lists/:id/:itemId', (req, res) => {
   ListModel.findById(req.params.id, (err, data) => {
     if (err) {
       res.status(404);
       res.json(err);
     } else {
       const list = new ListModel(data);
-      list.items.forEach(element => {
-        if (element._id == req.params.itemId) {
-          const item = element;
+      list.items.forEach(item => {
+        if (item._id == req.params.itemId) {
           res.status(200);
           res.json(item);
         }
