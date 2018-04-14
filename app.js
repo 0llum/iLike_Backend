@@ -11,9 +11,8 @@ app.use(bodyParser.json());
 app.get('/lists', (req, res) => {
   ListModel.find({}, (err, data) => {
     if (err) {
-      console.log(error);
       res.status(404);
-      res.end();
+      res.json(err);
     } else {
       res.status(200);
       res.json(data);
@@ -34,12 +33,11 @@ app.post('/lists', (req, res) => {
   });
 });
 
-app.patch('/lists/:id', (req, res) => {
+app.get('/lists/:id', (req, res) => {
   ListModel.findById(req.params.id, (err, data) => {
     if (err) {
-      console.log(err);
       res.status(404);
-      res.end();
+      res.json(err);
     } else {
       const list = data;
       res.status(200);
