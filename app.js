@@ -2,7 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import ListModel from './models/list';
-import * as Lists from './Lists';
 
 mongoose.connect('mongodb://localhost:27017/iLike');
 
