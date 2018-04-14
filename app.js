@@ -74,9 +74,16 @@ app.patch('/lists/:id/:itemId', (req, res) => {
       const list = new ListModel(data);
       list.items.forEach(item => {
         if (item._id == req.params.itemId) {
-          item.set({
-            count: item.count + 1
-          });
+          if (req.body.count) {
+            item.set({
+              count: item.count + 1
+            });
+          }
+          if (req.body.picks) {
+            item.set({
+              count: item.count + 1
+            });
+          }
           list.save(err => {
             if (err) {
               res.status(406);
