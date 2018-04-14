@@ -66,6 +66,7 @@ app.get('/lists/:id/:itemId', (req, res) => {
 });
 
 app.patch('/lists/:id/:itemId', (req, res) => {
+  console.log(req.body);
   ListModel.findById(req.params.id, (err, data) => {
     if (err) {
       res.status(404);
