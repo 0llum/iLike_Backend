@@ -88,8 +88,8 @@ app.patch('/lists/:id/:itemId', (req, res) => {
           });
         }
       });
-      res.status(404);
-      res.end();
+      //res.status(404);
+      //res.end();
     }
   })
 });
