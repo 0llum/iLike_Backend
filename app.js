@@ -66,12 +66,13 @@ app.get('/lists/:id/:itemId', (req, res) => {
 });
 
 app.patch('/lists/:id/:itemId', (req, res) => {
-  ListModel.findOneAndUpdate({_id: req.params.id, "items.id": req.params.itemId}, { "items.$.count": 100 }, (err, item) => {
+  ListModel.findOneAndUpdate({_id: req.params.id, "items._id": req.params.itemId}, { "items.$.count": 100 }, (err, item) => {
     if (err) {
       console.log(err);
       res.status(404);
       res.end();
     } else {
+      console.log(item);
       res.status(200);
       res.json(item);
     }
