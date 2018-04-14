@@ -54,10 +54,11 @@ app.patch('/lists/:id/:itemId', (req, res) => {
     } else {
       const list = new ListModel(data);
       list.items.forEach(element => {
-        console.log(element);
+        console.log(element._id);
       });
       res.status(200);
-      res.json(item);
+      res.end();
+      //res.json(item);
     }
   })
 });
