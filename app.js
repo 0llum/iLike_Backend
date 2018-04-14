@@ -13,17 +13,26 @@ app.get('/lists', (req, res) => {
   ListModel.find({}, (err, data) => {
     if (err) {
       console.log(error);
+      res.status(404);
+      res.end();
     } else {
-      console.log(data);
+      res.status(200);
       res.json(data);
     }
   })
 });
 
 app.post('/lists', (req, res) => {
-  console.log(req);
   const list = new ListModel(req.body);
-  list.save();
+  list.save(err => {
+    if (err) {
+      res.status(406);
+      res.json(err);
+    } else {
+      res.status(201);
+      res.json(req.body);
+    }
+  });
 });
 
 const server = app.listen(3000, () => {
