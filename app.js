@@ -46,13 +46,14 @@ app.get('/lists/:id', (req, res) => {
   })
 });
 
-app.patch('/lists/:id/:itemID', (req, res) => {
+app.patch('/lists/:id/:itemId', (req, res) => {
   ListModel.findById(req.params.id, (err, data) => {
     if (err) {
       res.status(404);
       res.json(err);
     } else {
       const list = new ListModel(data);
+      console.log(req.params.itemId);
       const item = list.items.find(x => x._id === req.params.itemId);
       res.status(200);
       res.json(item);
