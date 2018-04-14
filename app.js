@@ -66,19 +66,30 @@ app.get('/lists/:id/:itemId', (req, res) => {
 });
 
 app.patch('/lists/:id/:itemId', (req, res) => {
-  ListModel.findOneAndUpdate(
-    {"_id": req.params.id, "items._id": req.params.itemId},
-    {"$inc": {"count": 1}},
-    (err, item) => {
-      if (err) {
-        res.status(406);
-        res.json(err);
-      } else {
-        res.status(200);
-        res.json(item);
-      }
+  ListModel.findByIdAndUpdate(req.params.id, { count: 100 }, (err, item) => {
+    if (err) {
+      console.log(err);
+      res.status(404);
+      res.end();
+    } else {
+      res.status(200);
+      res.json(item);
     }
-  );
+  });
+
+  // ListModel.findOneAndUpdate(
+  //   {_id: req.params.id, items._id: req.params.itemId},
+  //   {"$inc": {"count": 1}},
+  //   (err, item) => {
+  //     if (err) {
+  //       res.status(406);
+  //       res.json(err);
+  //     } else {
+  //       res.status(200);
+  //       res.json(item);
+  //     }
+  //   }
+  // );
 
   // ListModel.findById(req.params.id, (err, data) => {
   //   if (err) {
