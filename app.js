@@ -34,6 +34,19 @@ app.post('/lists', (req, res) => {
   });
 });
 
+app.patch('/lists/:id/:itemId', (req, res) => {
+  ListModel.findById(req.params.id, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.status(404);
+      res.end();
+    } else {
+      const list = data;
+      console.log(data);
+    }
+  })
+});
+
 const server = app.listen(3000, () => {
   const { address, port } = server.address();
   console.log('Listening at ' + address + ':' + port);
