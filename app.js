@@ -53,7 +53,7 @@ app.patch('/lists/:id/:itemID', (req, res) => {
       res.json(err);
     } else {
       const list = new ListModel(data);
-      const item = list.items.find(x => x._id === req.params.id);
+      const item = list.items.find(x => x._id === req.params.itemId);
       res.status(200);
       res.json(item);
     }
