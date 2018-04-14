@@ -70,7 +70,7 @@ app.patch('/lists/:id/:itemId', (req, res) => {
     _id: req.params.id,
     "items._id": req.params.itemId
   }, {
-    inc: {"items.$.count": 1}
+    $inc: {"items.$.count": 1}
   }, (err, item) => {
     if (err) {
       res.status(404);
