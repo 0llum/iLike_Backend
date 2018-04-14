@@ -77,7 +77,7 @@ app.patch('/lists/:id/:itemId', (req, res) => {
           item.set({
             count: item.count + 1
           });
-          item.save(err => {
+          list.save(err => {
             if (err) {
               res.status(406);
               res.json(err);
