@@ -66,11 +66,26 @@ app.get('/lists/:id/:itemId', (req, res) => {
 });
 
 app.patch('/lists/:id/:itemId', (req, res) => {
-  ListModel.findOneAndUpdate({
+  req.body.count && ListModel.findOneAndUpdate({
     _id: req.params.id,
     "items._id": req.params.itemId
   }, {
     $inc: {"items.$.count": 1}
+  }, (err, item) => {
+    if (err) {
+      res.status(404);
+      res.end();
+    } else {
+      res.status(200);
+      res.json(item);
+    }
+  });
+
+  req.body.picks && ListModel.findOneAndUpdate({
+    _id: req.params.id,
+    "items._id": req.params.itemId
+  }, {
+    $inc: {"items.$.picks": 1}
   }, (err, item) => {
     if (err) {
       res.status(404);
