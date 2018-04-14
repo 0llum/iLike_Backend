@@ -54,7 +54,9 @@ app.patch('/lists/:id/:itemId', (req, res) => {
     } else {
       const list = new ListModel(data);
       list.items.forEach(element => {
-        console.log(element._id);
+        if (element._id == req.params.itemId) {
+          console.log(element);
+        }
       });
       res.status(200);
       res.end();
