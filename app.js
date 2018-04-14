@@ -66,7 +66,7 @@ app.get('/lists/:id/:itemId', (req, res) => {
 });
 
 app.patch('/lists/:id/:itemId', (req, res) => {
-  ListModel.findByIdAndUpdate(req.params.id, { name: 'CHANGED' }, (err, item) => {
+  ListModel.findOneAndUpdate({_id: req.params.id}, { name: 'lkjh' }, (err, item) => {
     if (err) {
       console.log(err);
       res.status(404);
