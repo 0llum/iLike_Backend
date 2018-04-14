@@ -34,7 +34,7 @@ app.post('/lists', (req, res) => {
   });
 });
 
-app.patch('/lists/:id/:itemId', (req, res) => {
+app.patch('/lists/:id', (req, res) => {
   ListModel.findById(req.params.id, (err, data) => {
     if (err) {
       console.log(err);
