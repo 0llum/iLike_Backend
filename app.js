@@ -55,12 +55,13 @@ app.patch('/lists/:id/:itemId', (req, res) => {
       const list = new ListModel(data);
       list.items.forEach(element => {
         if (element._id == req.params.itemId) {
-          console.log(element);
+          const item = element;
+          res.status(200);
+          res.json(item);
         }
       });
-      res.status(200);
+      res.status(404);
       res.end();
-      //res.json(item);
     }
   })
 });
