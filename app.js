@@ -42,7 +42,7 @@ app.get('/lists/:id', (req, res) => {
 
 app.patch('/lists/:id', (req, res) => {
   req.body.count && ListModel.findByIdAndUpdate(req.params.id, {
-    $inc: {"$.count": 1}
+    $inc: {count: 1}
   }, (err, item) => {
     if (err) {
       res.status(404).json(err);

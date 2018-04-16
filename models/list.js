@@ -12,6 +12,7 @@ const listSchema = new Schema({
   name: { type: String, required: true },
   image: { type: String },
   color: { type: String },
+  count: { type: Number },
   items: [listItemSchema],
 });
 
