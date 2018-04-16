@@ -20,6 +20,7 @@ app.get('/lists', (req, res) => {
 
 app.post('/lists', (req, res) => {
   const list = new ListModel(req.body);
+
   list.save(err => {
     if (err) {
       res.status(406).json(err);
@@ -87,6 +88,40 @@ app.patch('/lists/:id/:itemId', (req, res) => {
     "items._id": req.params.itemId
   }, {
     $inc: {"items.$.picks": 1}
+  }, (err, item) => {
+    if (err) {
+      res.status(404).json(err);
+    } else {
+      res.status(200).json(item);
+    }
+  });
+});
+
+app.patch('/lists/:id/:itemId/:matchId', (req, res) => {
+  req.body.count && ListModel.findOneAndUpdate({
+    _id: req.params.id,
+    "items._id": req.params.itemId,
+    "items.itemId": req.params.matchId,
+  }, {
+    $inc: {"items.matches.$.count": 1}
+  }, {
+    upsert: true,
+  }, (err, item) => {
+    if (err) {
+      res.status(404).json(err);
+    } else {
+      res.status(200).json(item);
+    }
+  });
+
+  req.body.picks && ListModel.findOneAndUpdate({
+    _id: req.params.id,
+    "items._id": req.params.itemId,
+    "items.itemId": req.params.matchId,
+  }, {
+    $inc: {"items.matches.$.picks": 1}
+  }, {
+    upsert: true,
   }, (err, item) => {
     if (err) {
       res.status(404).json(err);
