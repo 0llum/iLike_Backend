@@ -57,7 +57,7 @@ app.get('/lists/:id/:itemId', (req, res) => {
       res.status(404).json(err);
     }
     const list = new List(data);
-    ListItem.findById(itemId, (err, data) => {
+    ListItem.findById(req.params.itemId, (err, data) => {
       if (err) {
         res.status(404).json(err);
       }
@@ -100,12 +100,12 @@ app.get('/lists/:id/:itemId/:itemMatchId', (req, res) => {
       res.status(404).json(err);
     }
     const list = new List(data);
-    ListItem.findById(itemId, (err, data) => {
+    ListItem.findById(req.params.itemId, (err, data) => {
       if (err) {
         res.status(404).json(err);
       }
       const listItem = new ListItem(data);
-      ListItemMatch.findOne({itemId: itemMatchId}, (err, data) => {
+      ListItemMatch.findOne({itemId: req.params.itemMatchId}, (err, data) => {
         if (err) {
           res.status(404).json(err);
         }
