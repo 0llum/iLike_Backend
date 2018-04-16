@@ -56,13 +56,11 @@ app.get('/lists/:id/:itemId', (req, res) => {
     if (err) {
       res.status(404).json(err);
     }
-    res.status(200).json(data.items.id(req.params.itemId));
-    // ListItem.findById(req.params.itemId, (err, data) => {
-    //   if (err) {
-    //     res.status(404).json(err);
-    //   }
-    //   res.status(200).json(data);
-    // });
+    const item = data.items.id(req.params.itemId);
+    if (!item) {
+      res.status(404).end();
+    }
+    res.status(200).json(item);
   });
 });
 
@@ -99,17 +97,15 @@ app.get('/lists/:id/:itemId/:itemMatchId', (req, res) => {
     if (err) {
       res.status(404).json(err);
     }
-    ListItem.findById(req.params.itemId, (err, data) => {
-      if (err) {
-        res.status(404).json(err);
-      }
-      ListItemMatch.findOne({itemId: req.params.itemMatchId}, (err, data) => {
-        if (err) {
-          res.status(404).json(err);
-        }
-        res.status(200).json(data);
-      });
-    });
+    const item = data.items.id(req.params.itemId);
+    if (!item) {
+      res.status(404).end();
+    }
+    const match = item.matches.itemId(req.params.itemMatchId);
+    if (!match) {
+      res.status(404).end();
+    }
+    res.status(200).json(match);
   });
 });
 
