@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import List from './models/list';
+import List from '../models/list';
 
 mongoose.connect('mongodb://localhost:27017/iLike');
 const lists = express.Router();
