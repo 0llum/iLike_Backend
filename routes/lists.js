@@ -141,4 +141,4 @@ lists.route('/:id/:itemId/:itemMatchId')
     });
   });
 
-export default pins;
+export default lists;
