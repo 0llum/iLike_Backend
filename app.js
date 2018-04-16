@@ -56,7 +56,8 @@ app.get('/lists/:id/:itemId', (req, res) => {
     if (err) {
       res.status(404).json(err);
     }
-    res.status(200).json(data.id(req.params.itemId));
+    const list = new List(data);
+    res.status(200).json(list.id(req.params.itemId));
     // ListItem.findById(req.params.itemId, (err, data) => {
     //   if (err) {
     //     res.status(404).json(err);
