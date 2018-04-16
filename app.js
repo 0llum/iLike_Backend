@@ -33,7 +33,7 @@ app.route('/lists')
   });
 
 app.route('/lists/:id')
-  get((req, res) => {
+  .get((req, res) => {
     List.findById(req.params.id, (err, data) => {
       if (err) {
         return res.status(404).json(err);
