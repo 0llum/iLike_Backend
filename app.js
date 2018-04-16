@@ -23,10 +23,14 @@ app.post('/lists', (req, res) => {
   const list = new List(req.body);
   list.save(err => {
     if (err) {
-      res.status(406).json(err);
-    } else {
-      res.status(201).json(req.body);
+      return res.status(406).json(err);
     }
+    List.findById(list.id, (err, data) => {
+      if (err) {
+        return res.status(404).json(err);
+      }
+      res.status(200).json(data);
+    });
   });
 });
 
