@@ -5,7 +5,7 @@ import List from '../models/list';
 mongoose.connect('mongodb://localhost:27017/iLike');
 const lists = express.Router();
 
-app.route('/')
+lists.route('/')
   .get((req, res) => {
     List.find({}, (err, data) => {
       if (err) {
