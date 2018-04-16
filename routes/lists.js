@@ -29,7 +29,7 @@ lists.route('/')
     });
   });
 
-app.route('/:id')
+lists.route('/:id')
   .get((req, res) => {
     List.findById(req.params.id, (err, data) => {
       if (err) {
@@ -49,7 +49,7 @@ app.route('/:id')
     });
   });
 
-app.route('/:id/:itemId')
+lists.route('/:id/:itemId')
   .get((req, res) => {
     List.findById(req.params.id, (err, data) => {
       if (err) {
@@ -90,7 +90,7 @@ app.route('/:id/:itemId')
     });
   });
 
-app.route('/:id/:itemId/:itemMatchId')
+lists.route('/:id/:itemId/:itemMatchId')
   .get((req, res) => {
     List.findById(req.params.id, (err, data) => {
       if (err) {
