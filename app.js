@@ -11,11 +11,11 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get('/lists', (req, res) => {
-  List.find({}, (err, lists) => {
+  List.find({}, (err, data) => {
     if (err) {
       res.status(404).json(err);
     }
-    res.status(200).json(lists);
+    res.status(200).json(data);
   });
 });
 
@@ -31,11 +31,11 @@ app.post('/lists', (req, res) => {
 });
 
 app.get('/lists/:id', (req, res) => {
-  List.findById(req.params.id, (err, list) => {
+  List.findById(req.params.id, (err, data) => {
     if (err) {
       res.status(404).json(err);
     }
-    res.status(200).json(list);
+    res.status(200).json(data);
   });
 });
 
@@ -52,16 +52,16 @@ app.patch('/lists/:id', (req, res) => {
 });
 
 app.get('/lists/:id/:itemId', (req, res) => {
-  List.findById(req.params.id, (err, list) => {
+  List.findById(req.params.id, (err, data) => {
     if (err) {
       res.status(404).json(err);
     }
-    const list = new List(list);
-    ListItem.findById(itemId, (err, listItem) => {
+    const list = new List(data);
+    ListItem.findById(itemId, (err, data) => {
       if (err) {
         res.status(404).json(err);
       }
-      res.status(200).json(listItem);
+      res.status(200).json(data);
     });
   });
 });
@@ -95,21 +95,21 @@ app.patch('/lists/:id/:itemId', (req, res) => {
 });
 
 app.get('/lists/:id/:itemId/:itemMatchId', (req, res) => {
-  List.findById(req.params.id, (err, list) => {
+  List.findById(req.params.id, (err, data) => {
     if (err) {
       res.status(404).json(err);
     }
-    const list = new List(list);
-    ListItem.findById(itemId, (err, listItem) => {
+    const list = new List(data);
+    ListItem.findById(itemId, (err, data) => {
       if (err) {
         res.status(404).json(err);
       }
-      const listItem = new ListItem(listItem);
-      ListItemMatch.findOne({itemId: itemMatchId}, (err, listItemMatch) => {
+      const listItem = new ListItem(data);
+      ListItemMatch.findOne({itemId: itemMatchId}, (err, data) => {
         if (err) {
           res.status(404).json(err);
         }
-        res.status(200).json(listItemMatch);
+        res.status(200).json(data);
       });
     });
   });
