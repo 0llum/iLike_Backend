@@ -56,13 +56,13 @@ app.get('/lists/:id/:itemId', (req, res) => {
     if (err) {
       res.status(404).json(err);
     }
-    const list = new List(data);
-    ListItem.findById(req.params.itemId, (err, data) => {
-      if (err) {
-        res.status(404).json(err);
-      }
-      res.status(200).json(data);
-    });
+    res.status(200).json(data._id(itemId));
+    // ListItem.findById(req.params.itemId, (err, data) => {
+    //   if (err) {
+    //     res.status(404).json(err);
+    //   }
+    //   res.status(200).json(data);
+    // });
   });
 });
 
@@ -99,12 +99,10 @@ app.get('/lists/:id/:itemId/:itemMatchId', (req, res) => {
     if (err) {
       res.status(404).json(err);
     }
-    const list = new List(data);
     ListItem.findById(req.params.itemId, (err, data) => {
       if (err) {
         res.status(404).json(err);
       }
-      const listItem = new ListItem(data);
       ListItemMatch.findOne({itemId: req.params.itemMatchId}, (err, data) => {
         if (err) {
           res.status(404).json(err);
