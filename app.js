@@ -101,7 +101,7 @@ app.get('/lists/:id/:itemId/:itemMatchId', (req, res) => {
     if (!item) {
       res.status(404).end();
     }
-    const match = item.matches.itemId(req.params.itemMatchId);
+    const match = item.matches.id(req.params.itemMatchId);
     if (!match) {
       res.status(404).end();
     }
