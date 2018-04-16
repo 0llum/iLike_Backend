@@ -7,7 +7,7 @@ const listItemSchema = new Schema({
   color: { type: String },
   count: { type: Number, default: 0, min: 0 },
   picks: { type: Number, default: 0, min: 0 },
-  matches: [ListItemMatch],
+  matches: [ListItemMatch.schema],
 });
 
 export default mongoose.model('listItem', listItemSchema);

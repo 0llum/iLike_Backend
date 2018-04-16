@@ -6,7 +6,7 @@ const listSchema = new Schema({
   image: { type: String },
   color: { type: String },
   count: { type: Number },
-  items: [ListItem],
+  items: [ListItem.schema],
 });
 
 export default mongoose.model('list', listSchema);
