@@ -1,7 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import ListModel from './models/list';
+import List from './models/list';
+import ListItem from './models/listItem';
+import ListItemMatch from './models/listItemMatch';
 
 mongoose.connect('mongodb://localhost:27017/iLike');
 
@@ -9,18 +11,16 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get('/lists', (req, res) => {
-  ListModel.find({}, (err, data) => {
+  List.find({}, (err, lists) => {
     if (err) {
       res.status(404).json(err);
-    } else {
-      res.status(200).json(data);
     }
-  })
+    res.status(200).json(lists);
+  });
 });
 
 app.post('/lists', (req, res) => {
-  const list = new ListModel(req.body);
-
+  const list = new List(req.body);
   list.save(err => {
     if (err) {
       res.status(406).json(err);
@@ -31,18 +31,16 @@ app.post('/lists', (req, res) => {
 });
 
 app.get('/lists/:id', (req, res) => {
-  ListModel.findById(req.params.id, (err, data) => {
+  List.findById(req.params.id, (err, list) => {
     if (err) {
       res.status(404).json(err);
-    } else {
-      const list = data;
-      res.status(200).json(data);
     }
-  })
+    res.status(200).json(list);
+  });
 });
 
 app.patch('/lists/:id', (req, res) => {
-  req.body.count && ListModel.findByIdAndUpdate(req.params.id, {
+  req.body.count && List.findByIdAndUpdate(req.params.id, {
     $inc: {count: 1}
   }, (err, item) => {
     if (err) {
@@ -54,23 +52,22 @@ app.patch('/lists/:id', (req, res) => {
 });
 
 app.get('/lists/:id/:itemId', (req, res) => {
-  ListModel.findById(req.params.id, (err, data) => {
+  List.findById(req.params.id, (err, list) => {
     if (err) {
       res.status(404).json(err);
-    } else {
-      const list = new ListModel(data);
-      list.items.forEach(item => {
-        if (item._id == req.params.itemId) {
-          res.status(200).json(item);
-        }
-      });
-      res.status(404).end();
     }
-  })
+    const list = new List(list);
+    ListItem.findById(itemId, (err, listItem) => {
+      if (err) {
+        res.status(404).json(err);
+      }
+      res.status(200).json(listItem);
+    });
+  });
 });
 
 app.patch('/lists/:id/:itemId', (req, res) => {
-  req.body.count && ListModel.findOneAndUpdate({
+  req.body.count && List.findOneAndUpdate({
     _id: req.params.id,
     "items._id": req.params.itemId
   }, {
@@ -83,7 +80,7 @@ app.patch('/lists/:id/:itemId', (req, res) => {
     }
   });
 
-  req.body.picks && ListModel.findOneAndUpdate({
+  req.body.picks && List.findOneAndUpdate({
     _id: req.params.id,
     "items._id": req.params.itemId
   }, {
@@ -97,8 +94,29 @@ app.patch('/lists/:id/:itemId', (req, res) => {
   });
 });
 
+app.get('/lists/:id/:itemId/:itemMatchId', (req, res) => {
+  List.findById(req.params.id, (err, list) => {
+    if (err) {
+      res.status(404).json(err);
+    }
+    const list = new List(list);
+    ListItem.findById(itemId, (err, listItem) => {
+      if (err) {
+        res.status(404).json(err);
+      }
+      const listItem = new ListItem(listItem);
+      ListItemMatch.findOne({itemId: itemMatchId}, (err, listItemMatch) => {
+        if (err) {
+          res.status(404).json(err);
+        }
+        res.status(200).json(listItemMatch);
+      });
+    });
+  });
+});
+
 app.patch('/lists/:id/:itemId/:matchId', (req, res) => {
-  req.body.count && ListModel.findOneAndUpdate({
+  req.body.count && List.findOneAndUpdate({
     _id: req.params.id,
     "items._id": req.params.itemId,
     "items.itemId": req.params.matchId,
@@ -114,7 +132,7 @@ app.patch('/lists/:id/:itemId/:matchId', (req, res) => {
     }
   });
 
-  req.body.picks && ListModel.findOneAndUpdate({
+  req.body.picks && List.findOneAndUpdate({
     _id: req.params.id,
     "items._id": req.params.itemId,
     "items.itemId": req.params.matchId,
