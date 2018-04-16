@@ -2,8 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import List from './models/list';
-import ListItem from './models/listItem';
-import ListItemMatch from './models/listItemMatch';
 
 mongoose.connect('mongodb://localhost:27017/iLike');
 
