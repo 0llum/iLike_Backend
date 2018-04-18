@@ -72,7 +72,6 @@ lists.route('/:id/:itemId')
       if (err) {
         return res.status(404).json(err);
       }
-      res.status(200).json(item);
     });
 
     req.body.picks && List.findOneAndUpdate({
@@ -82,11 +81,11 @@ lists.route('/:id/:itemId')
       $inc: {"items.$.picks": 1}
     }, (err, item) => {
       if (err) {
-        res.status(404).json(err);
-      } else {
-        res.status(200).json(item);
+        return res.status(404).json(err);
       }
     });
+
+    res.status(200).json();
   });
 
 lists.route('/:id/:itemId/:itemMatchId')
