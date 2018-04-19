@@ -98,14 +98,10 @@ lists.route('/:id/:itemId/:itemMatchId')
       if (!item) {
         return res.status(404).end();
       }
-      const match = item.matches.find(function(x) {
-        console.log(x);
-        console.log(x.count);
-        console.log(x.picks);
-        console.log(x.qwer);
-        console.log(x.id);
-        console.log(req.params.itemMatchId);
-        return x.qwer == req.params.itemMatchId;
+      const match = item.matches.forEach(element => {
+        console.log(element);
+        console.log(element.id);
+        console.log(element.qwer);
       });
       if (!match) {
         return res.status(404).end();
