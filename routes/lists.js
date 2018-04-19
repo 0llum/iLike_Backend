@@ -106,33 +106,47 @@ lists.route('/:id/:itemId/:itemMatchId')
     });
   })
   .patch((req, res) => {
-    req.body.count && List.findOneAndUpdate({
-      _id: req.params.id,
-      "items._id": req.params.itemId,
-      "items.matches.itemId": req.params.itemMatchId,
-    }, {
-      $inc: {"items.$.matches.count": 1}
-    }, {
-      upsert: true,
-    }, (err, item) => {
-      if (err) {
-        return res.status(404).json(err);
+    List.findById(req.params.id, (err, data) => {
+      const items = data.items;
+      const item = items.find(x => x.id == req.params.itemId);
+      const match = item.matches.find(x => x.toObject().itemId == req.params.itemMatchId);
+      if (match) {
+        match.count = match.count + 1;
+        items.save(err => {
+          return res.status(404).json(err);
+        });
+        return res.status(200).json(match);
       }
     });
 
-    req.body.picks && List.findOneAndUpdate({
-      _id: req.params.id,
-      "items._id": req.params.itemId,
-      "items.matches.itemId": req.params.itemMatchId,
-    }, {
-      $inc: {"items.matches.$.picks": 1},
-    }, {
-      upsert: true,
-    }, (err, item) => {
-      if (err) {
-        return res.status(404).json(err);
-      }
-    });
+
+    // req.body.count && List.findOneAndUpdate({
+    //   _id: req.params.id,
+    //   "items._id": req.params.itemId,
+    //   "items.matches.itemId": req.params.itemMatchId,
+    // }, {
+    //   $inc: {"items.$.matches.count": 1}
+    // }, {
+    //   upsert: true,
+    // }, (err, item) => {
+    //   if (err) {
+    //     return res.status(404).json(err);
+    //   }
+    // });
+
+    // req.body.picks && List.findOneAndUpdate({
+    //   _id: req.params.id,
+    //   "items._id": req.params.itemId,
+    //   "items.matches.itemId": req.params.itemMatchId,
+    // }, {
+    //   $inc: {"items.matches.$.picks": 1},
+    // }, {
+    //   upsert: true,
+    // }, (err, item) => {
+    //   if (err) {
+    //     return res.status(404).json(err);
+    //   }
+    // });
     //res.status(200).json();
   });
 
