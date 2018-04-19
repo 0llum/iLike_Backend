@@ -110,7 +110,12 @@ lists.route('/:id/:itemId/:itemMatchId')
       const item = data.items.find(x => x.id == req.params.itemId);
       const match = item.matches.find(x => x.toObject().itemId == req.params.itemMatchId);
       if (match) {
-        match.count = match.count + 1;
+        if (req.body.count) {
+          match.count = match.count + 1;
+        }
+        if (req.body.picks) {
+          match.picks = match.picks + 1;
+        }
         data.save(err => {
           if (err) {
             return res.status(404).json(err);
