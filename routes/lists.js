@@ -108,12 +108,12 @@ lists.route('/:id/:itemId/:itemMatchId')
   .patch((req, res) => {
     const item = List.findOne({
       _id: req.params.id,
-      "items._id": req.params.itemId
+      "items._id": req.params.itemMatchId
     }, (err, data) => {
       if (err) {
         return status(404).json(err);
       }
-      res.status(200).json(data.items);
+      res.status(200).json(data);
     });
 
     // req.body.count && List.findOneAndUpdate({
