@@ -103,6 +103,8 @@ lists.route('/:id/:itemId/:itemMatchId')
         console.log(x.count);
         console.log(x.picks);
         console.log(x.itemId);
+        console.log(x.id);
+        console.log(x._id);
         console.log(req.params.itemMatchId);
         return x.itemId == req.params.itemMatchId;
       });
