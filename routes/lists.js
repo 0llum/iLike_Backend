@@ -107,12 +107,11 @@ lists.route('/:id/:itemId/:itemMatchId')
   })
   .patch((req, res) => {
     List.findById(req.params.id, (err, data) => {
-      const items = data.items;
-      const item = items.find(x => x.id == req.params.itemId);
+      const item = data.items.find(x => x.id == req.params.itemId);
       const match = item.matches.find(x => x.toObject().itemId == req.params.itemMatchId);
       if (match) {
         match.count = match.count + 1;
-        items.save(err => {
+        data.save(err => {
           return res.status(404).json(err);
         });
         return res.status(200).json(match);
