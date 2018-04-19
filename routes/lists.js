@@ -110,7 +110,7 @@ lists.route('/:id/:itemId/:itemMatchId')
     List.findOneAndUpdate({
       _id: req.params.id,
       "items._id": req.params.itemId,
-      //"items.matches.itemId": req.params.itemMatchId,
+      "items.matches.itemId": req.params.itemMatchId,
     }, {
       //$inc: {"items.$.matches.$.count": 1}
     }, {
