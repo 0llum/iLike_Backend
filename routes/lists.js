@@ -108,9 +108,12 @@ lists.route('/:id/:itemId/:itemMatchId')
   .patch((req, res) => {
     const item = List.findOne({
       _id: req.params.id
+    }, (err, data) => {
+      if (err) {
+        return status(404).json(err);
+      }
+      res.status(200).json(data);
     });
-
-    console.log(item);
 
     // req.body.count && List.findOneAndUpdate({
     //   _id: req.params.id,
@@ -139,8 +142,6 @@ lists.route('/:id/:itemId/:itemMatchId')
     //     return res.status(404).json(err);
     //   }
     // });
-
-    res.status(200).json();
   });
 
 export default lists;
