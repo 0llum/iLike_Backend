@@ -90,7 +90,6 @@ lists.route('/:id/:itemId')
 
 lists.route('/:id/:itemId/:itemMatchId')
   .get((req, res) => {
-    console.log('FALSCH');
     List.findById(req.params.id, (err, data) => {
       if (err) {
         return res.status(404).json(err);
@@ -113,41 +112,11 @@ lists.route('/:id/:itemId/:itemMatchId')
       if (match) {
         match.count = match.count + 1;
         data.save(err => {
-          return res.status(404).json(err);
+          //return res.status(404).json(err);
         });
         return res.status(200).json(match);
       }
     });
-
-
-    // req.body.count && List.findOneAndUpdate({
-    //   _id: req.params.id,
-    //   "items._id": req.params.itemId,
-    //   "items.matches.itemId": req.params.itemMatchId,
-    // }, {
-    //   $inc: {"items.$.matches.count": 1}
-    // }, {
-    //   upsert: true,
-    // }, (err, item) => {
-    //   if (err) {
-    //     return res.status(404).json(err);
-    //   }
-    // });
-
-    // req.body.picks && List.findOneAndUpdate({
-    //   _id: req.params.id,
-    //   "items._id": req.params.itemId,
-    //   "items.matches.itemId": req.params.itemMatchId,
-    // }, {
-    //   $inc: {"items.matches.$.picks": 1},
-    // }, {
-    //   upsert: true,
-    // }, (err, item) => {
-    //   if (err) {
-    //     return res.status(404).json(err);
-    //   }
-    // });
-    //res.status(200).json();
   });
 
 export default lists;
