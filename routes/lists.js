@@ -99,7 +99,7 @@ lists.route('/:id/:itemId/:itemMatchId')
         return res.status(404).end();
       }
       const match = item.matches.find(function(x) {
-        console.log(x.itemId);
+        console.log(x);
         console.log(req.params.itemMatchId);
         return x.itemId == req.params.itemMatchId;
       });
