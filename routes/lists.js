@@ -115,10 +115,10 @@ lists.route('/:id/:itemId/:itemMatchId')
         item.matches.push(match);
       }
       if (req.body.count) {
-        match.count = match.count + 1;
+        match.count = match.count ? match.count + 1 : 1;
       }
       if (req.body.picks) {
-        match.picks = match.picks + 1;
+        match.picks = match.picks ? match.picks + 1 : 1;
       }
       data.save(err => {
         if (err) {
