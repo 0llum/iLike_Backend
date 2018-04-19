@@ -133,7 +133,7 @@ lists.route('/:id/:itemId/:itemMatchId')
         return res.status(404).json(err);
       }
     });
-    res.status(200).json();
+    //res.status(200).json();
   });
 
 export default lists;
