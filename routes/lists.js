@@ -106,43 +106,34 @@ lists.route('/:id/:itemId/:itemMatchId')
     });
   })
   .patch((req, res) => {
-    const item = List.findOne({
+    req.body.count && List.findOneAndUpdate({
       _id: req.params.id,
-      "items._id": req.params.itemMatchId
-    }, (err, data) => {
+      "items._id": req.params.itemId,
+      "items.matches.itemId": req.params.itemMatchId,
+    }, {
+      $inc: {"items.matches.$.count": 1}
+    }, {
+      upsert: true,
+    }, (err, item) => {
       if (err) {
-        return status(404).json(err);
+        return res.status(404).json(err);
       }
-      res.status(200).json(data);
     });
 
-    // req.body.count && List.findOneAndUpdate({
-    //   _id: req.params.id,
-    //   "items._id": req.params.itemId,
-    //   "items.matches.itemId": req.params.matchId,
-    // }, {
-    //   $inc: {"items.matches.$.count": 1}
-    // }, {
-    //   upsert: true,
-    // }, (err, item) => {
-    //   if (err) {
-    //     return res.status(404).json(err);
-    //   }
-    // });
-
-    // req.body.picks && List.findOneAndUpdate({
-    //   _id: req.params.id,
-    //   "items._id": req.params.itemId,
-    //   "items.matches.itemId": req.params.matchId,
-    // }, {
-    //   $inc: {"items.matches.$.picks": 1}
-    // }, {
-    //   upsert: true,
-    // }, (err, item) => {
-    //   if (err) {
-    //     return res.status(404).json(err);
-    //   }
-    // });
+    req.body.picks && List.findOneAndUpdate({
+      _id: req.params.id,
+      "items._id": req.params.itemId,
+      "items.matches.itemId": req.params.itemMatchId,
+    }, {
+      $inc: {"items.matches.$.picks": 1}
+    }, {
+      upsert: true,
+    }, (err, item) => {
+      if (err) {
+        return res.status(404).json(err);
+      }
+    });
+    res.status(200).json();
   });
 
 export default lists;
