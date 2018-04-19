@@ -111,7 +111,7 @@ lists.route('/:id/:itemId/:itemMatchId')
       "items._id": req.params.itemId,
       "items.matches.itemId": req.params.itemMatchId,
     }, {
-      $inc: {"items.matches.$.count": 1}
+      $inc: {"items.$.matches.$.count": 1}
     }, {
       upsert: true,
     }, (err, item) => {
@@ -125,7 +125,7 @@ lists.route('/:id/:itemId/:itemMatchId')
       "items._id": req.params.itemId,
       "items.matches.itemId": req.params.itemMatchId,
     }, {
-      $inc: {"items.matches.$.picks": 1}
+      $inc: {"items.$.matches.$.picks": 1}
     }, {
       upsert: true,
     }, (err, item) => {
