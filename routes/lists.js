@@ -98,15 +98,7 @@ lists.route('/:id/:itemId/:itemMatchId')
       if (!item) {
         return res.status(404).end();
       }
-      const match = item.matches.find(function(x) {
-        console.log(x);
-        console.log(x.count);
-        console.log(x.picks);
-        console.log(x.toObject().itemId);
-        console.log(x.id);
-        console.log(req.params.itemMatchId);
-        return x.toObject().itemId === req.params.itemMatchId;
-      });
+      const match = item.matches.find(x => x.toObject().itemId == req.params.itemMatchId);
       if (!match) {
         return res.status(404).end();
       }
