@@ -100,6 +100,9 @@ lists.route('/:id/:itemId/:itemMatchId')
       }
       const match = item.matches.find(function(x) {
         console.log(x);
+        console.log(x.count);
+        console.log(x.picks);
+        console.log(x.itemId);
         console.log(req.params.itemMatchId);
         return x.itemId == req.params.itemMatchId;
       });
