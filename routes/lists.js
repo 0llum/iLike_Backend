@@ -109,7 +109,7 @@ lists.route('/:id/:itemId/:itemMatchId')
     List.findById(req.params.id, (err, data) => {
       const item = data.items.find(x => x.id == req.params.itemId);
       const match = item.matches.find(x => x.toObject().itemId == req.params.itemMatchId);
-      if (match) {
+      //if (match) {
         if (req.body.count) {
           match.count = match.count + 1;
         }
@@ -122,7 +122,7 @@ lists.route('/:id/:itemId/:itemMatchId')
           }
           return res.status(200).json(match);
         });
-      }
+      //}
     });
   });
 
