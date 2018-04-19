@@ -106,7 +106,8 @@ lists.route('/:id/:itemId/:itemMatchId')
     });
   })
   .patch((req, res) => {
-    req.body.count && List.findOneAndUpdate({
+    console.log('start');
+    List.findOneAndUpdate({
       _id: req.params.id,
       //"items._id": req.params.itemId,
       //"items.matches.itemId": req.params.itemMatchId,
