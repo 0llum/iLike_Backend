@@ -102,11 +102,10 @@ lists.route('/:id/:itemId/:itemMatchId')
         console.log(x);
         console.log(x.count);
         console.log(x.picks);
-        console.log(x.itemId);
+        console.log(x.ref);
         console.log(x.id);
-        console.log(x._id);
         console.log(req.params.itemMatchId);
-        return x.itemId == req.params.itemMatchId;
+        return x.ref == req.params.itemMatchId;
       });
       if (!match) {
         return res.status(404).end();
