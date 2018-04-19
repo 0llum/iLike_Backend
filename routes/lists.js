@@ -105,7 +105,7 @@ lists.route('/:id/:itemId/:itemMatchId')
         console.log(x.toObject().itemId);
         console.log(x.id);
         console.log(req.params.itemMatchId);
-        return x.toObject().itemId == req.params.itemMatchId;
+        return x.toObject().itemId === req.params.itemMatchId;
       });
       if (!match) {
         return res.status(404).end();
