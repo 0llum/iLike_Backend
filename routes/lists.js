@@ -109,7 +109,7 @@ lists.route('/:id/:itemId/:itemMatchId')
     req.body.count && List.findOneAndUpdate({
       _id: req.params.id,
       "items._id": req.params.itemId,
-      "items.itemId": req.params.matchId,
+      "items.matches.itemId": req.params.matchId,
     }, {
       $inc: {"items.matches.$.count": 1}
     }, {
@@ -123,7 +123,7 @@ lists.route('/:id/:itemId/:itemMatchId')
     req.body.picks && List.findOneAndUpdate({
       _id: req.params.id,
       "items._id": req.params.itemId,
-      "items.itemId": req.params.matchId,
+      "items.matches.itemId": req.params.matchId,
     }, {
       $inc: {"items.matches.$.picks": 1}
     }, {
