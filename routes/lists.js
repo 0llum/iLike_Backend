@@ -102,6 +102,7 @@ lists.route('/:id/:itemId/:itemMatchId')
         return x.itemId == req.params.itemMatchId;
       });
       if (!match) {
+        console.log('really not found');
         return res.status(404).end();
       }
       res.status(200).json(match);
