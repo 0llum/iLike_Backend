@@ -98,7 +98,9 @@ lists.route('/:id/:itemId/:itemMatchId')
       if (!item) {
         return res.status(404).end();
       }
-      const match = item.matches.id(req.params.itemMatchId);
+      const match = item.matches.find(function(x) {
+        return x.itemId == req.params.itemMatchId;
+      });
       if (!match) {
         return res.status(404).end();
       }
@@ -116,9 +118,7 @@ lists.route('/:id/:itemId/:itemMatchId')
       upsert: true,
     }, (err, item) => {
       if (err) {
-        res.status(404).json(err);
-      } else {
-        res.status(200).json(item);
+        return res.status(404).json(err);
       }
     });
 
@@ -132,11 +132,11 @@ lists.route('/:id/:itemId/:itemMatchId')
       upsert: true,
     }, (err, item) => {
       if (err) {
-        res.status(404).json(err);
-      } else {
-        res.status(200).json(item);
+        return res.status(404).json(err);
       }
     });
+
+    res.status(200).json();
   });
 
 export default lists;
