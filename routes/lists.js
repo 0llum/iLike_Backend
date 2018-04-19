@@ -90,6 +90,7 @@ lists.route('/:id/:itemId')
 
 lists.route('/:id/:itemId/:itemMatchId')
   .get((req, res) => {
+    console.log('FALSCH');
     List.findById(req.params.id, (err, data) => {
       if (err) {
         return res.status(404).json(err);
@@ -102,7 +103,6 @@ lists.route('/:id/:itemId/:itemMatchId')
       if (!match) {
         return res.status(404).end();
       }
-      console.log('FALSCH');
       res.status(200).json(match);
     });
   })
