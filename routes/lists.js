@@ -115,6 +115,7 @@ lists.route('/:id/:itemId/:itemMatchId')
     }, {
       upsert: true,
     }, (err, item) => {
+      console.log(item);
       if (err) {
         return res.status(404).json(err);
       }
@@ -125,7 +126,7 @@ lists.route('/:id/:itemId/:itemMatchId')
       "items._id": req.params.itemId,
       "items.matches.itemId": req.params.itemMatchId,
     }, {
-      $inc: {"items.$.matches.$.picks": 1}
+      $inc: {"items.$.matches.$.picks": 1},
     }, {
       upsert: true,
     }, (err, item) => {
