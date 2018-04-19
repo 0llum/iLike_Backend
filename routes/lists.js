@@ -112,9 +112,11 @@ lists.route('/:id/:itemId/:itemMatchId')
       if (match) {
         match.count = match.count + 1;
         data.save(err => {
-          //return res.status(404).json(err);
+          if (err) {
+            return res.status(404).json(err);
+          }
+          return res.status(200).json(match);
         });
-        return res.status(200).json(match);
       }
     });
   });
