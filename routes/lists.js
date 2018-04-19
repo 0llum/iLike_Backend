@@ -113,7 +113,7 @@ lists.route('/:id/:itemId/:itemMatchId')
       if (err) {
         return status(404).json(err);
       }
-      res.status(200).json(data.items.$);
+      res.status(200).json(data);
     });
 
     // req.body.count && List.findOneAndUpdate({
