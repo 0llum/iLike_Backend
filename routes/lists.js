@@ -102,6 +102,7 @@ lists.route('/:id/:itemId/:itemMatchId')
       if (!match) {
         return res.status(404).end();
       }
+      console.log('FALSCH');
       res.status(200).json(match);
     });
   })
