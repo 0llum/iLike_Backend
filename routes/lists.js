@@ -7,16 +7,12 @@ const lists = express.Router();
 
 lists.route('/')
   .get((req, res) => {
-    List.updateMany({}, {
-      count: 0
+    List.find({}, (err, data) => {
+      if (err) {
+        return res.status(404).json(err);
+      }
+      res.status(200).json(data);
     });
-    res.status(200).json();
-  //   List.find({}, (err, data) => {
-  //     if (err) {
-  //       return res.status(404).json(err);
-  //     }
-  //     res.status(200).json(data);
-  //   });
   })
   .post((req, res) => {
     const list = new List(req.body);
