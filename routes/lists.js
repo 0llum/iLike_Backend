@@ -66,7 +66,7 @@ lists.route('/:id/:itemId')
         }
         array.push(match);
       });
-      item.matches = array;
+      item.toObject().matches = array;
       console.log(array);
       if (!item) {
         return res.status(404).end();
