@@ -55,17 +55,11 @@ lists.route('/:id/:itemId')
       if (err) {
         return res.status(404).json(err);
       }
-      data.items.forEach(element => {
-        element.matches.forEach(x => {
-          if (x.toObject().id == element.toObject().itemId) {
-            console.log('true');
-            element.name = x.name;
-            element.image = x.image;
-          }
-        })
-      });
       const item = data.items.id(req.params.itemId);
-      console.log(item.matches);
+      item.matches.forEach(element => {
+        console.log(element.name);
+      });
+      // console.log(item.matches);
       if (!item) {
         return res.status(404).end();
       }
