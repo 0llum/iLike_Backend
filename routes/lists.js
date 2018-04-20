@@ -56,9 +56,11 @@ lists.route('/:id/:itemId')
         return res.status(404).json(err);
       }
       data.items.forEach(element => {
-        console.log(element);
         element.matches.forEach(x => {
-          console.log(x);
+          if (element.id == x.itemId) console.log('ohne ohne');
+          if (element.id == x.toObject().itemId) console.log('ohne mit');
+          if (element.toObject().id == x.itemId) console.log('mit ohne');
+          if (element.toObject().id == x.toObject().itemId) console.log('mit mit');
           if (element.id == x.itemId) {
             console.log('true');
             x.name = element.name;
