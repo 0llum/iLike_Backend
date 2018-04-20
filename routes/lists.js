@@ -56,14 +56,14 @@ lists.route('/:id/:itemId')
         return res.status(404).json(err);
       }
       const item = data.items.id(req.params.itemId);
-      item.matches.forEach(element => {
-        data.items.forEach(x => {
+      data.items.forEach(x => {
+        x.matches.forEach(element => {
           if (x.id == element.itemId) {
+            console.log('true');
             element.name = x.name;
             element.image = x.image;
-            return element;
           }
-        })
+        });
       });
       console.log(item.matches);
       if (!item) {
