@@ -55,7 +55,7 @@ lists.route('/:id/:itemId')
       if (err) {
         return res.status(404).json(err);
       }
-      let item = data.items.id(req.params.itemId);
+      const item = data.items.id(req.params.itemId);
       const array = [];
       item.matches.forEach(element => {
         const ref = data.items.find(x => x.id == element.itemId);
@@ -66,12 +66,15 @@ lists.route('/:id/:itemId')
         }
         array.push(match);
       });
-      item.toObject().matches = array;
-      console.log(array);
-      if (!item) {
+      const result = {
+        ...item,
+        matches: array,
+      };
+      console.log(result);
+      if (!result) {
         return res.status(404).end();
       }
-      res.status(200).json(item);
+      res.status(200).json(result);
     });
   })
   .patch((req, res) => {
