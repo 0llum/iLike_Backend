@@ -7,18 +7,16 @@ const lists = express.Router();
 
 lists.route('/')
   .get((req, res) => {
-    List.find({}, (err, data) => {
-      if (err) {
-        return res.status(404).json(err);
-      }
-      data.forEach(element => {
-        element.count = 0;
-        element.__v = 0;
-      });
-      const list = new List(data);
-      list.save;
-      res.status(200).json(data);
+    List.updateMany({}, {
+      count: 0
     });
+    res.status(200).json(data);
+  //   List.find({}, (err, data) => {
+  //     if (err) {
+  //       return res.status(404).json(err);
+  //     }
+  //     res.status(200).json(data);
+  //   });
   })
   .post((req, res) => {
     const list = new List(req.body);
