@@ -57,7 +57,8 @@ lists.route('/:id/:itemId')
       }
       const item = data.items.id(req.params.itemId);
       item.matches.forEach(element => {
-        console.log(element.name);
+        const ref = data.items.find(x => x.id == element.itemId);
+        console.log(ref.name);
       });
       // console.log(item.matches);
       if (!item) {
