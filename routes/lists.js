@@ -56,6 +56,7 @@ lists.route('/:id/:itemId')
         return res.status(404).json(err);
       }
       const item = data.items.id(req.params.itemId);
+      const array = [];
       item.matches.forEach(element => {
         const ref = data.items.find(x => x.id == element.itemId);
         element = {
@@ -63,7 +64,9 @@ lists.route('/:id/:itemId')
           name: ref.name,
           image: ref.image,
         }
+        array.push(element);
       });
+      item.matches = array;
       console.log(item);
       if (!item) {
         return res.status(404).end();
