@@ -67,7 +67,7 @@ lists.route('/:id/:itemId')
         array.push(element);
       });
       item.matches = array;
-      console.log(item);
+      console.log(array);
       if (!item) {
         return res.status(404).end();
       }
