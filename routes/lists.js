@@ -116,22 +116,16 @@ lists.route('/:id/:itemId/:itemMatchId')
         match.picks = 0;
         item.matches.push(match);
       }
-      console.log('created');
-      console.log(match);
       if (req.body.count) {
         match.count = match.count ? match.count + 1 : 1;
       }
       if (req.body.picks) {
         match.picks = match.picks ? match.picks + 1 : 1;
       }
-      console.log('modified');
-      console.log(match);
       data.save(err => {
         if (err) {
           return res.status(404).json(err);
         }
-        console.log('saved');
-        console.log(match);
         return res.status(200).json(match);
       });
     });
