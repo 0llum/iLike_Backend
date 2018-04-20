@@ -57,6 +57,7 @@ lists.route('/:id/:itemId')
       }
       const item = data.items.id(req.params.itemId);
       item.matches.forEach(element => {
+        console.log(element);
         data.items.forEach(x => {
           if (x._id == element.toObject().itemId) {
             element.name = x.name;
@@ -64,7 +65,6 @@ lists.route('/:id/:itemId')
           }
         })
       });
-      console.log(item.matches);
       if (!item) {
         return res.status(404).end();
       }
