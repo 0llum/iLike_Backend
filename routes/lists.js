@@ -57,11 +57,7 @@ lists.route('/:id/:itemId')
       }
       data.items.forEach(element => {
         element.matches.forEach(x => {
-          if (x.id == element.itemId) console.log('ohne ohne');
-          if (x.id == element.toObject().itemId) console.log('ohne mit');
-          if (x.toObject().id == element.itemId) console.log('mit ohne');
-          if (x.toObject().id == element.toObject().itemId) console.log('mit mit');
-          if (element.id == x.itemId) {
+          if (x.toObject().id == element.toObject().itemId) {
             console.log('true');
             x.name = element.name;
             x.image = element.image;
