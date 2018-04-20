@@ -63,9 +63,7 @@ lists.route('/:id/:itemId')
           name: ref.name,
           image: ref.image,
         }
-        console.log(element);
       });
-      // console.log(item.matches);
       if (!item) {
         return res.status(404).end();
       }
