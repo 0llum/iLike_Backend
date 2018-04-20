@@ -58,13 +58,13 @@ lists.route('/:id/:itemId')
       const item = data.items.id(req.params.itemId);
       item.matches.forEach(element => {
         data.items.forEach(x => {
-          console.log(x._id, element.itemId);
-          if (x._id == element.toObject().itemId) {
+          if (x._id == element.itemId) {
             element.name = x.name;
             element.image = x.image;
           }
         })
       });
+      console.log(item.matches);
       if (!item) {
         return res.status(404).end();
       }
