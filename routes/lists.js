@@ -112,15 +112,24 @@ lists.route('/:id/:itemId/:itemMatchId')
       if (!match) {
         match = {};
         match.itemId = req.params.itemMatchId;
-        match.count = 3;
-        match.picks = 3;
+        match.count = 0;
+        match.picks = 0;
+
+        if (req.body.count) {
+          match.count = match.count ? match.count + 1 : 1;
+        }
+        if (req.body.picks) {
+          match.picks = match.picks ? match.picks + 1 : 1;
+        }
+
         item.matches.push(match);
-      }
-      if (req.body.count) {
-        match.count = match.count ? match.count + 1 : 1;
-      }
-      if (req.body.picks) {
-        match.picks = match.picks ? match.picks + 1 : 1;
+      } else {
+        if (req.body.count) {
+          match.count = match.count ? match.count + 1 : 1;
+        }
+        if (req.body.picks) {
+          match.picks = match.picks ? match.picks + 1 : 1;
+        }
       }
       data.save(err => {
         if (err) {
