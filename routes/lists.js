@@ -59,12 +59,12 @@ lists.route('/:id/:itemId')
       item.matches.forEach(element => {
         data.items.forEach(x => {
           if (x._id == element.itemId) {
+            console.log('true');
             element.name = x.name;
             element.image = x.image;
           }
         })
       });
-      console.log(item.matches);
       if (!item) {
         return res.status(404).end();
       }
