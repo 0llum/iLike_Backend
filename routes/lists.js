@@ -123,18 +123,13 @@ lists.route('/:id/:itemId/:itemMatchId')
       if (req.body.picks) {
         match.picks = match.picks ? match.picks + 1 : 1;
       }
-      console.log(match);
       data.save(err => {
         if (err) {
           return res.status(404).json(err);
         }
+        console.log(match);
         return res.status(200).json(match);
       });
-    });
-    List.findById(req.params.id, (err, data) => {
-      const item = data.items.find(x => x.id == req.params.itemId);
-      let match = item.matches.find(x => x.toObject().itemId == req.params.itemMatchId);
-      console.log(match);
     });
   });
 
