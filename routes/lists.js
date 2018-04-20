@@ -59,8 +59,8 @@ lists.route('/:id/:itemId')
         element.matches.forEach(x => {
           if (x.toObject().id == element.toObject().itemId) {
             console.log('true');
-            x.name = element.name;
-            x.image = element.image;
+            element.name = x.name;
+            element.image = x.image;
           }
         })
       });
