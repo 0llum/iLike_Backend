@@ -112,8 +112,8 @@ lists.route('/:id/:itemId/:itemMatchId')
       if (!match) {
         match = {};
         match.itemId = req.params.itemMatchId;
-        match.count = 0;
-        match.picks = 0;
+        match.count = 3;
+        match.picks = 3;
         item.matches.push(match);
       }
       if (req.body.count) {
