@@ -68,7 +68,7 @@ lists.route('/:id/:itemId')
       });
       const result = item;
       result.matches = [];
-      console.log(result);
+      console.log(array);
       if (!result) {
         return res.status(404).end();
       }
