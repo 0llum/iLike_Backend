@@ -61,10 +61,11 @@ lists.route('/:id/:itemId')
           if (x.id == element.itemId) {
             element.name = x.name;
             element.image = x.image;
-            console.log(element.name);
+            return element;
           }
         })
       });
+      console.log(item.matches);
       if (!item) {
         return res.status(404).end();
       }
