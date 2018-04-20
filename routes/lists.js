@@ -55,7 +55,7 @@ lists.route('/:id/:itemId')
       if (err) {
         return res.status(404).json(err);
       }
-      const item = data.items.id(req.params.itemId);
+      let item = data.items.id(req.params.itemId);
       const array = [];
       item.matches.forEach(element => {
         const ref = data.items.find(x => x.id == element.itemId);
