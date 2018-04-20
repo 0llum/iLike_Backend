@@ -10,7 +10,7 @@ lists.route('/')
     List.updateMany({}, {
       count: 0
     });
-    res.status(200).json(data);
+    res.status(200).json();
   //   List.find({}, (err, data) => {
   //     if (err) {
   //       return res.status(404).json(err);
