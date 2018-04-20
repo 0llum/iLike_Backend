@@ -11,6 +11,9 @@ lists.route('/')
       if (err) {
         return res.status(404).json(err);
       }
+      data.forEach(element => {
+        element.count = 0;
+      });
       res.status(200).json(data);
     });
   })
