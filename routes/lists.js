@@ -12,7 +12,7 @@ lists.route('/')
         return res.status(404).json(err);
       }
       data.forEach(element => {
-        element.count = 0;
+        element.__v = 0;
       });
       res.status(200).json(data);
     });
