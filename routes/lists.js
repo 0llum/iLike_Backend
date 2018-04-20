@@ -131,6 +131,11 @@ lists.route('/:id/:itemId/:itemMatchId')
         return res.status(200).json(match);
       });
     });
+    List.findById(req.params.id, (err, data) => {
+      const item = data.items.find(x => x.id == req.params.itemId);
+      let match = item.matches.find(x => x.toObject().itemId == req.params.itemMatchId);
+      console.log(match);
+    });
   });
 
 export default lists;
