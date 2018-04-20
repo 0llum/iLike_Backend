@@ -66,10 +66,8 @@ lists.route('/:id/:itemId')
         }
         array.push(match);
       });
-      const result = {
-        ...item,
-        matches: array,
-      };
+      const result = item;
+      result.matches = array;
       console.log(result);
       if (!result) {
         return res.status(404).end();
