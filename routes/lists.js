@@ -56,6 +56,7 @@ lists.route('/:id/:itemId')
         return res.status(404).json(err);
       }
       const item = data.items.id(req.params.itemId);
+      console.log(item);
       if (!item) {
         return res.status(404).end();
       }
