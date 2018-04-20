@@ -56,24 +56,15 @@ lists.route('/:id/:itemId')
         return res.status(404).json(err);
       }
       const item = data.items.id(req.params.itemId);
-      const array = [];
       item.matches.forEach(element => {
         const ref = data.items.find(x => x.id == element.itemId);
-        const match = {
-          ...element.toObject(),
-          name: ref.name,
-          image: ref.image,
-        }
-        array.push(match);
+        element.name = ref.name;
+        element.image = ref.image;
       });
-      const result = item;
-      result.matches = [];
-      result.matches = array;
-      console.log(array);
-      if (!result) {
+      if (!item) {
         return res.status(404).end();
       }
-      res.status(200).json(result);
+      res.status(200).json(item);
     });
   })
   .patch((req, res) => {
