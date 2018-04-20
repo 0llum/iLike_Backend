@@ -59,12 +59,12 @@ lists.route('/:id/:itemId')
       const array = [];
       item.matches.forEach(element => {
         const ref = data.items.find(x => x.id == element.itemId);
-        element = {
+        const match = {
           ...element.toObject(),
           name: ref.name,
           image: ref.image,
         }
-        array.push(element);
+        array.push(match);
       });
       item.matches = array;
       console.log(array);
