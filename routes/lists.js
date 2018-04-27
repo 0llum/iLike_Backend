@@ -59,9 +59,7 @@ lists.route('/:id')
         return res.status(404).end();
       }
       const list = data;
-      req.body.forEach(el => {
-        console.log(el);
-      });
+      console.log(req.body);
     });
 
     res.status(200).json(req.body);
