@@ -60,6 +60,7 @@ lists.route('/:id')
       }
       const list = data;
       for (var el in req.body) {
+        console.log(el.id);
         let item = list.items.id(el.id);
         if (el.count) {
           item.count = item.count + 1;
