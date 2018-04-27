@@ -51,7 +51,7 @@ lists.route('/:id')
     });
   })
   .patch((req, res) => {
-    List.findByIdAndUpdate(req.params.id, (err, data) => {
+    List.findById(req.params.id, (err, data) => {
       console.log('drin');
       if (err) {
         return res.status(404).json(err);
