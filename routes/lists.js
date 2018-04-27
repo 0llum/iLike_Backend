@@ -51,8 +51,23 @@ lists.route('/:id')
     });
   })
   .patch((req, res) => {
-    console.log(req.body);
+    List.findByIdAndUpdate(req.params.id, (err, data) => {
+      if (err) {
+        return res.status(404).json(err);
+      }
+      if (!data) {
+        return res.status(404).end();
+      }
+      const list = data;
+      req.body.forEach(el => {
+        console.log(el);
+      });
+    });
+
     res.status(200).json(req.body);
+
+
+
     // req.body.count && List.findByIdAndUpdate(req.params.id, {
     //   $inc: {count: 1}
     // }, (err, item) => {
