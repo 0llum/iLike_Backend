@@ -51,16 +51,14 @@ lists.route('/:id')
     });
   })
   .patch((req, res) => {
-    console.log(req.body);
-    res.status(200).json(req.body);
-    // req.body.count && List.findByIdAndUpdate(req.params.id, {
-    //   $inc: {count: 1}
-    // }, (err, item) => {
-    //   if (err) {
-    //     return res.status(404).json(err);
-    //   }
-    //   res.status(200).json(item);
-    // });
+    req.body.count && List.findByIdAndUpdate(req.params.id, {
+      $inc: {count: 1}
+    }, (err, item) => {
+      if (err) {
+        return res.status(404).json(err);
+      }
+      res.status(200).json(item);
+    });
   });
 
 lists.route('/:id/:itemId')
@@ -82,29 +80,32 @@ lists.route('/:id/:itemId')
     });
   })
   .patch((req, res) => {
-    req.body.count && List.findOneAndUpdate({
-      _id: req.params.id,
-      "items._id": req.params.itemId
-    }, {
-      $inc: {"items.$.count": 1}
-    }, (err, item) => {
-      if (err) {
-        return res.status(404).json(err);
-      }
-    });
-
-    req.body.picks && List.findOneAndUpdate({
-      _id: req.params.id,
-      "items._id": req.params.itemId
-    }, {
-      $inc: {"items.$.picks": 1}
-    }, (err, item) => {
-      if (err) {
-        return res.status(404).json(err);
-      }
-    });
-
-    res.status(200).json();
+    console.log(req.body);
+    res.status(200).json(req.body);
+    
+    // req.body.count && List.findOneAndUpdate({
+    //   _id: req.params.id,
+    //   "items._id": req.params.itemId
+    // }, {
+    //   $inc: {"items.$.count": 1}
+    // }, (err, item) => {
+    //   if (err) {
+    //     return res.status(404).json(err);
+    //   }
+    // });
+    // 
+    // req.body.picks && List.findOneAndUpdate({
+    //   _id: req.params.id,
+    //   "items._id": req.params.itemId
+    // }, {
+    //   $inc: {"items.$.picks": 1}
+    // }, (err, item) => {
+    //   if (err) {
+    //     return res.status(404).json(err);
+    //   }
+    // });
+    // 
+    // res.status(200).json();
   });
 
 lists.route('/:id/:itemId/:itemMatchId')
