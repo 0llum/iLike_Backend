@@ -60,13 +60,17 @@ lists.route('/:id')
       }
       const list = data;
       req.body.forEach(el => {
-        console.log(el);
+        let item = list.find(x => x.id == el.id);
+        if (el.count) {
+          item.count = item.count + 1;
+        }
+        if (el.picks) {
+          item.picks = item.picks + 1;
+        }
       });
+      list.save();
+      res.status(200).json(req.body);
     });
-
-    res.status(200).json(req.body);
-
-
 
     // req.body.count && List.findByIdAndUpdate(req.params.id, {
     //   $inc: {count: 1}
