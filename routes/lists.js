@@ -51,6 +51,7 @@ lists.route('/:id')
     });
   })
   .patch((req, res) => {
+    console.log(req.body);
     res.status(200).json(req.body);
     // req.body.count && List.findByIdAndUpdate(req.params.id, {
     //   $inc: {count: 1}
