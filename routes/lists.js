@@ -2,6 +2,15 @@ import express from 'express';
 import mongoose from 'mongoose';
 import List from '../models/list';
 
+
+// clear database count, picks and matches
+// mongo
+// use iLike
+// db.lists.updateMany({}, {$set: {"items.$[elem].count": 0}}, {arrayFilters: [{"elem.count": {$gte: 0}}]})
+// db.lists.updateMany({}, {$set: {"items.$[elem].picks": 0}}, {arrayFilters: [{"elem.count": {$gte: 0}}]})
+// db.lists.updateMany({}, {$set: {"items.$[elem].matches": []}}, {arrayFilters: [{"elem.count": {$gte: 0}}]})
+
+
 mongoose.connect('mongodb://localhost:27017/iLike');
 const lists = express.Router();
 
