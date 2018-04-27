@@ -52,6 +52,7 @@ lists.route('/:id')
   })
   .patch((req, res) => {
     List.findByIdAndUpdate(req.params.id, (err, data) => {
+      console.log('drin');
       if (err) {
         return res.status(404).json(err);
       }
@@ -59,7 +60,6 @@ lists.route('/:id')
         return res.status(404).end();
       }
       const list = data;
-      console.log('drin');
       console.log(req.body);
     });
 
