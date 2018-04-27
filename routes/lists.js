@@ -51,14 +51,15 @@ lists.route('/:id')
     });
   })
   .patch((req, res) => {
-    req.body.count && List.findByIdAndUpdate(req.params.id, {
-      $inc: {count: 1}
-    }, (err, item) => {
-      if (err) {
-        return res.status(404).json(err);
-      }
-      res.status(200).json(item);
-    });
+    res.status(200).json(req.body);
+    // req.body.count && List.findByIdAndUpdate(req.params.id, {
+    //   $inc: {count: 1}
+    // }, (err, item) => {
+    //   if (err) {
+    //     return res.status(404).json(err);
+    //   }
+    //   res.status(200).json(item);
+    // });
   });
 
 lists.route('/:id/:itemId')
