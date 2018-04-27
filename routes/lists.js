@@ -59,7 +59,7 @@ lists.route('/:id')
         return res.status(404).end();
       }
       const list = data;
-      req.body.forEach(el => {
+      for (var el in req.body) {
         let item = list.items.id(el.id);
         if (el.count) {
           item.count = item.count + 1;
@@ -67,7 +67,7 @@ lists.route('/:id')
         if (el.picks) {
           item.picks = item.picks + 1;
         }
-      });
+      }
       list.save();
       res.status(200).json(req.body);
     });
