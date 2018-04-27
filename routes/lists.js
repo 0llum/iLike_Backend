@@ -59,6 +59,7 @@ lists.route('/:id')
         return res.status(404).end();
       }
       const list = data;
+      console.log('drin');
       console.log(req.body);
     });
 
