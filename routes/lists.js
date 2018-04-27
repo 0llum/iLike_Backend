@@ -65,14 +65,14 @@ lists.route('/:id/:itemId')
         return res.status(404).json(err);
       }
       const item = data.items.id(req.params.itemId);
+      if (!item) {
+        return res.status(404).end();
+      }
       item.matches.forEach(element => {
         const ref = data.items.find(x => x.id == element.itemId);
         element.name = ref.name;
         element.image = ref.image;
       });
-      if (!item) {
-        return res.status(404).end();
-      }
       res.status(200).json(item);
     });
   })
