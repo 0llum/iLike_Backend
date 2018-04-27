@@ -44,6 +44,9 @@ lists.route('/:id')
       if (err) {
         return res.status(404).json(err);
       }
+      if (!data) {
+        return res.status(404).end();
+      }
       res.status(200).json(data);
     });
   })
