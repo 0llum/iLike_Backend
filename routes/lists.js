@@ -59,16 +59,21 @@ lists.route('/:id')
         return res.status(404).end();
       }
       const list = data;
-      req.body.forEach(el => {
-        console.log(el);
-        let item = list.items.id(el.id);
-        if (el.count) {
-          item.count = item.count + 1;
-        }
-        if (el.picks) {
-          item.picks = item.picks + 1;
-        }
-      });
+      if (req.body.items) {
+        req.body.items.forEach(el => {
+          console.log(el);
+          let item = list.items.id(el.id);
+          if (el.count) {
+            item.count = item.count + 1;
+          }
+          if (el.picks) {
+            item.picks = item.picks + 1;
+          }
+        });
+      }
+      if (req.body.count) {
+        list.count = list.count + 1;
+      }
       list.save();
       res.status(200).json(req.body);
     });
