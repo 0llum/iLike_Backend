@@ -61,13 +61,15 @@ lists.route('/:id')
       const list = data;
       if (req.body.items) {
         req.body.items.forEach(el => {
-          console.log(el);
           let item = list.items.id(el.id);
           if (el.count) {
             item.count = item.count + 1;
           }
           if (el.picks) {
             item.picks = item.picks + 1;
+          }
+          if (el.matches) {
+            console.log(el);
           }
         });
       }
@@ -77,15 +79,6 @@ lists.route('/:id')
       list.save();
       res.status(200).json(req.body);
     });
-
-    // req.body.count && List.findByIdAndUpdate(req.params.id, {
-    //   $inc: {count: 1}
-    // }, (err, item) => {
-    //   if (err) {
-    //     return res.status(404).json(err);
-    //   }
-    //   res.status(200).json(item);
-    // });
   });
 
 lists.route('/:id/:itemId')
