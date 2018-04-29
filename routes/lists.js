@@ -60,7 +60,7 @@ lists.route('/:id')
       }
       const list = data;
       if (req.body.count) {
-        list.count = list.count + 1;
+        list.count = list.count ? list.count + 1 : 1;
       }
       if (req.body.items) {
         req.body.items.forEach(el => {
