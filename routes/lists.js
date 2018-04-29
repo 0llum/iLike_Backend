@@ -69,7 +69,10 @@ lists.route('/:id')
             item.picks = item.picks + 1;
           }
           if (el.matches) {
-            console.log(el.matches);
+            el.matches.forEach(x => {
+              let match = list.items.find(y => y.id == x.itemId);
+              console.log(match);
+            });
           }
         });
       }
