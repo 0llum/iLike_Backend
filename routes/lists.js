@@ -75,7 +75,6 @@ lists.route('/:id')
             el.matches.forEach(x => {
               let match = item.matches.find(y => y.itemId == x.itemId);
               if (!match) {
-                console.log('match does not exist');
                 match = {};
                 match.itemId = x.itemId;
                 match.count = 0;
@@ -88,7 +87,6 @@ lists.route('/:id')
                 }
                 item.matches.push(match);
               } else {
-                console.log('match does exist');
                 if (x.count) {
                   match.count = match.count + 1;
                 }
