@@ -74,11 +74,25 @@ lists.route('/:id')
           if (el.matches) {
             el.matches.forEach(x => {
               const match = item.matches.find(y => y.itemId == x.itemId);
-              if (x.count) {
-                match.count = match.count + 1;
-              }
-              if (x.picks) {
-                match.picks = match.picks + 1;
+              if (!match) {
+                match = {};
+                match.itemId = x.itemId;
+                match.count = 0;
+                match.picks = 0;
+                if (x.count) {
+                  match.count = match.count + 1;
+                }
+                if (x.picks) {
+                  match.picks = match.picks + 1;
+                }
+                el.matches.push(match);
+              } else {
+                if (x.count) {
+                  match.count = match.count + 1;
+                }
+                if (x.picks) {
+                  match.picks = match.picks + 1;
+                }
               }
             });
           }
