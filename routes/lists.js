@@ -70,7 +70,7 @@ lists.route('/:id')
           }
           if (el.matches) {
             el.matches.forEach(x => {
-              let match = list.items.find(y => y.id == x.itemId);
+              let match = item.matches.find(y => y.itemId == x.itemId);
               console.log(match);
             });
           }
