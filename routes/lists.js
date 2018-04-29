@@ -73,7 +73,7 @@ lists.route('/:id')
           }
           if (el.matches) {
             el.matches.forEach(x => {
-              const match = item.matches.find(y => y.itemId == x.itemId);
+              let match = item.matches.find(y => y.itemId == x.itemId);
               if (!match) {
                 match = {};
                 match.itemId = x.itemId;
