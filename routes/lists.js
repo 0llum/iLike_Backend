@@ -59,9 +59,12 @@ lists.route('/:id')
         return res.status(404).end();
       }
       const list = data;
+      if (req.body.count) {
+        list.count = list.count + 1;
+      }
       if (req.body.items) {
         req.body.items.forEach(el => {
-          let item = list.items.id(el.id);
+          const item = list.items.id(el.id);
           if (el.count) {
             item.count = item.count + 1;
           }
@@ -70,14 +73,16 @@ lists.route('/:id')
           }
           if (el.matches) {
             el.matches.forEach(x => {
-              let match = item.matches.find(y => y.itemId == x.itemId);
-              console.log(match);
+              const match = item.matches.find(y => y.itemId == x.itemId);
+              if (x.count) {
+                match.count = match.count + 1;
+              }
+              if (x.picks) {
+                match.picks = match.picks + 1;
+              }
             });
           }
         });
-      }
-      if (req.body.count) {
-        list.count = list.count + 1;
       }
       list.save();
       res.status(200).json(req.body);
