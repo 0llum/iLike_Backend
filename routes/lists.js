@@ -61,6 +61,7 @@ lists.route('/:id')
       const list = data;
       if (req.body.items) {
         req.body.items.forEach(el => {
+          console.log(el);
           let item = list.items.id(el.id);
           if (el.count) {
             item.count = item.count + 1;
@@ -69,7 +70,7 @@ lists.route('/:id')
             item.picks = item.picks + 1;
           }
           if (el.matches) {
-            console.log(el);
+            
           }
         });
       }
