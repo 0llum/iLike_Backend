@@ -59,9 +59,9 @@ lists.route('/:id')
         return res.status(404).end();
       }
       const list = data;
+      console.log(el);
       if (req.body.items) {
         req.body.items.forEach(el => {
-          console.log(el);
           let item = list.items.id(el.id);
           if (el.count) {
             item.count = item.count + 1;
