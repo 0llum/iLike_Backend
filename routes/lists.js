@@ -85,7 +85,7 @@ lists.route('/:id')
                 if (x.picks) {
                   match.picks = match.picks + 1;
                 }
-                el.matches.push(match);
+                item.matches.push(match);
               } else {
                 if (x.count) {
                   match.count = match.count + 1;
