@@ -8,6 +8,8 @@ const users = express.Router();
 users
   .route('/')
   .get((req, res) => {
+    console.log('body:');
+    console.log(req.body);
     User.find({}, (err, data) => {
       if (err) {
         return res.status(404).json(err);

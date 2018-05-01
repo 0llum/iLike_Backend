@@ -8,9 +8,9 @@ const userMatchSchema = new Schema({
 });
 
 const userSchema = new Schema({
-  email: { type: String, required: true },
+  email: { type: String, required: true, index: { unique: true } },
   password: { type: String, required: true },
-  // matches: [userMatchSchema],
+  matches: [userMatchSchema],
 });
 
 // userSchema.pre('save', function(next) {
