@@ -13,7 +13,7 @@ const userSchema = new Schema({
   matches: [userMatchSchema],
 });
 
-userSchema.pre(save, function(next) {
+userSchema.pre('save', function(next) {
   const user = this;
 
   // only hash the password if it has been modified (or is new)
