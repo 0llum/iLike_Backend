@@ -16,8 +16,6 @@ users
     });
   })
   .post((req, res) => {
-    console.log('body:');
-    console.log(req.body);
     const user = new User(req.body);
     user.save(err => {
       if (err) {
