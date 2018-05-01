@@ -31,4 +31,16 @@ users
     });
   });
 
+users.route('/:id').get((req, res) => {
+  User.findById(req.params.id, (err, data) => {
+    if (err) {
+      return res.status(404).json(err);
+    }
+    if (!data) {
+      return res.status(404).end();
+    }
+    res.status(200).json(data);
+  });
+});
+
 export default users;
