@@ -2,7 +2,6 @@ import express from 'express';
 import mongoose from 'mongoose';
 import List from '../models/list';
 
-
 // clear database count, picks and matches
 // mongo
 // use iLike
@@ -10,11 +9,11 @@ import List from '../models/list';
 // db.lists.updateMany({}, {$set: {"items.$[elem].picks": 0}}, {arrayFilters: [{"elem.count": {$gte: 0}}]})
 // db.lists.updateMany({}, {$set: {"items.$[elem].matches": []}}, {arrayFilters: [{"elem.count": {$gte: 0}}]})
 
-
 mongoose.connect('mongodb://localhost:27017/iLike');
 const lists = express.Router();
 
-lists.route('/')
+lists
+  .route('/')
   .get((req, res) => {
     List.find({}, (err, data) => {
       if (err) {
@@ -38,7 +37,8 @@ lists.route('/')
     });
   });
 
-lists.route('/:id')
+lists
+  .route('/:id')
   .get((req, res) => {
     List.findById(req.params.id, (err, data) => {
       if (err) {
@@ -103,7 +103,8 @@ lists.route('/:id')
     });
   });
 
-lists.route('/:id/:itemId')
+lists
+  .route('/:id/:itemId')
   .get((req, res) => {
     List.findById(req.params.id, (err, data) => {
       if (err) {
@@ -122,32 +123,43 @@ lists.route('/:id/:itemId')
     });
   })
   .patch((req, res) => {
-    req.body.count && List.findOneAndUpdate({
-      _id: req.params.id,
-      "items._id": req.params.itemId
-    }, {
-      $inc: {"items.$.count": 1}
-    }, (err, item) => {
-      if (err) {
-        return res.status(404).json(err);
-      }
-    });
+    req.body.count &&
+      List.findOneAndUpdate(
+        {
+          _id: req.params.id,
+          'items._id': req.params.itemId,
+        },
+        {
+          $inc: { 'items.$.count': 1 },
+        },
+        (err, item) => {
+          if (err) {
+            return res.status(404).json(err);
+          }
+        },
+      );
 
-    req.body.picks && List.findOneAndUpdate({
-      _id: req.params.id,
-      "items._id": req.params.itemId
-    }, {
-      $inc: {"items.$.picks": 1}
-    }, (err, item) => {
-      if (err) {
-        return res.status(404).json(err);
-      }
-    });
+    req.body.picks &&
+      List.findOneAndUpdate(
+        {
+          _id: req.params.id,
+          'items._id': req.params.itemId,
+        },
+        {
+          $inc: { 'items.$.picks': 1 },
+        },
+        (err, item) => {
+          if (err) {
+            return res.status(404).json(err);
+          }
+        },
+      );
 
     res.status(200).json();
   });
 
-lists.route('/:id/:itemId/:itemMatchId')
+lists
+  .route('/:id/:itemId/:itemMatchId')
   .get((req, res) => {
     List.findById(req.params.id, (err, data) => {
       if (err) {
