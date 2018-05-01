@@ -23,7 +23,7 @@ users
       if (err) {
         return res.status(406).json(err);
       }
-      User.findById(list.id, (err, data) => {
+      User.findById(user.id, (err, data) => {
         if (err) {
           return res.status(404).json(err);
         }
