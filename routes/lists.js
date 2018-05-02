@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import List from '../models/list';
+import User from '../models/list';
 
 // clear database count, picks and matches
 // mongo
@@ -94,6 +95,13 @@ lists
                   match.picks = match.picks + 1;
                 }
               }
+
+              User.findById(req.body.userId, (err, data) => {
+                console.log(data);
+                if (data) {
+                  data.matches.forEach(y => {});
+                }
+              });
             });
           }
         });
