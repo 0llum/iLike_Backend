@@ -50,7 +50,7 @@ users.route('/login').post((req, res) => {
         return res.status(401).json(err);
       }
       if (!isMatch) {
-        return res.status(401).json(err);
+        return res.status(401).end();
       }
       res.status(200).json(user);
     });
