@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import List from '../models/list';
-import User from '../models/list';
+import User from '../models/user';
 
 // clear database count, picks and matches
 // mongo
@@ -96,7 +96,7 @@ lists
                 }
               }
 
-              User.findOne({ email: 'o.dolgener@googlemail.com' }, (err, data) => {
+              User.findById(req.body.userId, (err, data) => {
                 console.log('body:');
                 console.log(req.body.userId);
                 if (err) {
