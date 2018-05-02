@@ -96,7 +96,7 @@ lists
                 }
               }
 
-              User.findById(req.body.userId.toObject(), (err, data) => {
+              User.findOne({ _id: req.body.userId }, (err, data) => {
                 console.log('body:');
                 console.log(req.body.userId);
                 if (err) {
