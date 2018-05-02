@@ -19,7 +19,7 @@ users
     const user = new User(req.body);
     User.findOne({ email: req.body.email }, (err, data) => {
       if (data) {
-        return res.status(403).json(err);
+        return res.status(403).end();
       }
       user.save(err => {
         if (err) {
