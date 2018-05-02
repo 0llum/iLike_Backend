@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 const SALT_WORK_FACTOR = 10;
 
 const userMatchSchema = new Schema({
-  count: { type: Number, default: 0, min: 0 },
+  matchId: { type: mongoose.Schema.Types.ObjectId, required: true },
   picks: { type: Number, default: 0, min: 0 },
 });
 

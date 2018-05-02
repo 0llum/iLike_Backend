@@ -97,8 +97,6 @@ lists
               }
 
               User.findById(req.body.userId, (err, data) => {
-                console.log('body:');
-                console.log(req.body.userId);
                 if (err) {
                   console.log(err);
                 }
@@ -106,8 +104,24 @@ lists
                   console.log('no data');
                 }
                 if (data) {
-                  console.log('data:');
-                  console.log(data);
+                  const user = data;
+                  let userMatch = data.matches.find((z = z.matchId == match.id));
+                  if (!userMatch) {
+                    userMatch = {};
+                    userMatch.matchId = match.id;
+                    userMatch.picks = 0;
+                    if (x.picks) {
+                      userMatch.picks = 1;
+                    }
+                    user.matches.push(userMatch);
+                  } else {
+                    if (x.picks) {
+                      userMatch.picks = 1;
+                    } else {
+                      userMatch.picks = 0;
+                    }
+                  }
+                  user.save();
                 }
               });
             });
