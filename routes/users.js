@@ -36,6 +36,7 @@ users
   });
 
 users.route('/login').post((req, res) => {
+  console.log(req.body);
   const user = new User(req.body);
   User.findOne({ email: req.body.email }, (err, user) => {
     if (err) {
