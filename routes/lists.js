@@ -97,8 +97,15 @@ lists
               }
 
               User.findById(req.body.userId, (err, data) => {
-                console.log(req.body.userId);
+                if (err) {
+                  console.log(err);
+                }
+                if (!data) {
+                  console.log('no data');
+                }
                 if (data) {
+                  console.log('data:');
+                  console.log(data);
                   data.matches.forEach(y => {});
                 }
               });
