@@ -25,6 +25,9 @@ users
         if (err) {
           return res.status(401).json(err);
         }
+        if (!isMatch) {
+          return res.status(404).json(err);
+        }
         res.status(200).json(user);
       });
     });
