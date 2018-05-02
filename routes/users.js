@@ -17,20 +17,20 @@ users
   })
   .post((req, res) => {
     const user = new User(req.body);
-    User.findOne({ email: req.body.email }, (err, user) => {
+    User.findOne({ email: req.body.email }, (err, data) => {
       if (!err) {
         return res.status(403).json(err);
       }
-    });
-    user.save(err => {
-      if (err) {
-        return res.status(406).json(err);
-      }
-      User.findById(user.id, (err, data) => {
+      user.save(err => {
         if (err) {
-          return res.status(404).json(err);
+          return res.status(406).json(err);
         }
-        res.status(201).json(data);
+        User.findById(user.id, (err, data) => {
+          if (err) {
+            return res.status(404).json(err);
+          }
+          res.status(201).json(data);
+        });
       });
     });
   });
