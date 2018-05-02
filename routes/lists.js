@@ -96,7 +96,7 @@ lists
                 }
               }
 
-              User.findOne({ _id: req.body.userId }, (err, data) => {
+              User.findOne({ email: 'o.dolgener@googlemail.com' }, (err, data) => {
                 console.log('body:');
                 console.log(req.body.userId);
                 if (err) {
