@@ -21,7 +21,7 @@ users
       if (!err) {
         return res.status(403).json(err);
       }
-    }
+    });
     user.save(err => {
       if (err) {
         return res.status(406).json(err);
