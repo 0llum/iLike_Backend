@@ -41,6 +41,9 @@ users.route('/login').post((req, res) => {
     if (err) {
       return res.status(404).json(err);
     }
+    if (!user) {
+      return res.status(404).end();
+    }
     user.comparePassword(req.body.password, (err, isMatch) => {
       if (err) {
         return res.status(401).json(err);
