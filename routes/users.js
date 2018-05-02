@@ -18,7 +18,7 @@ users
   .post((req, res) => {
     const user = new User(req.body);
     User.findOne({ email: req.body.email }, (err, data) => {
-      if (!err) {
+      if (data) {
         return res.status(403).json(err);
       }
       user.save(err => {
