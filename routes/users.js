@@ -17,17 +17,28 @@ users
   })
   .post((req, res) => {
     const user = new User(req.body);
-    user.save(err => {
+    User.findOne({ email: req.body.email }, (err, user) => {
       if (err) {
-        return res.status(406).json(err);
+        return res.status(404).json(err);
       }
-      User.findById(user.id, (err, data) => {
+      user.comparePassword(req.body.password, (err, isMatch) => {
         if (err) {
-          return res.status(404).json(err);
+          return res.status(401).json(err);
         }
-        res.status(200).json(data);
+        res.status(200).json(user);
       });
     });
+    // user.save(err => {
+    //   if (err) {
+    //     return res.status(406).json(err);
+    //   }
+    //   User.findById(user.id, (err, data) => {
+    //     if (err) {
+    //       return res.status(404).json(err);
+    //     }
+    //     res.status(201).json(data);
+    //   });
+    // });
   });
 
 users.route('/:id').get((req, res) => {

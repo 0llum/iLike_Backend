@@ -32,7 +32,7 @@ lists
         if (err) {
           return res.status(404).json(err);
         }
-        res.status(200).json(data);
+        res.status(201).json(data);
       });
     });
   });
