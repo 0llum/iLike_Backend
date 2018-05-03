@@ -59,8 +59,6 @@ lists
               return res.status(404).json(err);
             }
             users.forEach(user => {
-              console.log('users.forEach');
-              console.log(user);
               const userMatch = user.matches.find(x => x.matchId == match.id);
               if (userMatch) {
                 console.log('found user with match');
