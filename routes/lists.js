@@ -67,8 +67,8 @@ lists
                 }
               }
             });
-            match.count = countSum;
-            match.picks = picksSum;
+            //match.count = countSum;
+            //match.picks = picksSum;
           });
           console.log(match);
         });
