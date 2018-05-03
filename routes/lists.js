@@ -70,13 +70,13 @@ lists
                 }
               }
             });
-            console.log('inner');
             match.count = countSum;
             match.picks = picksSum;
+            console.log(match);
           });
-          console.log('outer');
           item.count = countTotal / 2;
           item.picks = picksTotal;
+          console.log(item);
         });
       });
       res.status(200).json(list);
