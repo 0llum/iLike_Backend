@@ -72,7 +72,6 @@ lists
           console.log('outer');
           match.count = countSum;
           match.picks = picksSum;
-          console.log(match);
         });
         item.count = countTotal;
         item.picks = picksTotal;
