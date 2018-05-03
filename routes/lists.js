@@ -52,8 +52,8 @@ lists
         let countTotal = 0;
         let picksTotal = 0;
         item.matches.forEach(match => {
-          let countSum = 0;
-          let picksSum = 0;
+          let countSum;
+          let picksSum;
           User.find({}, (err, users) => {
             if (err) {
               return res.status(404).json(err);
@@ -68,7 +68,6 @@ lists
               }
             });
           });
-          countSum++;
           match.count = countSum;
           match.picks = picksSum;
           console.log('match:');
