@@ -105,7 +105,7 @@ lists
                 }
                 if (data) {
                   const user = data;
-                  let userMatch = data.matches.find((z = z.matchId == match.id));
+                  let userMatch = data.matches.find(z => z.matchId == match.id);
                   if (!userMatch) {
                     userMatch = {};
                     userMatch.matchId = match.id;
