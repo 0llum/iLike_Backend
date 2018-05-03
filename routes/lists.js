@@ -48,11 +48,11 @@ lists
       if (!data) {
         return res.status(404).end();
       }
+      let countSum = 0;
+      let picksSum = 0;
       data.items.forEach(item => {
         let countTotal = 0;
         let picksTotal = 0;
-        var countSum = 0;
-        var picksSum = 0;
         item.matches.forEach(match => {
           User.find({}, (err, users) => {
             if (err) {
