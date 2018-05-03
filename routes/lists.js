@@ -61,10 +61,8 @@ lists
             users.forEach(user => {
               const userMatch = user.matches.find(x => x.matchId == match.id);
               if (userMatch) {
-                console.log('found user with match');
-                console.log(userMatch);
                 countSum++;
-                if (userMatch.picks) {
+                if (userMatch.picks > 0) {
                   picksSum++;
                 }
               }
@@ -72,6 +70,7 @@ lists
           });
           match.count = countSum;
           match.picks = picksSum;
+          console.log(match);
         });
         item.count = countTotal;
         item.picks = picksTotal;
