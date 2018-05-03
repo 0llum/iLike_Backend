@@ -70,7 +70,9 @@ lists
           });
           match.count = countSum;
           match.picks = picksSum;
-          console.log(match);
+          console.log('match:');
+          console.log(countSum);
+          console.log(picksSum);
         });
         item.count = countTotal;
         item.picks = picksTotal;
