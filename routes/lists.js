@@ -54,22 +54,22 @@ lists
         item.matches.forEach(match => {
           let countSum = 0;
           let picksSum = 0;
-          let allUsers;
           User.find({}, (err, users) => {
             if (err) {
               return res.status(404).json(err);
             }
-            allUsers = users;
-          });
-          allUsers.forEach(user => {
-            const userMatch = user.matches.find(x => x.matchId == match.id);
-            if (userMatch) {
-              countSum++;
-              if (userMatch.picks > 0) {
-                picksSum++;
+            users.forEach(user => {
+              const userMatch = user.matches.find(x => x.matchId == match.id);
+              if (userMatch) {
+                countSum++;
+                if (userMatch.picks > 0) {
+                  picksSum++;
+                }
               }
-            }
+            });
+            console.log('inner');
           });
+          console.log('outer');
           match.count = countSum;
           match.picks = picksSum;
           console.log(match);
