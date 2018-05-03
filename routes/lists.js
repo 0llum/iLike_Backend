@@ -151,7 +151,6 @@ lists
         const ref = data.items.find(x => x.id == element.itemId);
         element.name = ref.name;
         element.image = ref.image;
-        console.log(element);
       });
       res.status(200).json(item);
     });
