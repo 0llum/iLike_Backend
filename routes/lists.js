@@ -115,8 +115,11 @@ lists
                     }
                     user.matches.push(userMatch);
                   } else {
+                    match.count = match.count - 1;
+                    match.picks = match.picks - userMatch.picks;
                     if (x.picks) {
                       userMatch.picks = 1;
+                      match.picks = match.picks + 1;
                     } else {
                       userMatch.picks = 0;
                     }
