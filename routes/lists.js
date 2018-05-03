@@ -75,7 +75,7 @@ lists
             match.picks = picksSum;
           });
           console.log('outer');
-          item.count = countTotal;
+          item.count = countTotal / 2;
           item.picks = picksTotal;
         });
       });
