@@ -56,16 +56,15 @@ lists
           let picksSum = 0;
           User.find({}, (err, users) => {
             if (err) {
+              console.log('error');
               return res.status(404).json(err);
             }
             users.forEach(user => {
               const userMatch = user.matches.find(x => x.matchId == match.id);
               if (userMatch) {
-                console.log('count');
-                countSum = countSum + 1;
+                countSum++;
                 if (userMatch.picks > 0) {
-                  console.log('picks');
-                  picksSum = picksSum + 1;
+                  picksSum++;
                 }
               }
             });
