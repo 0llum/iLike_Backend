@@ -79,7 +79,7 @@ lists
         item.count = countTotal;
         item.picks = picksTotal;
       });
-      res.status(200).json(data);
+      res.status(200).json(list);
     });
   })
   .patch((req, res) => {
