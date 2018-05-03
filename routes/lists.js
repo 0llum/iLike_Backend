@@ -61,8 +61,10 @@ lists
             users.forEach(user => {
               const userMatch = user.matches.find(x => x.matchId == match.id);
               if (userMatch) {
+                console.log('count');
                 countSum++;
                 if (userMatch.picks > 0) {
+                  console.log('picks');
                   picksSum++;
                 }
               }
