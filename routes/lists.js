@@ -73,6 +73,7 @@ lists
           });
         });
       });
+      console.log(list);
       res.status(200).json(list);
     });
   })

@@ -2,6 +2,11 @@ import express from 'express';
 import mongoose from 'mongoose';
 import User from '../models/user';
 
+// clear database count, picks and matches
+// mongo
+// use iLike
+// db.users.updateMany({}, {$set: {"matches": []}}, {})
+
 mongoose.connect('mongodb://localhost:27017/iLike');
 const users = express.Router();
 
