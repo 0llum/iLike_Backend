@@ -56,8 +56,6 @@ lists
           return res.status(404).end();
         }
         list.items.forEach(item => {
-          let countTotal = 0;
-          let picksTotal = 0;
           item.matches.forEach(match => {
             let countSum = 0;
             let picksSum = 0;
@@ -72,11 +70,7 @@ lists
             });
             match.count = countSum;
             match.picks = picksSum;
-            console.log(match);
           });
-          item.count = countTotal / 2;
-          item.picks = picksTotal;
-          console.log(item);
         });
       });
       res.status(200).json(list);
