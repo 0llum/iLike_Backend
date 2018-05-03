@@ -71,10 +71,10 @@ lists
               }
             });
             console.log('inner');
+            match.count = countSum;
+            match.picks = picksSum;
           });
           console.log('outer');
-          match.count = countSum;
-          match.picks = picksSum;
         });
         item.count = countTotal;
         item.picks = picksTotal;
