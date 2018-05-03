@@ -69,10 +69,12 @@ lists
             });
             match.count = countSum;
             match.picks = picksSum;
-            console.log('match:');
-            console.log(countSum);
-            console.log(picksSum);
           });
+          countTotal = countSum;
+          picksTotal = picksSum;
+          console.log('item:');
+          console.log(countTotal);
+          console.log(picksTotal);
         });
         item.count = countTotal;
         item.picks = picksTotal;
