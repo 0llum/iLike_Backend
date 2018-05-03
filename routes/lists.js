@@ -48,6 +48,32 @@ lists
       if (!data) {
         return res.status(404).end();
       }
+      data.items.forEach(item => {
+        let countTotal = 0;
+        let picksTotal = 0;
+        item.matches.forEach(match => {
+          let countSum = 0;
+          let picksSum = 0;
+          User.find({}, (err, users) => {
+            if (err) {
+              return res.status(404).json(err);
+            }
+            users.forEach(user => {
+              const userMatch = user.matches.find(x => x.matchId == match.id);
+              if (userMatch) {
+                countSum++;
+                if (userMatch.picks) {
+                  picksSum++;
+                }
+              }
+            });
+          });
+          match.count = countSum;
+          match.picks = picksSum;
+        });
+        item.count = countTotal;
+        item.picks = picksTotal;
+      });
       res.status(200).json(data);
     });
   })
