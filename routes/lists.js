@@ -41,23 +41,26 @@ lists
 lists
   .route('/:id')
   .get((req, res) => {
-    List.findById(req.params.id, (err, data) => {
+    List.findById(req.params.id, (err, list) => {
       if (err) {
         return res.status(404).json(err);
       }
-      if (!data) {
+      if (!list) {
         return res.status(404).end();
       }
-      data.items.forEach(item => {
-        let countTotal = 0;
-        let picksTotal = 0;
-        item.matches.forEach(match => {
-          let countSum = 0;
-          let picksSum = 0;
-          User.find({}, (err, users) => {
-            if (err) {
-              return res.status(404).json(err);
-            }
+      User.find({}, (err, users) => {
+        if (err) {
+          return res.status(404).json(err);
+        }
+        if (!users) {
+          return res.status(404).end();
+        }
+        list.items.forEach(item => {
+          let countTotal = 0;
+          let picksTotal = 0;
+          item.matches.forEach(match => {
+            let countSum = 0;
+            let picksSum = 0;
             users.forEach(user => {
               const userMatch = user.matches.find(x => x.matchId == match.id);
               if (userMatch) {
