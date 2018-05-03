@@ -115,6 +115,7 @@ lists
                     }
                     user.matches.push(userMatch);
                   } else {
+                    console.log(match);
                     match.count = match.count - 1;
                     match.picks = match.picks - userMatch.picks;
                     if (x.picks) {
@@ -123,6 +124,7 @@ lists
                     } else {
                       userMatch.picks = 0;
                     }
+                    console.log(match);
                   }
                   user.save();
                 }
