@@ -51,8 +51,8 @@ lists
       data.items.forEach(item => {
         let countTotal = 0;
         let picksTotal = 0;
-        let countSum = 0;
-        let picksSum = 0;
+        var countSum = 0;
+        var picksSum = 0;
         item.matches.forEach(match => {
           User.find({}, (err, users) => {
             if (err) {
