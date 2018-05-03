@@ -64,17 +64,17 @@ lists
         list.count = list.count ? list.count + 1 : 1;
       }
       if (req.body.items) {
-        req.body.items.forEach(el => {
-          const item = list.items.id(el.id);
-          if (el.count) {
-            item.count = item.count + 1;
+        req.body.items.forEach(bodyItem => {
+          const listItem = list.items.id(bodyItem.id);
+          if (bodyItem.count) {
+            listItem.count = listItem.count + 1;
           }
-          if (el.picks) {
-            item.picks = item.picks + 1;
+          if (bodyItem.picks) {
+            listItem.picks = listItem.picks + 1;
           }
-          if (el.matches) {
-            el.matches.forEach(x => {
-              let match = item.matches.find(y => y.itemId == x.itemId);
+          if (bodyItem.matches) {
+            bodyItem.matches.forEach(x => {
+              let match = listItem.matches.find(y => y.itemId == x.itemId);
               if (!match) {
                 match = {};
                 match.itemId = x.itemId;
@@ -86,7 +86,7 @@ lists
                 if (x.picks) {
                   match.picks = match.picks + 1;
                 }
-                item.matches.push(match);
+                listItem.matches.push(match);
               } else {
                 if (x.count) {
                   match.count = match.count + 1;
