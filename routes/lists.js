@@ -62,10 +62,10 @@ lists
               const userMatch = user.matches.find(x => x.matchId == match.id);
               if (userMatch) {
                 console.log('count');
-                countSum++;
+                countSum = countSum + 1;
                 if (userMatch.picks > 0) {
                   console.log('picks');
-                  picksSum++;
+                  picksSum = picksSum + 1;
                 }
               }
             });
