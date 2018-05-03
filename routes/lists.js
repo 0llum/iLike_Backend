@@ -48,12 +48,12 @@ lists
       if (!data) {
         return res.status(404).end();
       }
-      let countSum = 0;
-      let picksSum = 0;
       data.items.forEach(item => {
         let countTotal = 0;
         let picksTotal = 0;
         item.matches.forEach(match => {
+          let countSum = 0;
+          let picksSum = 0;
           User.find({}, (err, users) => {
             if (err) {
               return res.status(404).json(err);
@@ -67,12 +67,12 @@ lists
                 }
               }
             });
+            match.count = countSum;
+            match.picks = picksSum;
+            console.log('match:');
+            console.log(countSum);
+            console.log(picksSum);
           });
-          match.count = countSum;
-          match.picks = picksSum;
-          console.log('match:');
-          console.log(countSum);
-          console.log(picksSum);
         });
         item.count = countTotal;
         item.picks = picksTotal;
