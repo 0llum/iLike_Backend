@@ -4,6 +4,7 @@ const listItemMatchSchema = new Schema({
   itemId: { type: mongoose.Schema.Types.ObjectId, required: true },
   name: { type: String },
   image: { type: String },
+  color: { type: String },
   count: { type: Number, default: 0, min: 0 },
   picks: { type: Number, default: 0, min: 0 },
 });

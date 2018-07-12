@@ -2,6 +2,11 @@ import express from 'express';
 import mongoose from 'mongoose';
 import User from '../models/user';
 
+// clear database count, picks and matches
+// mongo
+// use iLike
+// db.users.updateMany({}, {$set: {"matches": []}}, {})
+
 mongoose.connect('mongodb://localhost:27017/iLike');
 const users = express.Router();
 
@@ -67,5 +72,44 @@ users.route('/:id').get((req, res) => {
     res.status(200).json(data);
   });
 });
+// .patch((req, res) => {
+//   User.findById(req.params.id, (err, data) => {
+//     if (err) {
+//       if (err) {
+//         return res.status(404).json(err);
+//       }
+//       if (!data) {
+//         return res.status(404).end();
+//       }
+//       const user = data;
+//       if (req.body.matches) {
+//         req.body.matches.forEach(el => {
+//           let match = user.matches.find(x => x.matchId == el.matchId);
+//           if (!match) {
+//             match = {};
+//             match.matchId = el.matchId;
+//             match.picks = 0;
+//             if (el.picks) {
+//               match.picks = 1;
+//             }
+//             user.matches.push(match);
+//           } else {
+//             match.picks = match.picks - userMatch.picks;
+//             if (x.picks) {
+//               match.picks = 1;
+//             } else {
+//               userMatch.picks = 0;
+//             }
+//           }
+//         })
+//       }
+//       user.save(err => {
+//         if (err) {
+//           return res.status(406).json(err);
+//         }
+//       });
+//     }
+//   });
+// });
 
 export default users;
