@@ -29,3 +29,5 @@ coordinates
       });
     });
   });
+
+export default coordinates;
