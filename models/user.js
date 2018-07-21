@@ -19,8 +19,6 @@ const userSchema = new Schema({
   locations: [locationSchema],
 });
 
-userSchema.index({ locations.latitude: 1, locations.longitude: 1 }, { unique: true });
-
 userSchema.pre('save', function(next) {
   const user = this;
 
