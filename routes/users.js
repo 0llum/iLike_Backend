@@ -61,43 +61,51 @@ users.route('/login').post((req, res) => {
   });
 });
 
-users.route('/:id').get((req, res) => {
-  User.findById(req.params.id, (err, data) => {
-    if (err) {
-      return res.status(404).json(err);
-    }
-    if (!data) {
-      return res.status(404).end();
-    }
-    res.status(200).json(data);
-  });
-}).patch((req, res) => {
-  User.findById(req.params.id, (err, data) => {
-    if (err) {
-      return res.status(404).json(err);
-    }
-    if (!data) {
-      return res.status(404).end();
-    }
-    const user = data;
-    if (req.body.locations) {
-      req.body.locations.forEach(bodyLocation => {
-        let location = user.locations.find(userLocation => userLocation.latitude === bodyLocation.latitude && userLocation.longitude === bodyLocation.longitude);
-            if (!location) {
-              location = {
-                latitude: bodyLocation.latitude,
-                longitude: bodyLocation.longitude
-              };
-              user.locations.push(location);
-            }
-      });
-    }
-    user.save();
+users
+  .route('/:id')
+  .get((req, res) => {
     User.findById(req.params.id, (err, data) => {
       if (err) {
-        return res.status(400).json(err);
+        return res.status(404).json(err);
+      }
+      if (!data) {
+        return res.status(404).end();
       }
       res.status(200).json(data);
+    });
+  })
+  .patch((req, res) => {
+    User.findById(req.params.id, (err, data) => {
+      if (err) {
+        return res.status(404).json(err);
+      }
+      if (!data) {
+        return res.status(404).end();
+      }
+      const user = data;
+      if (req.body.locations) {
+        req.body.locations.forEach(bodyLocation => {
+          let location = user.locations.find(
+            userLocation =>
+              userLocation.latitude === bodyLocation.latitude &&
+              userLocation.longitude === bodyLocation.longitude,
+          );
+          if (!location) {
+            location = {
+              latitude: bodyLocation.latitude,
+              longitude: bodyLocation.longitude,
+            };
+            user.locations.push(location);
+          }
+        });
+      }
+      user.save();
+      User.findById(req.params.id, (err, data) => {
+        if (err) {
+          return res.status(400).json(err);
+        }
+        res.status(200).json(data);
+      });
     });
   });
 // .patch((req, res) => {
