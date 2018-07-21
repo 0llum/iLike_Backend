@@ -6,7 +6,11 @@ import lists from './routes/lists';
 import coordinates from './routes/coordinates';
 
 const app = express();
-app.use(bodyParser.json());
+app.use(
+  bodyParser.json({
+    limit: '50mb',
+  }),
+);
 app.use('/users', users);
 app.use('/lists', lists);
 app.use('/coordinates', coordinates);
