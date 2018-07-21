@@ -7,11 +7,19 @@ const userMatchSchema = new Schema({
   picks: { type: Number, default: 0, min: 0 },
 });
 
+const locationSchema = new Schema({
+  latitude: { type: Number },
+  longitude: { type: Number },
+});
+
 const userSchema = new Schema({
   email: { type: String, required: true, index: { unique: true } },
   password: { type: String, required: true },
   matches: [userMatchSchema],
+  locations: [locationSchema],
 });
+
+locationSchema.index({ latitude: 1, longitude: 1 }, { unique: true });
 
 userSchema.pre('save', function(next) {
   const user = this;
