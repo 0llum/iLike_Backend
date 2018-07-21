@@ -19,7 +19,7 @@ const userSchema = new Schema({
   locations: [locationSchema],
 });
 
-locationSchema.index({ latitude: 1, longitude: 1 }, { unique: true });
+userSchema.index({ locations.latitude: 1, locations.longitude: 1 }, { unique: true });
 
 userSchema.pre('save', function(next) {
   const user = this;
