@@ -159,7 +159,7 @@ users.route('/:uid/locations/:lid').delete((req, res) => {
     const user = data;
     let locations = data.locations;
     console.log(locations.length);
-    locations = locations.filter(x => x._id !== lid);
+    locations = locations.filter(x => x._id != req.params.lid);
     console.log(locations.length);
   });
 });
