@@ -148,4 +148,20 @@ users
 //   });
 // });
 
+users.route('/:uid/locations/:lid').delete((req, res) => {
+  User.findById(req.params.uid, (err, data) => {
+    if (err) {
+      return res.status(404).json(err);
+    }
+    if (!data) {
+      return res.status(404).end();
+    }
+    const user = data;
+    const locations = data.locations;
+    console.log(locations.length);
+    locations = locations.filter(x => x._id !== lid);
+    console.log(locations.length);
+  });
+});
+
 export default users;
