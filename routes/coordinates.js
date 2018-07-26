@@ -47,15 +47,11 @@ const generateCoordinates = (lat) => {
     // }
   }
 
-  fetch('https://api.0llum.de/coordinates', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(coordinates),
-  }).then((response) => {
-    if (response.status === 201) {
+  Coordinate.insertMany(JSON.stringify(coordinates), (err, docs) => {
+    if (err) {
+      return res.status(406).json(err);
+    }
+    if (docs) {
       this.generateCoordinates(lat - EarthUtils.GRID_DISTANCE);
     }
   });
