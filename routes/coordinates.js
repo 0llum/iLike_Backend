@@ -33,7 +33,7 @@ coordinates
     generateCoordinates(90);
   });
 
-function generateCoordinates(lat) {
+let generateCoordinates = function(lat) {
   if (lat < -89) {
     return;
   }
