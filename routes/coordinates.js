@@ -26,4 +26,10 @@ coordinates
     });
   });
 
+coordinates
+  .route('/generate')
+  .get((req, res) => {
+    
+  });
+
 export default coordinates;
