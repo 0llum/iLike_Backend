@@ -47,7 +47,7 @@ const generateCoordinates = (lat) => {
     // }
   }
 
-  Coordinate.insertMany(JSON.stringify(coordinates), (err, docs) => {
+  Coordinate.insertMany(coordinates, (err, docs) => {
     if (err) {
       return res.status(406).json(err);
     }
