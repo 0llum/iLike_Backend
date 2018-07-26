@@ -49,11 +49,13 @@ let generateCoordinates = function(lat) {
     // }
   }
 
-  Coordinate.insertMany(coordinates, (err, docs) => {
-    if (docs) {
-      generateCoordinates(lat - Earth.GRID_DISTANCE);
-    }
-  });
+  generateCoordinates(lat - Earth.GRID_DISTANCE);
+
+  // Coordinate.insertMany(coordinates, (err, docs) => {
+  //   if (docs) {
+  //     generateCoordinates(lat - Earth.GRID_DISTANCE);
+  //   }
+  // });
 }
 
 export default coordinates;
