@@ -31,17 +31,17 @@ coordinates
 coordinates
   .route('/generate')
   .get((req, res) => {
-    generateCoordinates(1);
+    generateCoordinates(55);
   });
 
 let generateCoordinates = function(lat) {
   console.log(lat);
-  if (lat < 0) {
+  if (lat < 47) {
     return;
   }
 
   const coordinates = [];
-  for (let lon = 0; lon < 360; lon += EarthUtils.gridDistanceAtLatitude(lat)) {
+  for (let lon = 6; lon < 15; lon += EarthUtils.gridDistanceAtLatitude(lat)) {
     const latitude = EarthUtils.getRoundedLatitude(lat);
     const longitude = lon > 180 ? EarthUtils.getRoundedLongitude(lon - 360, lat) : EarthUtils.getRoundedLongitude(lon, lat);
     // if (!Object.is(longitude, -0)) {
