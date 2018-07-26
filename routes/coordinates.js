@@ -30,7 +30,7 @@ coordinates
 coordinates
   .route('/generate')
   .get((req, res) => {
-    
+    generateCoordinates(90);
   });
 
 generateCoordinates = (lat) => {
