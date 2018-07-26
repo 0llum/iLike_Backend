@@ -52,7 +52,7 @@ const generateCoordinates = (lat) => {
       return res.status(406).json(err);
     }
     if (docs) {
-      this.generateCoordinates(lat - EarthUtils.GRID_DISTANCE);
+      generateCoordinates(lat - EarthUtils.GRID_DISTANCE);
     }
   });
 }
