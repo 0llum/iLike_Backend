@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import Coordinate from '../models/coordinate';
 import * as EarthUtils from '../utils/EarthUtils';
+import * as Earth from '../constants/Earth';
 
 mongoose.connect('mongodb://localhost:27017/iLike');
 const coordinates = express.Router();
