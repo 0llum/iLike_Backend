@@ -50,7 +50,7 @@ let generateCoordinates = function(lat) {
   Coordinate.insertMany(coordinates, (err, docs) => {
     console.log(lat);
     if (docs) {
-      generateCoordinates(lat - EarthUtils.GRID_DISTANCE);
+      generateCoordinates(lat - Earth.GRID_DISTANCE);
     }
   });
 }
