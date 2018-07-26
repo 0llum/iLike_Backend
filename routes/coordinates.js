@@ -35,13 +35,13 @@ coordinates
   });
 
 let generateCoordinates = function(lat) {
-  console.log(lat);
   if (lat < 89) {
     return;
   }
 
   const coordinates = [];
   for (let lon = 0; lon < 360; lon += EarthUtils.gridDistanceAtLatitude(lat)) {
+    console.log(lon);
     const latitude = EarthUtils.getRoundedLatitude(lat);
     const longitude = lon > 180 ? EarthUtils.getRoundedLongitude(lon - 360, lat) : EarthUtils.getRoundedLongitude(lon, lat);
     // if (!Object.is(longitude, -0)) {
