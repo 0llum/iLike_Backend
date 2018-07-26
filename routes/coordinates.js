@@ -49,13 +49,14 @@ let generateCoordinates = function(lat) {
     // }
   }
 
-  generateCoordinates(lat - Earth.GRID_DISTANCE);
-
-  // Coordinate.insertMany(coordinates, (err, docs) => {
-  //   if (docs) {
-  //     generateCoordinates(lat - Earth.GRID_DISTANCE);
-  //   }
-  // });
+  Coordinate.insertMany(coordinates, (err, docs) => {
+    if (err) {
+      console.log(err);
+    }
+    if (docs) {
+      generateCoordinates(lat - Earth.GRID_DISTANCE);
+    }
+  });
 }
 
 export default coordinates;
