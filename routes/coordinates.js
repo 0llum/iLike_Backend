@@ -48,9 +48,6 @@ const generateCoordinates = (lat) => {
   }
 
   Coordinate.insertMany(coordinates, (err, docs) => {
-    if (err) {
-      return res.status(406).json(err);
-    }
     if (docs) {
       generateCoordinates(lat - EarthUtils.GRID_DISTANCE);
     }
