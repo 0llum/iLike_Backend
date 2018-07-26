@@ -36,7 +36,7 @@ coordinates
 
 let generateCoordinates = function(lat) {
   console.log(lat);
-  if (lat < -89) {
+  if (lat > 89) {
     return;
   }
 
