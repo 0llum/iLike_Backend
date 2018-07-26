@@ -33,7 +33,7 @@ coordinates
     generateCoordinates(90);
   });
 
-const generateCoordinates = (lat) => {
+generateCoordinates(lat) {
   if (lat < -89) {
     return;
   }
