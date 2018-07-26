@@ -39,7 +39,7 @@ const generateCoordinates = (lat) => {
   }
 
   const coordinates = [];
-  for (let lon = 0; lon < 360; k += EarthUtils.gridDistanceAtLatitude(lat)) {
+  for (let lon = 0; lon < 360; lon += EarthUtils.gridDistanceAtLatitude(lat)) {
     const latitude = EarthUtils.getRoundedLatitude(lat);
     const longitude = lon > 180 ? EarthUtils.getRoundedLongitude(lon - 360, lat) : EarthUtils.getRoundedLongitude(lon, lat);
     // if (!Object.is(longitude, -0)) {
