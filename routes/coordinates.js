@@ -50,12 +50,13 @@ let generateCoordinates = function(lat) {
   }
 
   Coordinate.insertMany(coordinates, (err, docs) => {
-    if (err) {
-      console.log(err);
-    }
-    if (docs) {
-      generateCoordinates(lat - Earth.GRID_DISTANCE);
-    }
+    // if (err) {
+    //   console.log(err);
+    // }
+    // if (docs) {
+    //   generateCoordinates(lat - Earth.GRID_DISTANCE);
+    // }
+    generateCoordinates(lat - Earth.GRID_DISTANCE);
   });
 }
 
