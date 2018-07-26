@@ -34,6 +34,7 @@ coordinates
   });
 
 let generateCoordinates = function(lat) {
+  console.log(lat);
   if (lat < -89) {
     return;
   }
@@ -48,7 +49,6 @@ let generateCoordinates = function(lat) {
   }
 
   Coordinate.insertMany(coordinates, (err, docs) => {
-    console.log(lat);
     if (docs) {
       generateCoordinates(lat - Earth.GRID_DISTANCE);
     }
