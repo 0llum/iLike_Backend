@@ -31,12 +31,12 @@ coordinates
 coordinates
   .route('/generate')
   .get((req, res) => {
-    generateCoordinates(90);
+    generateCoordinates(1);
   });
 
 let generateCoordinates = function(lat) {
   console.log(lat);
-  if (lat < 89) {
+  if (lat < 0) {
     return;
   }
 
