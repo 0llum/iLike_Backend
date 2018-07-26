@@ -34,6 +34,7 @@ coordinates
   });
 
 const generateCoordinates = (lat) => {
+  console.log(lat);
   if (lat < -89) {
     return;
   }
