@@ -85,7 +85,7 @@ users
       const user = data;
       if (req.body.locations) {
         req.body.locations.forEach(bodyLocation => {
-          location = {
+          const location = {
             latitude: bodyLocation.latitude,
             longitude: bodyLocation.longitude,
           };
