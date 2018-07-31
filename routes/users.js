@@ -85,18 +85,11 @@ users
       const user = data;
       if (req.body.locations) {
         req.body.locations.forEach(bodyLocation => {
-          let location = user.locations.find(
-            userLocation =>
-              userLocation.latitude === bodyLocation.latitude &&
-              userLocation.longitude === bodyLocation.longitude,
-          );
-          if (!location) {
-            location = {
-              latitude: bodyLocation.latitude,
-              longitude: bodyLocation.longitude,
-            };
-            user.locations.push(location);
-          }
+          location = {
+            latitude: bodyLocation.latitude,
+            longitude: bodyLocation.longitude,
+          };
+          user.locations.push(location);
         });
       }
       user.save();
