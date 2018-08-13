@@ -164,4 +164,36 @@ users.route('/:uid/locations/:lid').delete((req, res) => {
   });
 });
 
+users.route('/:id/locations/removeduplicates').get((req, res) => {
+  User.findById(req.params.uid, (err, data) => {
+    if (err) {
+      return res.status(404).json(err);
+    }
+    if (!data) {
+      return res.status(404).end();
+    }
+    const user = data;
+    let locations = data.locations;
+    const uniqueLocations = [];
+    for (let i = 0; i < locations.length; i++) {
+      const duplicate = uniqueLocations.find(
+        x => x.latitude === locations[i].latitude && x.longitude === locations[i].longitude,
+      );
+      if (!duplicate) {
+        uniqueLocations.push(locations[i]);
+      }
+    }
+    console.log(locations);
+    console.log(uniqueLocations);
+    // user.locations = locations;
+    // user.save();
+    User.findById(req.params.id, (err, data) => {
+      if (err) {
+        return res.status(400).json(err);
+      }
+      res.status(200).json(data);
+    });
+  });
+});
+
 export default users;
