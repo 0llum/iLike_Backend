@@ -90,7 +90,12 @@ users
             longitude: bodyLocation.longitude,
             timestamp: bodyLocation.timestamp,
           };
-          user.locations.push(location);
+          const duplicate = user.locations.find(
+            x => x.latitude === location.latitude && x.longitude === location.longitude,
+          );
+          if (!duplicate) {
+            user.locations.push(location);
+          }
         });
       }
       user.save();
