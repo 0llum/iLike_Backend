@@ -10,6 +10,7 @@ const userMatchSchema = new Schema({
 const locationSchema = new Schema({
   latitude: { type: Number },
   longitude: { type: Number },
+  timestamp: { type: Number },
 });
 
 const userSchema = new Schema({

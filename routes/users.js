@@ -88,6 +88,7 @@ users
           const location = {
             latitude: bodyLocation.latitude,
             longitude: bodyLocation.longitude,
+            timestamp: bodyLocation.timestamp,
           };
           user.locations.push(location);
         });
