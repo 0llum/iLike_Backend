@@ -165,7 +165,7 @@ users.route('/:uid/locations/:lid').delete((req, res) => {
 });
 
 users.route('/:id/locations/removeduplicates').get((req, res) => {
-  User.findById(req.params.uid, (err, data) => {
+  User.findById(req.params.id, (err, data) => {
     if (err) {
       return res.status(404).json(err);
     }
