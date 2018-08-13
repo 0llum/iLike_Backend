@@ -185,8 +185,8 @@ users.route('/:id/locations/removeduplicates').get((req, res) => {
     }
     console.log(locations.length);
     console.log(uniqueLocations.length);
-    // user.locations = locations;
-    // user.save();
+    user.locations = locations;
+    user.save();
     User.findById(req.params.id, (err, data) => {
       if (err) {
         return res.status(400).json(err);
