@@ -13,6 +13,8 @@ const locationSchema = new Schema({
   timestamp: { type: Number },
 });
 
+locationSchema.index({ latitude: 1, longitude: 1 }, { unique: true });
+
 const userSchema = new Schema({
   email: { type: String, required: true, index: { unique: true } },
   password: { type: String, required: true },
