@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import User from '../models/user';
+import * as MathUtils from '../utils/MathUtils';
 
 // clear database count, picks and matches
 // mongo
@@ -179,16 +180,16 @@ users.route('/:id/locations/removeduplicates').get((req, res) => {
     }
     const user = data;
     let locations = data.locations;
-    const uniqueLocations = [];
     console.time('removeDuplicates');
-    for (let i = 0; i < locations.length; i++) {
-      const duplicate = uniqueLocations.find(
-        x => x.latitude === locations[i].latitude && x.longitude === locations[i].longitude,
-      );
-      if (!duplicate) {
-        uniqueLocations.push(locations[i]);
-      }
-    }
+    const uniqueLocations = MathUtils.removeDuplicateLocations(locations);
+    // for (let i = 0; i < locations.length; i++) {
+    //   const duplicate = uniqueLocations.find(
+    //     x => x.latitude === locations[i].latitude && x.longitude === locations[i].longitude,
+    //   );
+    //   if (!duplicate) {
+    //     uniqueLocations.push(locations[i]);
+    //   }
+    // }
     console.timeEnd('removeDuplicates');
     console.log(locations.length);
     console.log(uniqueLocations.length);
