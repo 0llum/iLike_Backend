@@ -197,7 +197,10 @@ users.route('/:id/locations/removeduplicates').get((req, res) => {
       if (err) {
         return res.status(400).json(err);
       }
-      res.status(200).json(data);
+      res.status(200).json({
+        before: locations.length,
+        after: uniqueLocations.length,
+      });
     });
   });
   console.timeEnd('removeDuplicates');
