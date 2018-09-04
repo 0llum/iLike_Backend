@@ -170,7 +170,6 @@ users.route('/:uid/locations/:lid').delete((req, res) => {
 });
 
 users.route('/:id/locations/removeduplicates').get((req, res) => {
-  console.time('removeDuplicates');
   User.findById(req.params.id, (err, data) => {
     if (err) {
       return res.status(404).json(err);
@@ -181,6 +180,7 @@ users.route('/:id/locations/removeduplicates').get((req, res) => {
     const user = data;
     let locations = data.locations;
     const uniqueLocations = [];
+    console.time('removeDuplicates');
     for (let i = 0; i < locations.length; i++) {
       const duplicate = uniqueLocations.find(
         x => x.latitude === locations[i].latitude && x.longitude === locations[i].longitude,
@@ -189,6 +189,7 @@ users.route('/:id/locations/removeduplicates').get((req, res) => {
         uniqueLocations.push(locations[i]);
       }
     }
+    console.timeEnd('removeDuplicates');
     console.log(locations.length);
     console.log(uniqueLocations.length);
     user.locations = uniqueLocations;
@@ -203,7 +204,6 @@ users.route('/:id/locations/removeduplicates').get((req, res) => {
       });
     });
   });
-  console.timeEnd('removeDuplicates');
 });
 
 export default users;
