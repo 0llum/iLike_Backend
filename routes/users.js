@@ -170,6 +170,7 @@ users.route('/:uid/locations/:lid').delete((req, res) => {
 });
 
 users.route('/:id/locations/removeduplicates').get((req, res) => {
+  console.time('removeDuplicates');
   User.findById(req.params.id, (err, data) => {
     if (err) {
       return res.status(404).json(err);
@@ -199,6 +200,7 @@ users.route('/:id/locations/removeduplicates').get((req, res) => {
       res.status(200).json(data);
     });
   });
+  console.timeEnd('removeDuplicates');
 });
 
 export default users;
