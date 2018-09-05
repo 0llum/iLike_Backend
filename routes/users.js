@@ -180,19 +180,7 @@ users.route('/:id/locations/removeduplicates').get((req, res) => {
     }
     const user = data;
     let locations = data.locations;
-    console.time('removeDuplicates');
     const uniqueLocations = MathUtils.removeDuplicateLocations(locations);
-    // for (let i = 0; i < locations.length; i++) {
-    //   const duplicate = uniqueLocations.find(
-    //     x => x.latitude === locations[i].latitude && x.longitude === locations[i].longitude,
-    //   );
-    //   if (!duplicate) {
-    //     uniqueLocations.push(locations[i]);
-    //   }
-    // }
-    console.timeEnd('removeDuplicates');
-    console.log(locations.length);
-    console.log(uniqueLocations.length);
     user.locations = uniqueLocations;
     user.save();
     User.findById(req.params.id, (err, data) => {
