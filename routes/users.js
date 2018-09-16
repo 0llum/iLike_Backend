@@ -91,20 +91,24 @@ users
             longitude: bodyLocation.longitude,
             timestamp: bodyLocation.timestamp,
           };
+          console.time('find');
           const duplicate = user.locations.find(
             x => x.latitude === location.latitude && x.longitude === location.longitude,
           );
+          console.timeEnd('find');
           if (!duplicate) {
             user.locations.push(location);
           }
         });
       }
       user.save();
+      console.time('fetch');
       User.findById(req.params.id, (err, data) => {
         if (err) {
           return res.status(400).json(err);
         }
         res.status(200).json(req.body);
+        console.timeEnd('fetch');
       });
     });
   });
