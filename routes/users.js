@@ -74,7 +74,7 @@ users
       if (!data) {
         return res.status(404).end();
       }
-      res.status(200).json(data);
+      res.status(200).send(data);
     });
   })
   .patch((req, res) => {
