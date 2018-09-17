@@ -66,16 +66,18 @@ users
   .route('/:id')
   .get((req, res) => {
     console.time('get');
-    User.findById(req.params.id, (err, data) => {
-      console.timeEnd('get');
-      if (err) {
-        return res.status(404).json(err);
-      }
-      if (!data) {
-        return res.status(404).end();
-      }
-      res.status(200).json(data);
-    });
+    User.findById(req.params.id)
+      .lean()
+      .exec((err, data) => {
+        console.timeEnd('get');
+        if (err) {
+          return res.status(404).json(err);
+        }
+        if (!data) {
+          return res.status(404).end();
+        }
+        res.status(200).json(data);
+      });
   })
   .patch((req, res) => {
     console.time('find');
