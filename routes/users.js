@@ -76,7 +76,9 @@ users
     });
   })
   .patch((req, res) => {
+    console.time('find');
     User.findById(req.params.id, (err, data) => {
+      console.timeEnd('find');
       if (err) {
         return res.status(404).json(err);
       }
@@ -85,6 +87,7 @@ users
       }
       const user = data;
       if (req.body.locations) {
+        console.time('add')
         req.body.locations.forEach(bodyLocation => {
           const location = {
             latitude: bodyLocation.latitude,
@@ -98,8 +101,11 @@ users
             user.locations.push(location);
           }
         });
+        console.timeEnd('add');
       }
+      console.time('save');
       user.save((err, data) => {
+        console.timeEnd('save');
         if (err) {
           return res.status(500).json(err);
         }
