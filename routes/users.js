@@ -65,7 +65,9 @@ users.route('/login').post((req, res) => {
 users
   .route('/:id')
   .get((req, res) => {
+    console.time('get');
     User.findById(req.params.id, (err, data) => {
+      console.timeEnd('get');
       if (err) {
         return res.status(404).json(err);
       }
