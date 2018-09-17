@@ -66,7 +66,7 @@ users
   .route('/:id')
   .get((req, res) => {
     console.time('get');
-    User.findById(req.params.id, (err, data) => {
+    User.findById(req.params.id, { lean: true }, (err, data) => {
       console.timeEnd('get');
       if (err) {
         return res.status(404).json(err);
@@ -79,7 +79,7 @@ users
   })
   .patch((req, res) => {
     console.time('find');
-    User.findById(req.params.id, (err, data) => {
+    User.findById(req.params.id, { lean: true }, (err, data) => {
       console.timeEnd('find');
       if (err) {
         return res.status(404).json(err);
@@ -89,7 +89,7 @@ users
       }
       const user = data;
       if (req.body.locations) {
-        console.time('add')
+        console.time('add');
         req.body.locations.forEach(bodyLocation => {
           const location = {
             latitude: bodyLocation.latitude,
