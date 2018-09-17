@@ -76,9 +76,7 @@ users
     });
   })
   .patch((req, res) => {
-    console.time('findUser');
     User.findById(req.params.id, (err, data) => {
-      console.timeEnd('findUser');
       if (err) {
         return res.status(404).json(err);
       }
@@ -93,19 +91,15 @@ users
             longitude: bodyLocation.longitude,
             timestamp: bodyLocation.timestamp,
           };
-          console.time('duplicate');
           const duplicate = user.locations.find(
             x => x.latitude === location.latitude && x.longitude === location.longitude,
           );
-          console.timeEnd('duplicate');
           if (!duplicate) {
             user.locations.push(location);
           }
         });
       }
-      console.time('save');
       user.save((err, data) => {
-        console.timeEnd('save');
         if (err) {
           return res.status(500).json(err);
         }
