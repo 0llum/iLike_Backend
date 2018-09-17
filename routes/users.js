@@ -76,6 +76,7 @@ users
     });
   })
   .patch((req, res) => {
+    console.time('patch');
     User.findById(req.params.id, (err, data) => {
       if (err) {
         return res.status(404).json(err);
@@ -104,6 +105,7 @@ users
           return res.status(500).json(err);
         }
         res.status(200).json(req.body);
+        console.timeEnd('patch');
       });
     });
   });
