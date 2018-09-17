@@ -81,41 +81,43 @@ users
   })
   .patch((req, res) => {
     console.time('find');
-    User.findById(req.params.id, (err, data) => {
-      console.timeEnd('find');
-      if (err) {
-        return res.status(404).json(err);
-      }
-      if (!data) {
-        return res.status(404).end();
-      }
-      const user = data;
-      if (req.body.locations) {
-        console.time('add');
-        req.body.locations.forEach(bodyLocation => {
-          const location = {
-            latitude: bodyLocation.latitude,
-            longitude: bodyLocation.longitude,
-            timestamp: bodyLocation.timestamp,
-          };
-          const duplicate = user.locations.find(
-            x => x.latitude === location.latitude && x.longitude === location.longitude,
-          );
-          if (!duplicate) {
-            user.locations.push(location);
-          }
-        });
-        console.timeEnd('add');
-      }
-      console.time('save');
-      user.save((err, data) => {
-        console.timeEnd('save');
+    User.findById(req.params.id)
+      .lean()
+      .exec((err, data) => {
+        console.timeEnd('find');
         if (err) {
-          return res.status(500).json(err);
+          return res.status(404).json(err);
         }
-        res.status(200).json(req.body);
+        if (!data) {
+          return res.status(404).end();
+        }
+        const user = data;
+        if (req.body.locations) {
+          console.time('add');
+          req.body.locations.forEach(bodyLocation => {
+            const location = {
+              latitude: bodyLocation.latitude,
+              longitude: bodyLocation.longitude,
+              timestamp: bodyLocation.timestamp,
+            };
+            const duplicate = user.locations.find(
+              x => x.latitude === location.latitude && x.longitude === location.longitude,
+            );
+            if (!duplicate) {
+              user.locations.push(location);
+            }
+          });
+          console.timeEnd('add');
+        }
+        console.time('save');
+        user.save((err, data) => {
+          console.timeEnd('save');
+          if (err) {
+            return res.status(500).json(err);
+          }
+          res.status(200).json(req.body);
+        });
       });
-    });
   });
 // .patch((req, res) => {
 //   User.findById(req.params.id, (err, data) => {
