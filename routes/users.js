@@ -66,7 +66,7 @@ users
   .route('/:id')
   .get((req, res) => {
     console.time('get');
-    User.findById(req.params.id, { lean: true }, (err, data) => {
+    User.findById(req.params.id, (err, data) => {
       console.timeEnd('get');
       if (err) {
         return res.status(404).json(err);
@@ -74,12 +74,12 @@ users
       if (!data) {
         return res.status(404).end();
       }
-      res.status(200).send(data);
+      res.status(200).json(data);
     });
   })
   .patch((req, res) => {
     console.time('find');
-    User.findById(req.params.id, { lean: true }, (err, data) => {
+    User.findById(req.params.id, (err, data) => {
       console.timeEnd('find');
       if (err) {
         return res.status(404).json(err);
