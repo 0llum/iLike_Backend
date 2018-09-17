@@ -91,7 +91,7 @@ users
         if (!data) {
           return res.status(404).end();
         }
-        const user = data;
+        const user = new User(data);
         if (req.body.locations) {
           console.time('add');
           req.body.locations.forEach(bodyLocation => {
