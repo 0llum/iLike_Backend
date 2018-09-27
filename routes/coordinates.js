@@ -54,7 +54,7 @@ const generateCoordinates = function(lat, long) {
     'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
     ['POINT(' + longitude + ' ' + latitude + ')'],
     (err, data) => {
-      generateCoordinates(latitude, long + Earth.GRID_DISTANCE);
+      generateCoordinates(latitude, long + Earth.GRID_DISTANCE * 100);
     },
   );
 };
