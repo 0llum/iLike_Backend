@@ -39,6 +39,7 @@ const generateCoordinates = function(lat, long) {
   }
 
   if (long >= 360) {
+    console.log(lat);
     generateCoordinates(lat - Earth.GRID_DISTANCE, 0);
   }
 
