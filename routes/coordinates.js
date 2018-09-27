@@ -46,13 +46,13 @@ const generateCoordinates = function(lat) {
         : EarthUtils.getRoundedLongitude(lon, lat);
 
     connection.query(
-      'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
+      'INSERT INTO coordinates (coordinate) VALUES GeomFromText(?)',
       ['POINT(' + latitude + ' ' + longitude + ')'],
       (err, data) => {
-        if (err) {
-          console.log(err);
-        }
-        console.log(data);
+        // if (err) {
+        //   console.log(err);
+        // }
+        // console.log(data);
         generateCoordinates(lat - Earth.GRID_DISTANCE);
       },
     );
