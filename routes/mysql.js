@@ -61,6 +61,7 @@ connection.connect(err => {
 
   users.route('/login').post((req, res) => {
     connection.query('SELECT * FROM user WHERE email = ?', [req.body.email], (err, data) => {
+      console.log(data);
       if (err) {
         return res.status(404).json(err);
       }
