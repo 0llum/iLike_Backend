@@ -20,6 +20,7 @@ connection.connect(err => {
   newMysql
     .route('/')
     .get((req, res) => {
+      console.log('get');
       connection.query('SELECT * FROM user', (err, data) => {
         if (err) {
           return res.status(404).json(err);
@@ -28,6 +29,7 @@ connection.connect(err => {
       });
     })
     .post((req, res) => {
+      console.log('post');
       bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
         if (err) {
           return res.status(500).end();
