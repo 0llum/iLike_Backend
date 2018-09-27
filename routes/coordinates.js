@@ -33,7 +33,6 @@ connection.connect(err => {
 });
 
 const generateCoordinates = function(lat, long) {
-  console.log(lat, long);
   const latitude = EarthUtils.getRoundedLatitude(lat);
   const longitude =
     long > 180
@@ -54,7 +53,7 @@ const generateCoordinates = function(lat, long) {
     'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
     ['POINT(' + longitude + ' ' + latitude + ')'],
     (err, data) => {
-      generateCoordinates(latitude, long + Earth.GRID_DISTANCE * 100);
+      generateCoordinates(latitude, long + EarthUtils.gridDistanceAtLatitude(latitude));
     },
   );
 };
