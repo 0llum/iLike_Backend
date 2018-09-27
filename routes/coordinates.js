@@ -33,7 +33,13 @@ connection.connect(err => {
 });
 
 const generateCoordinates = function(lat, long) {
-  if (lat < 89.99) {
+  const latitude = EarthUtils.getRoundedLatitude(lat);
+  const longitude =
+    long > 180
+      ? EarthUtils.getRoundedLongitude(long - 360, lat)
+      : EarthUtils.getRoundedLongitude(long, lat);
+
+  if (latitude < 89.99) {
     console.log('done');
     return;
   }
@@ -42,12 +48,6 @@ const generateCoordinates = function(lat, long) {
     generateCoordinates(lat - Earth.GRID_DISTANCE, 0);
     return;
   }
-
-  const latitude = EarthUtils.getRoundedLatitude(lat);
-  const longitude =
-    long > 180
-      ? EarthUtils.getRoundedLongitude(long - 360, lat)
-      : EarthUtils.getRoundedLongitude(long, lat);
 
   connection.query(
     'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
