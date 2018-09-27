@@ -67,7 +67,7 @@ connection.connect(err => {
         // }
     //   generateCoordinates(lat - Earth.GRID_DISTANCE);
     // });
-  };
+  // };
 };
 
 export default coordinates;
