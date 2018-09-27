@@ -50,8 +50,8 @@ const generateCoordinates = function(lat) {
   // }
 
   connection.query(
-    'INSERT INTO coordinates (coordinate) VALUES ?',
-    [{ lat: 0, long: 0 }],
+    'INSERT INTO coordinates (coordinate) VALUES GeomFromText(?)',
+    ['POINT(0, 0)'],
     (err, data) => {
       if (err) {
         console.log(err);
