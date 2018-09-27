@@ -44,9 +44,9 @@ const generateCoordinates = function(lat, long) {
 
   const latitude = EarthUtils.getRoundedLatitude(lat);
   const longitude =
-    lon > 180
-      ? EarthUtils.getRoundedLongitude(lon - 360, lat)
-      : EarthUtils.getRoundedLongitude(lon, lat);
+    long > 180
+      ? EarthUtils.getRoundedLongitude(long - 360, lat)
+      : EarthUtils.getRoundedLongitude(long, lat);
 
   connection.query(
     'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
