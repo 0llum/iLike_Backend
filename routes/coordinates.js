@@ -45,12 +45,14 @@ const generateCoordinates = function(lat) {
         ? EarthUtils.getRoundedLongitude(lon - 360, lat)
         : EarthUtils.getRoundedLongitude(lon, lat);
     // if (!Object.is(longitude, -0)) {
-    console.log(`POINT(${latitude}, ${longitude})`);
     locations.push(`POINT(${latitude}, ${longitude})`);
     // }
   }
 
   connection.query('INSERT INTO coordinates (coordinate) VALUES (?)', locations, (err, data) => {
+    if (err) {
+      console.log(err);
+    }
     generateCoordinates(lat - Earth.GRID_DISTANCE);
   });
   // Coordinate.insertMany(coordinates, (err, docs) => {
