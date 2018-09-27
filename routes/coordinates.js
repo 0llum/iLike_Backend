@@ -1,6 +1,5 @@
 import express from 'express';
-import mongoose from 'mongoose';
-import Coordinate from '../models/coordinate';
+import mysql from 'mysql';
 import * as EarthUtils from '../utils/EarthUtils';
 import * as Earth from '../constants/Earth';
 
