@@ -16,7 +16,7 @@ const users = express.Router();
 connection.connect(err => {
   if (err) {
     throw err;
-  } 
+  }
   console.log('connected');
 
   users
@@ -38,26 +38,28 @@ connection.connect(err => {
           if (err) {
             return res.status(400).end();
           }
-          connection.query('INSERT INTO user (email, password, username) VALUES (?, ?, ?)', [req.body.email, hash, req.body.username], (err, data) => {
-            if (err) {
-              return res.status(400).end();
-            }
-            return res.status(201).json(data);
-          });
+          connection.query(
+            'INSERT INTO user (email, password, username) VALUES (?, ?, ?)',
+            [req.body.email, hash, req.body.username],
+            (err, data) => {
+              if (err) {
+                return res.status(400).end();
+              }
+              return res.status(201).json(data);
+            },
+          );
         });
       });
     });
 
-  users
-    .route('/:id')
-    .get((req, res) => {
-      connection.query('SELECT * FROM user WHERE id = ?', [req.params.id], (err, data) => {
-        if (err) {
-          return res.status(404).json(err);
-        }
-        res.status(200).json(data);
-      });
-    })
+  users.route('/:id').get((req, res) => {
+    connection.query('SELECT * FROM user WHERE id = ?', [req.params.id], (err, data) => {
+      if (err) {
+        return res.status(404).json(err);
+      }
+      res.status(200).json(data);
+    });
+  });
 
   users.route('/login').post((req, res) => {
     connection.query('SELECT * FROM user WHERE email = ?', [req.body.email], (err, data) => {
