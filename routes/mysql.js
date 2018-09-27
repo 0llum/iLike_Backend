@@ -61,11 +61,10 @@ connection.connect(err => {
 
   users.route('/login').post((req, res) => {
     connection.query('SELECT * FROM user WHERE email = ?', [req.body.email], (err, data) => {
-      console.log(data);
       if (err) {
         return res.status(404).json(err);
       }
-      if (!data) {
+      if (data.length < 1) {
         return res.status(404).end();
       }
       bcrypt.compare(req.body.password, data.password, function(err, isMatch) {
