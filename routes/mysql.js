@@ -9,14 +9,22 @@ const connection = mysql.createConnection({
   database: 'whib',
 });
 
+const newMysql = express.Router();
+
 connection.connect(err => {
   if (err) {
-    console.log(err);
-  } else {
-    console.log('connected');
-  }
-});
+    throw err;
+  } 
+  console.log('connected');
 
-const newMysql = express.Router();
+  newMysql.route('/').get((req, res) => {
+    connection.query('SELECT * FROM user', (err, data) => {
+      if (err) {
+        return res.status(404).json(err);
+      }
+      res.status(200).json(data);
+    });
+  })
+});
 
 export default newMysql;
