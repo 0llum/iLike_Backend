@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
   database: 'whib',
 });
 
-const newMysql = express.Router();
+const users = express.Router();
 
 connection.connect(err => {
   if (err) {
@@ -19,10 +19,9 @@ connection.connect(err => {
   } 
   console.log('connected');
 
-  newMysql
+  users
     .route('/')
     .get((req, res) => {
-      console.log('get');
       connection.query('SELECT * FROM user', (err, data) => {
         if (err) {
           return res.status(404).json(err);
@@ -31,7 +30,6 @@ connection.connect(err => {
       });
     })
     .post((req, res) => {
-      console.log('post');
       bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
         if (err) {
           return res.status(500).end();
@@ -49,6 +47,17 @@ connection.connect(err => {
         });
       });
     });
+  users
+    .route('/:id')
+    .get((req, res) => {
+      connection.query('SELECT * FROM user WHERE is = ?', [req.params.id], (err, data) => {
+        if (err) {
+          return res.status(404).json(err);
+        }
+        res.status(200).json(data);
+      });
+    })
+
 });
 
-export default newMysql;
+export default users;
