@@ -1,6 +1,8 @@
 import express from 'express';
 import mysql from 'mysql';
+import bcrypt from 'bcrypt';
 
+const SALT_WORK_FACTOR = 10;
 
 const connection = mysql.createConnection({
   host: 'localhost',
