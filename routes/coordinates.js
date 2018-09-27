@@ -29,11 +29,13 @@ connection.connect(err => {
 
   coordinates.route('/generate').get((req, res) => {
     generateCoordinates(90);
+    res.status(200).end();
   });
 });
 
 const generateCoordinates = function(lat) {
   if (lat < 89) {
+    console.log('done');
     return;
   }
 
