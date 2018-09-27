@@ -50,13 +50,9 @@ const generateCoordinates = function(lat) {
     // }
   }
 
-  connection.query(
-    'INSERT INTO user (email, password, username) VALUES (?)',
-    locations,
-    (err, data) => {
-      generateCoordinates(lat - Earth.GRID_DISTANCE);
-    },
-  );
+  connection.query('INSERT INTO coordinates (coordinate) VALUES (?)', locations, (err, data) => {
+    generateCoordinates(lat - Earth.GRID_DISTANCE);
+  });
   // Coordinate.insertMany(coordinates, (err, docs) => {
   // if (err) {
   //   console.log(err);
