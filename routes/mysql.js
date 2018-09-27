@@ -50,7 +50,7 @@ connection.connect(err => {
   users
     .route('/:id')
     .get((req, res) => {
-      connection.query('SELECT * FROM user WHERE is = ?', [req.params.id], (err, data) => {
+      connection.query('SELECT * FROM user WHERE id = ?', [req.params.id], (err, data) => {
         if (err) {
           return res.status(404).json(err);
         }
