@@ -33,7 +33,7 @@ connection.connect(err => {
 });
 
 const generateCoordinates = function(lat, long) {
-  if (lat < 89) {
+  if (lat < 89.99) {
     console.log('done');
     return;
   }
