@@ -33,19 +33,19 @@ connection.connect(err => {
 });
 
 const generateCoordinates = function(lat) {
-  console.log(lat);
   if (lat < 89) {
     return;
   }
 
   const locations = [];
-  for (let lon = 6; lon < 15; lon += EarthUtils.gridDistanceAtLatitude(lat)) {
+  for (let lon = 0; lon < 1; lon += EarthUtils.gridDistanceAtLatitude(lat)) {
     const latitude = EarthUtils.getRoundedLatitude(lat);
     const longitude =
       lon > 180
         ? EarthUtils.getRoundedLongitude(lon - 360, lat)
         : EarthUtils.getRoundedLongitude(lon, lat);
     // if (!Object.is(longitude, -0)) {
+    console.log(`POINT(${latitude}, ${longitude})`);
     locations.push(`POINT(${latitude}, ${longitude})`);
     // }
   }
