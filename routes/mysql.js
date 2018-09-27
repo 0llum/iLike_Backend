@@ -17,14 +17,34 @@ connection.connect(err => {
   } 
   console.log('connected');
 
-  newMysql.route('/').get((req, res) => {
-    connection.query('SELECT * FROM user', (err, data) => {
-      if (err) {
-        return res.status(404).json(err);
-      }
-      res.status(200).json(data);
+  newMysql
+    .route('/')
+    .get((req, res) => {
+      connection.query('SELECT * FROM user', (err, data) => {
+        if (err) {
+          return res.status(404).json(err);
+        }
+        res.status(200).json(data);
+      });
+    })
+    .post((req, res) => {
+      bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+        if (err) {
+          return res.status(500).end();
+        }
+        bcrypt.hash(req.body.password, salt, function(err, hash) {
+          if (err) {
+            return res.status(400).end();
+          }
+          connection.query('INSERT INTO user (email, password, username) VALUES (?, ?, ?)', [req.body.email, hash, req.body.username], (err, data) => {
+            if (err) {
+              return res.status(400).end();
+            }
+            return res.status(201).json(data);
+          });
+        });
+      });
     });
-  })
 });
 
 export default newMysql;
