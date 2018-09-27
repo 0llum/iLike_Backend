@@ -33,6 +33,7 @@ connection.connect(err => {
 });
 
 const generateCoordinates = function(lat, long) {
+  console.log(lat, long);
   const latitude = EarthUtils.getRoundedLatitude(lat);
   const longitude =
     long > 180
