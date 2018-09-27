@@ -51,7 +51,7 @@ const generateCoordinates = function(lat) {
 
   connection.query(
     'INSERT INTO coordinates (coordinate) VALUES (?)',
-    `POINT(${0}, ${0})`,
+    [`POINT(${0}, ${0})`],
     (err, data) => {
       if (err) {
         console.log(err);
