@@ -47,7 +47,7 @@ const generateCoordinates = function(lat) {
 
     connection.query(
       'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
-      ['POINT(' + latitude + ' ' + longitude + ')'],
+      [`POINT(' +${latitude} ${longitude})`],
       (err, data) => {
         if (err) {
           console.log(err);
