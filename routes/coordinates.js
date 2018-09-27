@@ -41,6 +41,7 @@ const generateCoordinates = function(lat, long) {
 
   if (long >= 360) {
     generateCoordinates(lat - Earth.GRID_DISTANCE, 0);
+    return;
   }
 
   const latitude = EarthUtils.getRoundedLatitude(lat);
