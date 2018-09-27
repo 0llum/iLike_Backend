@@ -33,6 +33,7 @@ connection.connect(err => {
 });
 
 const generateCoordinates = function(lat, long) {
+  console.log(lat, long);
   if (lat < 89.99) {
     console.log('done');
     return;
@@ -56,7 +57,6 @@ const generateCoordinates = function(lat, long) {
       //   console.log(err);
       // }
       // console.log(data);
-      console.log(EarthUtils.gridDistanceAtLatitude(lat));
       generateCoordinates(lat, long + EarthUtils.gridDistanceAtLatitude(lat));
     },
   );
