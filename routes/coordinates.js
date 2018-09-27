@@ -33,7 +33,7 @@ connection.connect(err => {
 });
 
 const generateCoordinates = function(lat) {
-  if (lat < 89) {
+  if (lat < 89.999) {
     return;
   }
 
@@ -45,7 +45,7 @@ const generateCoordinates = function(lat) {
         ? EarthUtils.getRoundedLongitude(lon - 360, lat)
         : EarthUtils.getRoundedLongitude(lon, lat);
     // if (!Object.is(longitude, -0)) {
-    locations.push(`POINT(${latitude}, ${longitude})`);
+    locations.push(`ST_GeomFromText(POINT(${latitude} ${longitude}))`);
     // }
   }
 
