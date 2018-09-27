@@ -36,8 +36,8 @@ const generateCoordinates = function(lat, long) {
   const latitude = EarthUtils.getRoundedLatitude(lat);
   const longitude =
     long > 180
-      ? EarthUtils.getRoundedLongitude(long - 360, lat)
-      : EarthUtils.getRoundedLongitude(long, lat);
+      ? EarthUtils.getRoundedLongitude(long - 360, latitude)
+      : EarthUtils.getRoundedLongitude(long, latitude);
 
   if (latitude < 89.99) {
     console.log('done');
@@ -45,7 +45,7 @@ const generateCoordinates = function(lat, long) {
   }
 
   if (long >= 360) {
-    generateCoordinates(lat - Earth.GRID_DISTANCE, 0);
+    generateCoordinates(latitude - Earth.GRID_DISTANCE, 0);
     return;
   }
 
@@ -54,7 +54,7 @@ const generateCoordinates = function(lat, long) {
     ['POINT(' + longitude + ' ' + latitude + ')'],
     (err, data) => {
       console.log(err);
-      generateCoordinates(lat, long + EarthUtils.gridDistanceAtLatitude(lat));
+      generateCoordinates(latitude, long + EarthUtils.gridDistanceAtLatitude(latitude));
     },
   );
 };
