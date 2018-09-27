@@ -29,7 +29,6 @@ connection.connect(err => {
 
   coordinates.route('/generate').get((req, res) => {
     generateCoordinates(90);
-    res.status(200).end();
   });
 });
 
