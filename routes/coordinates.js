@@ -33,28 +33,32 @@ connection.connect(err => {
 });
 
 const generateCoordinates = function(lat) {
-  if (lat < 89.999) {
-    return;
-  }
+  // if (lat < 89.999) {
+  //   return;
+  // }
 
-  const locations = [];
-  for (let lon = 0; lon < 1; lon += EarthUtils.gridDistanceAtLatitude(lat)) {
-    const latitude = EarthUtils.getRoundedLatitude(lat);
-    const longitude =
-      lon > 180
-        ? EarthUtils.getRoundedLongitude(lon - 360, lat)
-        : EarthUtils.getRoundedLongitude(lon, lat);
-    // if (!Object.is(longitude, -0)) {
-    locations.push(`ST_GeomFromText(POINT(${latitude} ${longitude}))`);
-    // }
-  }
+  // const locations = [];
+  // for (let lon = 0; lon < 1; lon += EarthUtils.gridDistanceAtLatitude(lat)) {
+  //   const latitude = EarthUtils.getRoundedLatitude(lat);
+  //   const longitude =
+  //     lon > 180
+  //       ? EarthUtils.getRoundedLongitude(lon - 360, lat)
+  //       : EarthUtils.getRoundedLongitude(lon, lat);
+  //   // if (!Object.is(longitude, -0)) {
+  //   // locations.push(`ST_GeomFromText(POINT(${latitude} ${longitude}))`);
+  //   // }
+  // }
 
-  connection.query('INSERT INTO coordinates (coordinate) VALUES (?)', locations, (err, data) => {
-    if (err) {
-      console.log(err);
-    }
-    generateCoordinates(lat - Earth.GRID_DISTANCE);
-  });
+  connection.query(
+    'INSERT INTO coordinates (coordinate) VALUES (?)',
+    `POINT(${0}, ${0})`,
+    (err, data) => {
+      if (err) {
+        console.log(err);
+      }
+      // generateCoordinates(lat - Earth.GRID_DISTANCE);
+    },
+  );
   // Coordinate.insertMany(coordinates, (err, docs) => {
   // if (err) {
   //   console.log(err);
