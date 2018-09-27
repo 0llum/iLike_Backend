@@ -52,6 +52,7 @@ const generateCoordinates = function(lat) {
         if (err) {
           console.log(err);
         }
+        console.log(data);
         generateCoordinates(lat - Earth.GRID_DISTANCE);
       },
     );
