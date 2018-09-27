@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import users from './routes/users';
 import lists from './routes/lists';
 import coordinates from './routes/coordinates';
+import mysql from './routes/mysql';
 
 const app = express();
 app.use(
@@ -14,6 +15,7 @@ app.use(
 app.use('/users', users);
 app.use('/lists', lists);
 app.use('/coordinates', coordinates);
+app.use('/mysql', mysql);
 
 app.listen(3000, err => {
   if (err) {
