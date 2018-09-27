@@ -28,50 +28,37 @@ connection.connect(err => {
   });
 
   coordinates.route('/generate').get((req, res) => {
-    generateCoordinates(90);
+    generateCoordinates(90, 0);
   });
 });
 
-const generateCoordinates = function(lat) {
+const generateCoordinates = function(lat, long) {
   if (lat < 89) {
     console.log('done');
     return;
   }
 
-  const locations = [];
-  for (let lon = 0; lon < 360; lon += EarthUtils.gridDistanceAtLatitude(lat)) {
-    const latitude = EarthUtils.getRoundedLatitude(lat);
-    const longitude =
-      lon > 180
-        ? EarthUtils.getRoundedLongitude(lon - 360, lat)
-        : EarthUtils.getRoundedLongitude(lon, lat);
-
-    connection.query(
-      'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
-      ['POINT(' + latitude + ' ' + longitude + ')'],
-      (err, data) => {
-        // if (err) {
-        //   console.log(err);
-        // }
-        // console.log(data);
-        generateCoordinates(lat - Earth.GRID_DISTANCE);
-      },
-    );
-    // if (!Object.is(longitude, -0)) {
-    // locations.push(`ST_GeomFromText(POINT(${latitude} ${longitude}))`);
-    // }
+  if (long >= 360) {
+    generateCoordinates(lat - Earth.GRID_DISTANCE, 0);
   }
 
-  // Coordinate.insertMany(coordinates, (err, docs) => {
-  // if (err) {
-  //   console.log(err);
-  // }
-  // if (docs) {
-  //   generateCoordinates(lat - Earth.GRID_DISTANCE);
-  // }
-  //   generateCoordinates(lat - Earth.GRID_DISTANCE);
-  // });
-  // };
+  const latitude = EarthUtils.getRoundedLatitude(lat);
+  const longitude =
+    lon > 180
+      ? EarthUtils.getRoundedLongitude(lon - 360, lat)
+      : EarthUtils.getRoundedLongitude(lon, lat);
+
+  connection.query(
+    'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
+    ['POINT(' + latitude + ' ' + longitude + ')'],
+    (err, data) => {
+      // if (err) {
+      //   console.log(err);
+      // }
+      // console.log(data);
+      generateCoordinates(lat, long + EarthUtils.gridDistanceAtLatitude(lat));
+    },
+  );
 };
 
 export default coordinates;
