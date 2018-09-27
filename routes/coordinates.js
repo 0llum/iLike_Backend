@@ -65,8 +65,8 @@ connection.connect(err => {
         // if (docs) {
         //   generateCoordinates(lat - Earth.GRID_DISTANCE);
         // }
-      generateCoordinates(lat - Earth.GRID_DISTANCE);
-    });
+    //   generateCoordinates(lat - Earth.GRID_DISTANCE);
+    // });
   };
 };
 
