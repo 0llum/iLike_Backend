@@ -6,6 +6,7 @@ import lists from './routes/lists';
 import coordinates from './routes/coordinates';
 import user from './routes/user';
 import login from './routes/login';
+import location from './routes/location';
 
 const app = express();
 app.use(
@@ -16,6 +17,7 @@ app.use(
 
 app.use('/login', login);
 app.use('/user', user);
+app.use('/location', location);
 app.use('/users', users);
 app.use('/lists', lists);
 app.use('/coordinates', coordinates);
