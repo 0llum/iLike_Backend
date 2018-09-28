@@ -33,7 +33,9 @@ connection.connect(err => {
   });
 
   coordinates.route('/:id').get((req, res) => {
+    console.time('locations');
     connection.query('SELECT * FROM locations WHERE user_id = ?', [req.params.id], (err, data) => {
+      console.timeEnd('locations');
       if (err) {
         return res.status(404).json(err);
       }
