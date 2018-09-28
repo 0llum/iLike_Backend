@@ -216,7 +216,7 @@ users.route('/:id/locations/normalize').get((req, res) => {
       const latitude = EarthUtils.getRoundedLatitude(x.latitude);
       return {
         latitude,
-        longitude: EarthUtils.getRoundedLongitude(x.longitude, latitude);
+        longitude: EarthUtils.getRoundedLongitude(x.longitude, latitude),
         timestamp: x.timestamp,
       };
     });
