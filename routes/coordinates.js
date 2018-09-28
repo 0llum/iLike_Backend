@@ -35,8 +35,10 @@ connection.connect(err => {
         const longitude = x > 180 ? EarthUtils.getRoundedLongitude(x - 360, latitude) : EarthUtils.getRoundedLongitude(x, latitude);
         if (!Object.is(longitude, -0)) {
           connection.query(
-            'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
-            ['POINT(' + longitude + ' ' + latitude + ')'],
+            'INSERT INTO coordinates (latitude, longitude) VALUES (?, ?)',
+            [latitude, longitude],
+            // 'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
+            // ['POINT(' + longitude + ' ' + latitude + ')'],
             (err, data) => {
               if (err) console.log(err);
               console.log(latitude, longitude);
