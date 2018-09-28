@@ -202,4 +202,32 @@ users.route('/:id/locations/removeduplicates').get((req, res) => {
   });
 });
 
+users.route('/:id/locations/normalize').get((req, res) => {
+  User.findById(req.params.id, (err, data) => {
+    if (err) {
+      return res.status(404).json(err);
+    }
+    if(!data) {
+      return res.status(404).end();
+    }
+    const user = data;
+    const locations = data.locations;
+    const normalized = locations.map(x => {
+      const latitude = EarthUtils.getRoundedLatitude(x.latitude);
+      return {
+        latitude,
+        longitude: EarthUtils.getRoundedLongitude(x.longitude, latitude);
+        timestamp: x.timestamp,
+      };
+    });
+    user.locations = normalized;
+    user.save((err, data) => {
+      if (err) {
+        return res.status(500).json(err);
+      }
+      res.status(200).end();
+    });
+  })
+})
+
 export default users;
