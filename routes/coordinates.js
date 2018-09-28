@@ -29,7 +29,7 @@ connection.connect(err => {
 
   coordinates.route('/generate').get((req, res) => {
     // generateCoordinates(90, 0);
-    for (let y = 90; y > 89; y -= Earth.GRID_DISTANCE) {
+    for (let y = 90; y > 89.99; y -= Earth.GRID_DISTANCE) {
       const latitude = EarthUtils.getRoundedLatitude(y);
       for (let x = 0; x < 360; x += EarthUtils.gridDistanceAtLatitude(latitude)) {
         const longitude = x > 180 ? EarthUtils.getRoundedLongitude(x - 360, latitude) : EarthUtils.getRoundedLongitude(x, latitude);
