@@ -41,7 +41,7 @@ connection.connect(err => {
         return res.status(404).end();
       }
       const locations = data.locations;
-      const newLocations = locations.map(x => [1, x.latitude, x.longitude, x.timestamp || 0]);
+      const newLocations = locations.map(x => [1, x.latitude, x.longitude, x.timestamp]);
 
       connection.query(
         'INSERT INTO locations (user_id, latitude, longitude, timestamp) VALUES ?',
