@@ -29,7 +29,7 @@ connection.connect(err => {
 
   coordinates.route('/generate').get((req, res) => {
     // generateCoordinates(90, 0);
-    for (let y = 90; y > 89.99; y -= Earth.GRID_DISTANCE) {
+    for (let y = 90; y > 89.999; y -= Earth.GRID_DISTANCE) {
       for (let x = 0; x < 360; x += EarthUtils.gridDistanceAtLatitude(y)) {
         const latitude = EarthUtils.getRoundedLatitude(y);
         const longitude =
@@ -37,11 +37,12 @@ connection.connect(err => {
             ? EarthUtils.getRoundedLongitude(x - 360, y)
             : EarthUtils.getRoundedLongitude(x, y);
 
+            console.log(latitude, longitude);
+
         connection.query(
           'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
           ['POINT(' + longitude + ' ' + latitude + ')'],
           (err, data) => {
-            console.log(latitude, longitude);
             if (err) console.log(err);
           },
         );
