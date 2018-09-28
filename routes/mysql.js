@@ -60,23 +60,6 @@ connection.connect(err => {
       res.status(200).json(data);
     });
   });
-
-  users.route('/login').post((req, res) => {
-    connection.query('SELECT * FROM user WHERE email = ?', [req.body.email], (err, data) => {
-      if (err) {
-        return res.status(404).json(err);
-      }
-      if (data.length < 1) {
-        return res.status(404).end();
-      }
-      bcrypt.compare(req.body.password, data.password, function(err, isMatch) {
-        if (err) {
-          return res.status(401).json(err);
-        }
-        res.status(200).json(data);
-      });
-    });
-  });
 });
 
 export default users;

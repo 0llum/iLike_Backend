@@ -5,6 +5,7 @@ import users from './routes/users';
 import lists from './routes/lists';
 import coordinates from './routes/coordinates';
 import mysql from './routes/mysql';
+import login from './routes/login';
 
 const app = express();
 app.use(
@@ -12,6 +13,8 @@ app.use(
     limit: '50mb',
   }),
 );
+
+app.use('/login', login);
 app.use('/users', users);
 app.use('/lists', lists);
 app.use('/coordinates', coordinates);
