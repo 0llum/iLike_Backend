@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import User from '../models/user';
 import * as MathUtils from '../utils/MathUtils';
+import * as EarthUtils from '../utils/EarthUtils';
 
 // clear database count, picks and matches
 // mongo
