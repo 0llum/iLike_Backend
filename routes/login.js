@@ -22,13 +22,13 @@ login.route('/').post((req, res) => {
       return res.status(404).end();
     }
 
-    console.log(data[0]);
-    bcrypt.compare(req.body.password, data[0].password, function(err, isMatch) {
+    const user = data[0];
+    bcrypt.compare(req.body.password, user.password, function(err, isMatch) {
       if (err) {
         console.log(err);
         return res.status(401).json(err);
       }
-      res.status(200).json(data);
+      res.status(200).json(user);
     });
   });
 });
