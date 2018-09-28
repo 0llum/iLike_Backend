@@ -21,6 +21,8 @@ login.route('/').post((req, res) => {
     if (data.length < 1) {
       return res.status(404).end();
     }
+
+    console.log(req.body.password, data.password);
     bcrypt.compare(req.body.password, data.password, function(err, isMatch) {
       if (err) {
         console.log(err);
