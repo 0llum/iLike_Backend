@@ -29,7 +29,7 @@ connection.connect(err => {
 
   coordinates.route('/generate').get((req, res) => {
     // generateCoordinates(90, 0);
-    for (let y = 90; y > 89.9; y -= Earth.GRID_DISTANCE) {
+    for (let y = 14; y > 13; y -= Earth.GRID_DISTANCE) {
       const latitude = EarthUtils.getRoundedLatitude(y);
       for (let x = 0; x < 360; x += EarthUtils.gridDistanceAtLatitude(latitude)) {
         const longitude =
@@ -49,6 +49,7 @@ connection.connect(err => {
             [latitude, longitude],
             (err, data) => {
               if (err) console.log(err);
+              console.log(latitude, longitude);
             },
           );
         }
