@@ -42,17 +42,16 @@ connection.connect(err => {
       }
       const locations = data.locations;
       const newLocations = locations.map(x => [1, x.latitude, x.longitude, x.timestamp]);
-      console.log(newLocations);
 
-      // connection.query(
-      //   'INSERT INTO locations (user_id, latitude, longitude, timestamp) VALUES (?, ?, ?, ?)',
-      //   newLocations,
-      //   (err, data) => {
-      //     if (err) console.log(err);
-      //     console.log('done');
-      //     res.status(200).end();
-      //   },
-      // );
+      connection.query(
+        'INSERT INTO locations (user_id, latitude, longitude, timestamp) VALUES ?',
+        newLocations,
+        (err, data) => {
+          if (err) console.log(err);
+          console.log('done');
+          res.status(200).end();
+        },
+      );
     });
   });
 
