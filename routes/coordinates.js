@@ -32,14 +32,13 @@ connection.connect(err => {
     for (let y = 90; y > 89.999; y -= Earth.GRID_DISTANCE) {
       const latitude = EarthUtils.getRoundedLatitude(y);
       for (let x = 0; x < 360; x += EarthUtils.gridDistanceAtLatitude(latitude)) {
-        console.log(y, x);
         const longitude = x > 180 ? EarthUtils.getRoundedLongitude(x - 360, latitude) : EarthUtils.getRoundedLongitude(x, latitude);
-
         connection.query(
           'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
           ['POINT(' + longitude + ' ' + latitude + ')'],
           (err, data) => {
             if (err) console.log(err);
+            console.log(latitude, longitude);
           },
         );
       }
