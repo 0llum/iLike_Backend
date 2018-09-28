@@ -39,9 +39,17 @@ connection.connect(err => {
           [req.body.email, hash, req.body.username],
           (err, data) => {
             if (err) {
-              return res.status(400).end();
+              return res.status(500).end();
             }
-            return res.status(201).json(data);
+            connection.query('SELECT * FROM user WHERE id = ?', [data.insertId], (err, user) => {
+              if (err) {
+                return res.status(500).json(err);
+              }
+              if (user.length < 1) {
+                return res.status(404).end();
+              }
+              res.status(201).json(user[0]);
+            });
           },
         );
       });
@@ -50,9 +58,12 @@ connection.connect(err => {
   user.route('/:id').get((req, res) => {
     connection.query('SELECT * FROM user WHERE id = ?', [req.params.id], (err, data) => {
       if (err) {
-        return res.status(404).json(err);
+        return res.status(500).json(err);
       }
-      res.status(200).json(data);
+      if (data.length < 1) {
+        return res.status(404).end();
+      }
+      res.status(200).json(data[0]);
     });
   });
 });
