@@ -28,33 +28,33 @@ connection.connect(err => {
   });
 
   coordinates.route('/generate').get((req, res) => {
-    // generateCoordinates(90, 0);
-    for (let y = 14; y > 13; y -= Earth.GRID_DISTANCE) {
-      const latitude = EarthUtils.getRoundedLatitude(y);
-      for (let x = 0; x < 360; x += EarthUtils.gridDistanceAtLatitude(latitude)) {
-        const longitude =
-          x > 180
-            ? EarthUtils.getRoundedLongitude(x - 360, latitude)
-            : EarthUtils.getRoundedLongitude(x, latitude);
-        if (!Object.is(longitude, -0)) {
-          connection.query(
-            'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
-            ['POINT(' + longitude + ' ' + latitude + ')'],
-            (err, data) => {
-              if (err) console.log(err);
-            },
-          );
-          connection.query(
-            'INSERT INTO locations (latitude, longitude) VALUES (?, ?)',
-            [latitude, longitude],
-            (err, data) => {
-              if (err) console.log(err);
-              console.log(latitude, longitude);
-            },
-          );
-        }
-      }
-    }
+    generateCoordinates(14, 0);
+    // for (let y = 14; y > 13; y -= Earth.GRID_DISTANCE) {
+    //   const latitude = EarthUtils.getRoundedLatitude(y);
+    //   for (let x = 0; x < 360; x += EarthUtils.gridDistanceAtLatitude(latitude)) {
+    //     const longitude =
+    //       x > 180
+    //         ? EarthUtils.getRoundedLongitude(x - 360, latitude)
+    //         : EarthUtils.getRoundedLongitude(x, latitude);
+    //     if (!Object.is(longitude, -0)) {
+    //       connection.query(
+    //         'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
+    //         ['POINT(' + longitude + ' ' + latitude + ')'],
+    //         (err, data) => {
+    //           if (err) console.log(err);
+    //         },
+    //       );
+    //       connection.query(
+    //         'INSERT INTO locations (latitude, longitude) VALUES (?, ?)',
+    //         [latitude, longitude],
+    //         (err, data) => {
+    //           if (err) console.log(err);
+    //           console.log(latitude, longitude);
+    //         },
+    //       );
+    //     }
+    //   }
+    // }
   });
 });
 
@@ -65,7 +65,7 @@ const generateCoordinates = function(lat, long) {
       ? EarthUtils.getRoundedLongitude(long - 360, latitude)
       : EarthUtils.getRoundedLongitude(long, latitude);
 
-  if (latitude < 89.99) {
+  if (latitude < 13) {
     console.log('done');
     return;
   }
@@ -80,6 +80,15 @@ const generateCoordinates = function(lat, long) {
     ['POINT(' + longitude + ' ' + latitude + ')'],
     (err, data) => {
       generateCoordinates(latitude, long + EarthUtils.gridDistanceAtLatitude(latitude));
+    },
+  );
+
+  connection.query(
+    'INSERT INTO locations (latitude, longitude) VALUES (?, ?)',
+    [latitude, longitude],
+    (err, data) => {
+      if (err) console.log(err);
+      console.log(latitude, longitude);
     },
   );
 };
