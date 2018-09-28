@@ -47,7 +47,7 @@ connection.connect(err => {
         'INSERT INTO locations (user_id, latitude, longitude, timestamp) VALUES ?',
         [newLocations],
         (err, data) => {
-          if (err) throw err;
+          if (err) console.log(err);
           console.log('done');
           res.status(200).end();
         },
