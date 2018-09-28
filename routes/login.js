@@ -25,8 +25,10 @@ login.route('/').post((req, res) => {
     const user = data[0];
     bcrypt.compare(req.body.password, user.password, function(err, isMatch) {
       if (err) {
-        console.log(err);
-        return res.status(401).json(err);
+        return res.status(500).json(err);
+      }
+      if (!isMatch) {
+        return res.status(401).end();
       }
       res.status(200).json(user);
     });
