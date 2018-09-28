@@ -23,16 +23,11 @@ login.route('/').post((req, res) => {
     }
 
     const user = data[0];
-    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+    bcrypt.hash(req.body.password, SALT_WORK_FACTOR, function(err, hash) {
       if (err) {
         return res.status(500).json(err);
       }
-      bcrypt.hash(req.body.password, salt, function(err, hash) {
-        if (err) {
-          return res.status(500).json(err);
-        }
-        console.log(hash, user.password);
-      });
+      console.log(hash, user.password);
     });
     // bcrypt.compare(req.body.password, user.password, function(err, isMatch) {
     //   if (err) {

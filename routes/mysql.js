@@ -30,25 +30,20 @@ connection.connect(err => {
       });
     })
     .post((req, res) => {
-      bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+      bcrypt.hash(req.body.password, SALT_WORK_FACTOR, function(err, hash) {
         if (err) {
-          return res.status(500).end();
+          return res.status(500).json(err);
         }
-        bcrypt.hash(req.body.password, salt, function(err, hash) {
-          if (err) {
-            return res.status(400).end();
-          }
-          connection.query(
-            'INSERT INTO user (email, password, username) VALUES (?, ?, ?)',
-            [req.body.email, hash, req.body.username],
-            (err, data) => {
-              if (err) {
-                return res.status(400).end();
-              }
-              return res.status(201).json(data);
-            },
-          );
-        });
+        connection.query(
+          'INSERT INTO user (email, password, username) VALUES (?, ?, ?)',
+          [req.body.email, hash, req.body.username],
+          (err, data) => {
+            if (err) {
+              return res.status(400).end();
+            }
+            return res.status(201).json(data);
+          },
+        );
       });
     });
 
