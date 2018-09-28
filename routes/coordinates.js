@@ -1,5 +1,7 @@
 import express from 'express';
 import mysql from 'mysql';
+import mongoose from 'mongoose';
+import User from '../models/user';
 import * as EarthUtils from '../utils/EarthUtils';
 import * as Earth from '../constants/Earth';
 
@@ -10,6 +12,9 @@ const connection = mysql.createConnection({
   database: 'whib',
 });
 
+mongoose.connect('mongodb://localhost:27017/iLike');
+
+const users = express.Router();
 const coordinates = express.Router();
 
 connection.connect(err => {
@@ -26,6 +31,34 @@ connection.connect(err => {
       res.status(200).json(data);
     });
   });
+
+  coordinates.route('/transition/:oldId/:newId').get((req, res) => {
+    User.findById(req.params.oldId, (err, data) => {
+      if (err) {
+        return res.status(404).json(err);
+      }
+      if (!data) {
+        return res.status(404).end();
+      }
+      const locations = data.locations;
+      const newLocations = locations.map(x => [
+        1,
+        x.latitude,
+        x.longitude,
+        x.timestamp,
+      ]);
+
+      connection.query(
+        'INSERT INTO locations (user_id, latitude, longitude, timestamp) VALUES (?, ?, ?, ?)',
+        newLocations,
+        (err, data) => {
+          if (err) console.log(err);
+          console.log('done');
+          res.status(200).end();
+        },
+      );
+    });
+  }
 
   coordinates.route('/generate').get((req, res) => {
     generateCoordinates(55, 6);
