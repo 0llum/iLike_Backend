@@ -33,9 +33,9 @@ connection.connect(err => {
   });
 
   coordinates.route('/:id').get((req, res) => {
-    console.time('locations');
-    connection.query('SELECT * FROM locations WHERE user_id = ?', [req.params.id], (err, data) => {
-      console.timeEnd('locations');
+    console.time('location');
+    connection.query('SELECT * FROM location WHERE user_id = ?', [req.params.id], (err, data) => {
+      console.timeEnd('location');
       if (err) {
         return res.status(404).json(err);
       }
@@ -60,7 +60,7 @@ connection.connect(err => {
       ]);
 
       connection.query(
-        'INSERT INTO locations (user_id, latitude, longitude, timestamp) VALUES ?',
+        'INSERT INTO location (user_id, latitude, longitude, timestamp) VALUES ?',
         [newLocations],
         (err, data) => {
           if (err) console.log(err);
@@ -128,7 +128,7 @@ const generateCoordinates = function(lat, long) {
   );
 
   connection.query(
-    'INSERT INTO locations (latitude, longitude) VALUES (?, ?)',
+    'INSERT INTO location (latitude, longitude) VALUES (?, ?)',
     [latitude, longitude],
     (err, data) => {
       if (err) console.log(err);
