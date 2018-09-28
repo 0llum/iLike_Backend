@@ -23,15 +23,24 @@ login.route('/').post((req, res) => {
     }
 
     const user = data[0];
-    bcrypt.compare(req.body.password, user.password, function(err, isMatch) {
+    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
       if (err) {
         return res.status(500).json(err);
       }
-      if (!isMatch) {
-        return res.status(401).end();
-      }
-      res.status(200).json(user);
-    });
+      bcrypt.hash(req.body.password, salt, function(err, hash) {
+        if (err) {
+          return res.status(500).json(err);
+        }
+        console.log(hash, user.password);
+    // bcrypt.compare(req.body.password, user.password, function(err, isMatch) {
+    //   if (err) {
+    //     return res.status(500).json(err);
+    //   }
+    //   if (!isMatch) {
+    //     return res.status(401).end();
+    //   }
+    //   res.status(200).json(user);
+    // });
   });
 });
 
