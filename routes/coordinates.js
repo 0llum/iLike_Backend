@@ -33,16 +33,12 @@ connection.connect(err => {
   });
 
   coordinates.route('/:id').get((req, res) => {
-    connection.query(
-      'SELECT * FROM coordinates WHERE user_id = ?',
-      [req.params.id],
-      (err, data) => {
-        if (err) {
-          return res.status(404).json(err);
-        }
-        res.status(200).json(data);
-      },
-    );
+    connection.query('SELECT * FROM locations WHERE user_id = ?', [req.params.id], (err, data) => {
+      if (err) {
+        return res.status(404).json(err);
+      }
+      res.status(200).json(data);
+    });
   });
 
   coordinates.route('/transition/:oldId/:newId').get((req, res) => {
