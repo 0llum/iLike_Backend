@@ -28,7 +28,7 @@ connection.connect(err => {
   });
 
   coordinates.route('/generate').get((req, res) => {
-    generateCoordinates(14, 0);
+    generateCoordinates(55, 6);
     // for (let y = 14; y > 13; y -= Earth.GRID_DISTANCE) {
     //   const latitude = EarthUtils.getRoundedLatitude(y);
     //   for (let x = 0; x < 360; x += EarthUtils.gridDistanceAtLatitude(latitude)) {
@@ -65,13 +65,13 @@ const generateCoordinates = function(lat, long) {
       ? EarthUtils.getRoundedLongitude(long - 360, latitude)
       : EarthUtils.getRoundedLongitude(long, latitude);
 
-  if (latitude < 13) {
+  if (latitude < 47) {
     console.log('done');
     return;
   }
 
-  if (long >= 360) {
-    generateCoordinates(latitude - Earth.GRID_DISTANCE, 0);
+  if (long >= 15) {
+    generateCoordinates(latitude - Earth.GRID_DISTANCE, 6);
     return;
   }
 
