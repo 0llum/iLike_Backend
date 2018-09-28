@@ -33,14 +33,16 @@ connection.connect(err => {
       const latitude = EarthUtils.getRoundedLatitude(y);
       for (let x = 0; x < 360; x += EarthUtils.gridDistanceAtLatitude(latitude)) {
         const longitude = x > 180 ? EarthUtils.getRoundedLongitude(x - 360, latitude) : EarthUtils.getRoundedLongitude(x, latitude);
-        connection.query(
-          'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
-          ['POINT(' + longitude + ' ' + latitude + ')'],
-          (err, data) => {
-            if (err) console.log(err);
-            console.log(latitude, longitude);
-          },
-        );
+        if (!Object.is(longitude, -0)) {
+          connection.query(
+            'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
+            ['POINT(' + longitude + ' ' + latitude + ')'],
+            (err, data) => {
+              if (err) console.log(err);
+              console.log(latitude, longitude);
+            },
+          );
+        }
       }
     }
   });
