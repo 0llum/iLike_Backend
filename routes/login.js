@@ -11,9 +11,9 @@ const connection = mysql.createConnection({
   database: 'whib',
 });
 
-const users = express.Router();
+const login = express.Router();
 
-users.route('/').post((req, res) => {
+login.route('/').post((req, res) => {
   connection.query('SELECT * FROM user WHERE email = ?', [req.body.email], (err, data) => {
     if (err) {
       return res.status(404).json(err);
@@ -29,3 +29,5 @@ users.route('/').post((req, res) => {
     });
   });
 });
+
+export default login;
