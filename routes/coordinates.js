@@ -34,8 +34,8 @@ connection.connect(err => {
         const latitude = EarthUtils.getRoundedLatitude(y);
         const longitude =
           x > 180
-            ? EarthUtils.getRoundedLongitude(x - 360, y)
-            : EarthUtils.getRoundedLongitude(x, y);
+            ? EarthUtils.getRoundedLongitude(x - 360, latitude)
+            : EarthUtils.getRoundedLongitude(x, latitude);
 
             console.log(latitude, longitude);
 
