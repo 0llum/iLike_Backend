@@ -30,14 +30,13 @@ connection.connect(err => {
   coordinates.route('/generate').get((req, res) => {
     // generateCoordinates(90, 0);
     for (let y = 90; y > 89.999; y -= Earth.GRID_DISTANCE) {
-      for (let x = 0; x < 360; x += EarthUtils.gridDistanceAtLatitude(y)) {
-        const latitude = EarthUtils.getRoundedLatitude(y);
-        const longitude =
-          x > 180
-            ? EarthUtils.getRoundedLongitude(x - 360, latitude)
-            : EarthUtils.getRoundedLongitude(x, latitude);
+      const latitude = EarthUtils.getRoundedLatitude(y);
+      for (let x = 0; x < 360; x += EarthUtils.gridDistanceAtLatitude(latitude)) {
+        const longitude = x > 180
+          ? EarthUtils.getRoundedLongitude(x - 360, latitude)
+          : EarthUtils.getRoundedLongitude(x, latitude);
 
-            console.log(latitude, longitude);
+          console.log(latitude, longitude);
 
         connection.query(
           'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
