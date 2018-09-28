@@ -17,7 +17,7 @@ connection.connect(err => {
   if (err) {
     throw err;
   }
-  console.log('connected');
+  console.log('user router connected');
 
   user
     .route('/')

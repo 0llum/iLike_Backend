@@ -13,24 +13,31 @@ const connection = mysql.createConnection({
 
 const login = express.Router();
 
-login.route('/').post((req, res) => {
-  connection.query('SELECT * FROM user WHERE email = ?', [req.body.email], (err, data) => {
-    if (err) {
-      return res.status(404).json(err);
-    }
-    if (data.length < 1) {
-      return res.status(404).end();
-    }
+connection.connect(err => {
+  if (err) {
+    throw err;
+  }
+  console.log('login router connected');
 
-    const user = data[0];
-    bcrypt.compare(req.body.password, user.password, function(err, isMatch) {
+  login.route('/').post((req, res) => {
+    connection.query('SELECT * FROM user WHERE email = ?', [req.body.email], (err, data) => {
       if (err) {
-        return res.status(500).json(err);
+        return res.status(404).json(err);
       }
-      if (!isMatch) {
-        return res.status(401).end();
+      if (data.length < 1) {
+        return res.status(404).end();
       }
-      res.status(200).json(user);
+
+      const user = data[0];
+      bcrypt.compare(req.body.password, user.password, function(err, isMatch) {
+        if (err) {
+          return res.status(500).json(err);
+        }
+        if (!isMatch) {
+          return res.status(401).end();
+        }
+        res.status(200).json(user);
+      });
     });
   });
 });

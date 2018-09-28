@@ -14,7 +14,7 @@ connection.connect(err => {
   if (err) {
     throw err;
   }
-  console.log('connected');
+  console.log('location router connected');
 
   location.route('/').get((req, res) => {
     connection.query('SELECT * FROM location', (err, data) => {
