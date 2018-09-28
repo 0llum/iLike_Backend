@@ -36,7 +36,7 @@ connection.connect(err => {
           ? EarthUtils.getRoundedLongitude(x - 360, latitude)
           : EarthUtils.getRoundedLongitude(x, latitude);
 
-          console.log(latitude, longitude);
+          console.log(y, x);
 
         connection.query(
           'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
