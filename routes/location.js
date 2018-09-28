@@ -16,8 +16,8 @@ connection.connect(err => {
   }
   console.log('connected');
 
-  coordinates.route('/').get((req, res) => {
-    connection.query('SELECT * FROM coordinates', (err, data) => {
+  location.route('/').get((req, res) => {
+    connection.query('SELECT * FROM location', (err, data) => {
       if (err) {
         return res.status(500).json(err);
       }
