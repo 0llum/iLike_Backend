@@ -41,7 +41,7 @@ location.route('/').get((req, res) => {
 });
 
 location.route('/:id').get((req, res) => {
-  console.log('location', req.body);
+  console.log('location', req.param.id);
   connection.query('SELECT * FROM location WHERE user_id = ?', [req.params.id], (err, data) => {
     if (err) {
       return res.status(500).json(err);
