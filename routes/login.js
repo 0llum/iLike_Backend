@@ -31,6 +31,8 @@ function handleDisconnect() {
   });
 }
 
+handleDisconnect();
+
 login.route('/').post((req, res) => {
   connection.query('SELECT * FROM user WHERE email = ?', [req.body.email], (err, data) => {
     if (err) {
