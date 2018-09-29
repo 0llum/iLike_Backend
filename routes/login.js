@@ -51,7 +51,13 @@ login.route('/').post((req, res) => {
       if (!isMatch) {
         return res.status(401).end();
       }
-      res.status(200).json(user);
+      connection.query('SELECT * FROM location WHERE user_id = ?', [user.id], (err, locations) => {
+        if (err) {
+          return res.status(500).json(err);
+        }
+        user.locations = locations;
+        res.status(200).json(user);
+      });
     });
   });
 });
