@@ -39,4 +39,13 @@ location.route('/').get((req, res) => {
   });
 });
 
+location.route('/:id').get((req, res) => {
+  connection.query('SELECT * FROM location WHERE user_id = ?', [req.params.id], (err, data) => {
+    if (err) {
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data);
+  });
+});
+
 export default location;
