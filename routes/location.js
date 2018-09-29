@@ -2,7 +2,7 @@ import express from 'express';
 import mysql from 'mysql';
 
 import Connection from '../constants/Connection';
-import EarthUtils from '../utils/EarthUtils';
+import * as EarthUtils from '../utils/EarthUtils';
 
 const location = express.Router();
 let connection;
