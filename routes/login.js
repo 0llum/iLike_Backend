@@ -16,8 +16,6 @@ function handleDisconnect() {
     if (err) {
       console.log(err);
       setTimeout(handleDisconnect, 2000);
-    } else {
-      console.log('login router connected');
     }
   });
 
@@ -34,7 +32,6 @@ function handleDisconnect() {
 handleDisconnect();
 
 login.route('/').post((req, res) => {
-  console.log('login', req.body);
   connection.query('SELECT * FROM user WHERE email = ?', [req.body.email], (err, data) => {
     if (err) {
       return res.status(500).json(err);

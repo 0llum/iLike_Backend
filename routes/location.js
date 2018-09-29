@@ -2,6 +2,7 @@ import express from 'express';
 import mysql from 'mysql';
 
 import Connection from '../constants/Connection';
+import EarthUtils from '../utils/EarthUtils';
 
 const location = express.Router();
 let connection;
@@ -13,8 +14,6 @@ function handleDisconnect() {
     if (err) {
       console.log(err);
       setTimeout(handleDisconnect, 2000);
-    } else {
-      console.log('location router connected');
     }
   });
 
@@ -31,7 +30,6 @@ function handleDisconnect() {
 handleDisconnect();
 
 location.route('/').get((req, res) => {
-  console.log('location');
   connection.query('SELECT * FROM location', (err, data) => {
     if (err) {
       return res.status(500).json(err);
@@ -41,7 +39,6 @@ location.route('/').get((req, res) => {
 });
 
 location.route('/:id').get((req, res) => {
-  console.log('location', req.params.id);
   connection.query('SELECT * FROM location WHERE user_id = ?', [req.params.id], (err, data) => {
     if (err) {
       return res.status(500).json(err);
@@ -56,14 +53,11 @@ location.route('/:id').get((req, res) => {
 });
 
 location.route('/:id').post((req, res) => {
-  console.log('location', req.body);
-
-  const locations = req.body.locations.map(x => [
-    req.params.id,
-    x.latitude,
-    x.longitude,
-    x.timestamp,
-  ]);
+  const locations = req.body.locations.map(x => {
+    const latitude = EarthUtils.getRoundedLatitude(x.latitude);
+    const longitude = EarthUtils.getRoundedLongitude(x.longitude, latitude);
+    return [req.params.id, latitude, longitude, x.timestamp];
+  });
 
   connection.query(
     'INSERT INTO location (user_id, latitude, longitude, timestamp) VALUES ?',
