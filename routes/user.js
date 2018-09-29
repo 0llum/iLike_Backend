@@ -33,6 +33,7 @@ function handleDisconnect() {
 handleDisconnect();
 
 user.route('/').get((req, res) => {
+  console.log('user');
   connection.query('SELECT * FROM user', (err, data) => {
     if (err) {
       return res.status(500).json(err);
@@ -45,6 +46,7 @@ user.route('/').get((req, res) => {
 });
 
 user.route('/').post((req, res) => {
+  console.log('user', req.body);
   bcrypt.hash(req.body.password, SALT_WORK_FACTOR, function(err, hash) {
     if (err) {
       return res.status(500).json(err);
@@ -71,6 +73,7 @@ user.route('/').post((req, res) => {
 });
 
 user.route('/:id').get((req, res) => {
+  console.log('user', req.body);
   connection.query('SELECT * FROM user WHERE id = ?', [req.params.id], (err, data) => {
     if (err) {
       return res.status(500).json(err);
