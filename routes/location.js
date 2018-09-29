@@ -70,7 +70,7 @@ location.route('/:id').post((req, res) => {
     [locations],
     (err, data) => {
       if (err) {
-        return res.status(500).json(err);
+        console.log(err);
       }
       res.status(201).json(locations);
     },
