@@ -72,7 +72,7 @@ location.route('/:id').post((req, res) => {
       if (err) {
         console.log(err);
       }
-      res.status(201).json(locations);
+      res.status(201).json(req.body.locations);
     },
   );
 });
