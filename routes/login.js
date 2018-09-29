@@ -51,6 +51,7 @@ login.route('/').post((req, res) => {
       if (!isMatch) {
         return res.status(401).end();
       }
+
       connection.query('SELECT * FROM location WHERE user_id = ?', [user.id], (err, locations) => {
         if (err) {
           return res.status(500).json(err);
