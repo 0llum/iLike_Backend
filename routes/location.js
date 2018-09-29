@@ -46,7 +46,12 @@ location.route('/:id').get((req, res) => {
     if (err) {
       return res.status(500).json(err);
     }
-    res.status(200).json(data);
+
+    const locations = {
+      id: req.params.id,
+      locations: data,
+    };
+    res.status(200).json(locations);
   });
 });
 
