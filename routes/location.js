@@ -1,28 +1,41 @@
 import express from 'express';
 import mysql from 'mysql';
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Olli9989',
-  database: 'whib',
-});
+import Connection from '../constants/Connection';
 
 const location = express.Router();
+let connection;
 
-connection.connect(err => {
-  if (err) {
-    throw err;
-  }
-  console.log('location router connected');
+function handleDisconnect() {
+  connection = mysql.createConnection(Connection);
 
-  location.route('/').get((req, res) => {
-    connection.query('SELECT * FROM location', (err, data) => {
-      if (err) {
-        return res.status(500).json(err);
-      }
-      res.status(200).json(data);
-    });
+  connection.connect(err => {
+    if (err) {
+      console.log(err);
+      setTimeout(handleDisconnect, 2000);
+    } else {
+      console.log('location router connected');
+    }
+  });
+
+  connection.on('error', err => {
+    console.log(err);
+    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+      handleDisconnect();
+    } else {
+      throw err;
+    }
+  });
+}
+
+handleDisconnect();
+
+location.route('/').get((req, res) => {
+  connection.query('SELECT * FROM location', (err, data) => {
+    if (err) {
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data);
   });
 });
 
