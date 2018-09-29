@@ -73,7 +73,7 @@ user.route('/').post((req, res) => {
 });
 
 user.route('/:id').get((req, res) => {
-  console.log('user', req.body);
+  console.log('user', req.params.id);
   connection.query('SELECT * FROM user WHERE id = ?', [req.params.id], (err, data) => {
     if (err) {
       return res.status(500).json(err);
