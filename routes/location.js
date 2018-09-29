@@ -53,7 +53,7 @@ location.route('/:id').get((req, res) => {
 });
 
 location.route('/:id').post((req, res) => {
-  console.log(req.body);
+  console.log('call');
   const locations = req.body.locations.map(x => {
     const latitude = EarthUtils.getRoundedLatitude(x.latitude);
     const longitude = EarthUtils.getRoundedLongitude(x.longitude, latitude);
