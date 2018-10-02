@@ -43,7 +43,7 @@ friend.route('/:id').get((req, res) => {
 });
 
 friend.route('/:id').post((req, res) => {
-  connection.query('SELECT * FROM user WHERE username = ?', [req.body.username], (err, friend) => {
+  connection.query('SELECT * FROM user WHERE username = ?', [req.body.friendName], (err, friend) => {
     if (err) {
       return res.status(500).json(err);
     }
