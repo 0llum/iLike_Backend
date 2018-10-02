@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import user from './routes/user';
 import login from './routes/login';
 import location from './routes/location';
+import friend from './routes/friend';
 
 const app = express();
 app.use(
@@ -14,6 +15,7 @@ app.use(
 app.use('/login', login);
 app.use('/user', user);
 app.use('/location', location);
+app.use('/friend', friend);
 
 app.listen(3000, err => {
   if (err) {
