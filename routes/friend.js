@@ -63,4 +63,4 @@ friend.route('/:id').post((req, res) => {
   });
 });
 
-export default location;
+export default friend;
