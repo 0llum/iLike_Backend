@@ -31,12 +31,15 @@ function handleDisconnect() {
 handleDisconnect();
 
 friend.route('/:id').get((req, res) => {
-  connection.query('SELECT * FROM friend WHERE user_id = ?', [req.params.id], (err, data) => {
-    if (err) {
-      return res.status(500).json(err);
-    }
-    res.status(200).json(data);
-  });
+  connection.query(
+    'SELECT user.id, user.username, COUNT(location.id) AS locations FROM user INNER JOIN friend ON friend.friend_id = user.id INNER JOIN location ON location.user_id = friend.friend_id GROUP BY location.user_id WHERE friend.user_id = ?',
+    [req.params.id],
+    (err, data) => {
+      if (err) {
+        return res.status(500).json(err);
+      }
+      res.status(200).json(data);
+    });
 });
 
 friend.route('/:id').post((req, res) => {
