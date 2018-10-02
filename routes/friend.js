@@ -32,7 +32,7 @@ handleDisconnect();
 
 friend.route('/:id').get((req, res) => {
   connection.query(
-    'SELECT user.id, user.username, COUNT(location.id) AS locations FROM user INNER JOIN friend ON friend.friend_id = user.id INNER JOIN location ON location.user_id = friend.friend_id WHERE friend.user_id = 0 GROUP BY location.user_id',
+    'SELECT user.id, user.username, COUNT(location.id) AS locations FROM user INNER JOIN friend ON friend.friend_id = user.id INNER JOIN location ON location.user_id = friend.friend_id WHERE friend.user_id = 0 GROUP BY location.user_id ORDER BY user.username',
     [req.params.id],
     (err, data) => {
       if (err) {
