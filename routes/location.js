@@ -69,7 +69,7 @@ location.route('/:id').post((req, res) => {
         console.log(err);
       }
       res.status(201).json(req.body.locations);
-    },
+    }
   );
 });
 

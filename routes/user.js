@@ -65,7 +65,7 @@ user.route('/').post((req, res) => {
           }
           res.status(201).json(user[0]);
         });
-      },
+      }
     );
   });
 });
