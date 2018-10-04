@@ -50,6 +50,10 @@ friend.route('/:id').post((req, res) => {
     if (friend.length < 1) {
       return res.status(404).end();
     }
+
+    if(friend[0].id === req.params.id) {
+      return res.status(406).end();
+    }
     
     connection.query('INSERT INTO friend (user_id, friend_id) VALUES (?, ?)', [req.params.id, friend[0].id], (err, data) => {
       if (err) {
