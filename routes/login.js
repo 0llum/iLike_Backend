@@ -51,13 +51,17 @@ login.route('/').post((req, res) => {
         return res.status(401).end();
       }
 
-      connection.query('SELECT * FROM location WHERE user_id = ?', [user.id], (err, locations) => {
-        if (err) {
-          return res.status(500).json(err);
+      connection.query(
+        'SELECT * FROM location WHERE user_id = ? ORDER BY latitude DESC, longitude ASC',
+        [user.id],
+        (err, locations) => {
+          if (err) {
+            return res.status(500).json(err);
+          }
+          user.locations = locations;
+          res.status(200).json(user);
         }
-        user.locations = locations;
-        res.status(200).json(user);
-      });
+      );
     });
   });
 });

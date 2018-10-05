@@ -41,17 +41,21 @@ location.route('/').get((req, res) => {
 });
 
 location.route('/:id').get((req, res) => {
-  connection.query('SELECT * FROM location WHERE user_id = ?', [req.params.id], (err, data) => {
-    if (err) {
-      return res.status(500).json(err);
-    }
+  connection.query(
+    'SELECT * FROM location WHERE user_id = ? ORDER BY latitude DESC, longitude ASC',
+    [req.params.id],
+    (err, data) => {
+      if (err) {
+        return res.status(500).json(err);
+      }
 
-    const locations = {
-      id: req.params.id,
-      locations: data,
-    };
-    res.status(200).json(locations);
-  });
+      const locations = {
+        id: req.params.id,
+        locations: data,
+      };
+      res.status(200).json(locations);
+    }
+  );
 });
 
 location.route('/:id').post((req, res) => {
