@@ -86,7 +86,7 @@ friend.route('/:id').post((req, res) => {
 friend.route('/:id').delete((req, res) => {
   connection.query(
     'DELETE FROM friend WHERE user_id = ? AND friend_id = ?',
-    [req.params.id, req.body.id],
+    [req.params.id, req.body.friendId],
     (err, data) => {
       if (err) {
         return res.status(500).json(err);
