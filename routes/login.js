@@ -51,6 +51,18 @@ login.route('/').post((req, res) => {
         return res.status(401).end();
       }
 
+      if (req.body.pushToken) {
+        connection.query(
+          'UPDATE user SET push_token = ? WHERE user_id = ?',
+          [req.body.pushToken, user.id],
+          (err, token) => {
+            if (err) {
+              console.log(err);
+            }
+          },
+        );
+      }
+
       connection.query(
         'SELECT * FROM location WHERE user_id = ? ORDER BY latitude DESC, longitude ASC',
         [user.id],
@@ -60,7 +72,7 @@ login.route('/').post((req, res) => {
           }
           user.locations = locations;
           res.status(200).json(user);
-        }
+        },
       );
     });
   });

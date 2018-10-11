@@ -50,8 +50,8 @@ user.route('/').post((req, res) => {
       return res.status(500).json(err);
     }
     connection.query(
-      'INSERT INTO user (email, password, username) VALUES (?, ?, ?)',
-      [req.body.email, hash, req.body.username],
+      'INSERT INTO user (email, password, username, push_token) VALUES (?, ?, ?, ?)',
+      [req.body.email, hash, req.body.username, req.body.pushToken],
       (err, data) => {
         if (err) {
           return res.status(500).end();
@@ -65,7 +65,7 @@ user.route('/').post((req, res) => {
           }
           res.status(201).json(user[0]);
         });
-      }
+      },
     );
   });
 });
