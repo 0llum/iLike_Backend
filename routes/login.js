@@ -53,7 +53,7 @@ login.route('/').post((req, res) => {
 
       if (req.body.pushToken) {
         connection.query(
-          'UPDATE user SET push_token = ? WHERE user_id = ?',
+          'UPDATE user SET push_token = ? WHERE id = ?',
           [req.body.pushToken, user.id],
           (err, token) => {
             if (err) {
