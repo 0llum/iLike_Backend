@@ -66,13 +66,36 @@ location.route('/:id').post((req, res) => {
   });
 
   connection.query(
-    'INSERT INTO location (user_id, latitude, longitude, timestamp) VALUES ?',
-    [locations],
+    'SELECT COUNT(location.id) AS count FROM location WHERE user_id = ?',
+    [req.params.id],
     (err, data) => {
       if (err) {
-        console.log(err);
+        return res.status(500).json(err);
       }
-      res.status(201).json(req.body.locations);
+      const before = data.count;
+
+      connection.query(
+        'INSERT INTO location (user_id, latitude, longitude, timestamp) VALUES ?',
+        [locations],
+        (err, data) => {
+          if (err) {
+            console.log(err);
+          }
+
+          connection.query(
+            'SELECT COUNT(location.id) AS count FROM location WHERE user_id = ?',
+            [req.params.id],
+            (err, data) => {
+              if (err) {
+                return res.status(500).json(err);
+              }
+              const after = data.count;
+
+              console.log(before, after);
+
+              res.status(201).json(req.body.locations);
+        }
+      );
     }
   );
 });
