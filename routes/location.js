@@ -110,7 +110,7 @@ location.route('/:id').post((req, res) => {
                       messages.push({
                         to: x.push_token,
                         title: `${x.username} is now on level ${after}`,
-                        body: `Your friend ${x.username} is using WHIB and explored the world. You might want to check out!`,
+                        body: `Your friend ${x.username} is using WHIB to explore the world. You might want to check out!`,
                       });
                     });
 
