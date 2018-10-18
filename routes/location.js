@@ -1,11 +1,13 @@
 import express from 'express';
 import mysql from 'mysql';
+import Expo from 'expo-server-sdk';
 
 import Connection from '../constants/Connection';
 import * as EarthUtils from '../utils/EarthUtils';
 import * as LevelUtils from '../utils/LevelUtils';
 
 const location = express.Router();
+let expo = new Expo();
 let connection;
 
 function handleDisconnect() {
@@ -102,25 +104,27 @@ location.route('/:id').post((req, res) => {
                       console.log(err);
                     }
 
+                    const messages = [];
+
                     data.forEach((x) => {
-                      const headers = {
-                        Accept: 'application/json',
-                        'accept-encoding': gzip, deflate,
-                        'content-type': application/json
-                      };
-
-                      const body = JSON.stringify({
+                      messages.push({
                         to: x.push_token,
-                        title: `${x.username} is now on level ${after}`
-                        message: `Your friend ${x.username} is using WHIB and explored the world. You might want to check out!`
-                      });
-
-                      fetch('https://exp.host/--/api/v2/push/send', {
-                        method: 'POST',
-                        headers: headers,
-                        body: body,
+                        title: 'test Title',
+                        body: 'test Body'
                       });
                     });
+
+                    let chunks = expo.chunkPushNotifications(messages);
+                    (async () => {
+                      for (let chunk of chunks) {
+                        try {
+                          let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+                          console.log(ticketChunk);
+                        } catch (error) {
+                          console.error(error);
+                        }
+                      }
+                    })();
                   }
                 )
               }
