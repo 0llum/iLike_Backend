@@ -95,7 +95,7 @@ location.route('/:id').post((req, res) => {
 
               const after = LevelUtils.getLevelFromExp(data[0].count);
               if (after > before) {
-                connection.query('SELECT * FROM user INNER JOIN friend ON user.id = friend.user_id WHERE friend.friend_id = 8',
+                connection.query('SELECT * FROM user INNER JOIN friend ON user.id = friend.user_id WHERE friend.friend_id = ?',
                   [req.params.id],
                   (err, data) => {
                     if (err) {
@@ -103,18 +103,23 @@ location.route('/:id').post((req, res) => {
                     }
 
                     data.forEach((x) => {
-                      console.log(x.push_token);
-                      // fetch('https://exp.host/--/api/v2/push/send', {
-                      //   method: 'POST',
-                      //   headers: {
-                      //     Accept: 'application/json',
-                      //     'accept-encoding': gzip, deflate,
-                      //     'content-type': application/json
-                      //   },
-                      //   body: {
-                      //     to: ''
-                      //   }
-                      // });
+                      const headers = {
+                        Accept: 'application/json',
+                        'accept-encoding': gzip, deflate,
+                        'content-type': application/json
+                      };
+
+                      const body = JSON.stringify({
+                        to: x.push_token,
+                        title: `${x.username} is now on level ${after}`
+                        message: `Your friend ${x.username} is using WHIB and explored the world. You might want to check out!`
+                      });
+
+                      fetch('https://exp.host/--/api/v2/push/send', {
+                        method: 'POST',
+                        headers: headers,
+                        body: body,
+                      });
                     });
                   }
                 )
