@@ -31,7 +31,7 @@ function handleDisconnect() {
 handleDisconnect();
 
 country.route('/').get((req, res) => {
-  connection.query('SELECT * FROM country ORDER BY name ASC', (err, data) => {
+  connection.query('SELECT * FROM country WHERE long_min != 0 AND long_max != 0 ORDER BY name ASC', (err, data) => {
     if (err) {
       return res.status(500).json(err);
     }
