@@ -97,7 +97,7 @@ location.route('/:id').post((req, res) => {
 
               const after = LevelUtils.getLevelFromExp(data[0].count);
               if (after > before) {
-                connection.query('SELECT * FROM user INNER JOIN friend ON user.id = friend.user_id WHERE friend.friend_id = ?',
+                connection.query('SELECT user.push_token, B.username FROM user INNER JOIN friend AS A ON user.id = A.user_id INNER JOIN user AS B on A.friend_id = B.id WHERE A.friend_id = ?',
                   [req.params.id],
                   (err, data) => {
                     if (err) {
