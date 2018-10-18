@@ -17,7 +17,7 @@ app.use('/login', login);
 app.use('/user', user);
 app.use('/location', location);
 app.use('/friend', friend);
-app.use('/country');
+app.use('/country', country);
 
 app.listen(3000, err => {
   if (err) {
