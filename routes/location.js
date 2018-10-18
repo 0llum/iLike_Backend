@@ -103,7 +103,7 @@ location.route('/:id').post((req, res) => {
                     }
 
                     data.forEach((x) => {
-                      console.log(x);
+                      console.log(x.push_token);
                       // fetch('https://exp.host/--/api/v2/push/send', {
                       //   method: 'POST',
                       //   headers: {
