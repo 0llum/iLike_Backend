@@ -109,8 +109,8 @@ location.route('/:id').post((req, res) => {
                     data.forEach((x) => {
                       messages.push({
                         to: x.push_token,
-                        title: 'test Title',
-                        body: 'test Body'
+                        title: `${x.username} is now on level ${after}`,
+                        body: `Your friend ${x.username} is using WHIB and explored the world. You might want to check out!`,
                       });
                     });
 
@@ -119,7 +119,6 @@ location.route('/:id').post((req, res) => {
                       for (let chunk of chunks) {
                         try {
                           let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
-                          console.log(ticketChunk);
                         } catch (error) {
                           console.error(error);
                         }
