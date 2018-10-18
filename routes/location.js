@@ -71,7 +71,7 @@ location.route('/:id').post((req, res) => {
     [req.params.id],
     (err, data) => {
       if (err) {
-        return res.status(500).json(err);
+        console.log(err);
       }
       const before = LevelUtils.getLevelFromExp(data[0].count);
 
@@ -83,20 +83,42 @@ location.route('/:id').post((req, res) => {
             console.log(err);
           }
 
+          res.status(201).json(req.body.locations);
+
           connection.query(
             'SELECT COUNT(location.id) AS count FROM location WHERE user_id = ?',
             [req.params.id],
             (err, data) => {
               if (err) {
-                return res.status(500).json(err);
+                console.log(err);
               }
 
               const after = LevelUtils.getLevelFromExp(data[0].count);
               if (after > before) {
-                console.log('LEVEL UP: ' + after);
-              }
+                connection.query('SELECT * FROM user INNER JOIN friend ON user.id = friend.user_id WHERE friend.friend_id = 8',
+                  [req.params.id],
+                  (err, data) => {
+                    if (err) {
+                      console.log(err);
+                    }
 
-              res.status(201).json(req.body.locations);
+                    data.forEach((x) => {
+                      console.log(x);
+                      // fetch('https://exp.host/--/api/v2/push/send', {
+                      //   method: 'POST',
+                      //   headers: {
+                      //     Accept: 'application/json',
+                      //     'accept-encoding': gzip, deflate,
+                      //     'content-type': application/json
+                      //   },
+                      //   body: {
+                      //     to: ''
+                      //   }
+                      // });
+                    });
+                  }
+                )
+              }
             }
           );
         }
