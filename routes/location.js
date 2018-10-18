@@ -3,6 +3,7 @@ import mysql from 'mysql';
 
 import Connection from '../constants/Connection';
 import * as EarthUtils from '../utils/EarthUtils';
+import * as LevelUtils from '../utils/LevelUtils';
 
 const location = express.Router();
 let connection;
@@ -72,7 +73,7 @@ location.route('/:id').post((req, res) => {
       if (err) {
         return res.status(500).json(err);
       }
-      const before = data[0].count;
+      const before = LevelUtils.getLevelFromExp(data[0].count);
 
       connection.query(
         'INSERT INTO location (user_id, latitude, longitude, timestamp) VALUES ?',
@@ -89,9 +90,11 @@ location.route('/:id').post((req, res) => {
               if (err) {
                 return res.status(500).json(err);
               }
-              const after = data[0].count;
 
-              console.log(before, after);
+              const after = LevelUtils.getLevelFromExp(data[0].count);
+              if (after > before) {
+                console.log('LEVEL UP: ' + after);
+              }
 
               res.status(201).json(req.body.locations);
             }
