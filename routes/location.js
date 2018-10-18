@@ -72,7 +72,7 @@ location.route('/:id').post((req, res) => {
       if (err) {
         return res.status(500).json(err);
       }
-      const before = data.count;
+      const before = data;
 
       connection.query(
         'INSERT INTO location (user_id, latitude, longitude, timestamp) VALUES ?',
@@ -89,7 +89,7 @@ location.route('/:id').post((req, res) => {
               if (err) {
                 return res.status(500).json(err);
               }
-              const after = data.count;
+              const after = data;
 
               console.log(before, after);
 
