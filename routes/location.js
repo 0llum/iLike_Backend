@@ -114,11 +114,11 @@ location.route('/:id').post((req, res) => {
                       });
                     });
 
-                    let chunks = expo.chunkPushNotifications(messages);
+                    const chunks = expo.chunkPushNotifications(messages);
                     (async () => {
-                      for (let chunk of chunks) {
+                      for (const chunk of chunks) {
                         try {
-                          let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+                          const ticketChunk = await expo.sendPushNotificationsAsync(chunk);
                         } catch (error) {
                           console.error(error);
                         }
