@@ -12,9 +12,9 @@ const connection = mysql.createConnection({
   database: 'whib',
 });
 
-mongoose.connect('mongodb://localhost:27017/iLike');
+// mongoose.connect('mongodb://localhost:27017/iLike');
 
-const users = express.Router();
+// const users = express.Router();
 const coordinates = express.Router();
 
 connection.connect(err => {
@@ -24,51 +24,51 @@ connection.connect(err => {
 
   console.log('coordinates router connected');
 
-  coordinates.route('/').get((req, res) => {
-    connection.query('SELECT * FROM coordinates', (err, data) => {
-      if (err) {
-        return res.status(404).json(err);
-      }
-      res.status(200).json(data);
-    });
-  });
+  // coordinates.route('/').get((req, res) => {
+  //   connection.query('SELECT * FROM coordinates', (err, data) => {
+  //     if (err) {
+  //       return res.status(404).json(err);
+  //     }
+  //     res.status(200).json(data);
+  //   });
+  // });
 
-  coordinates.route('/:id').get((req, res) => {
-    connection.query('SELECT * FROM location WHERE user_id = ?', [req.params.id], (err, data) => {
-      if (err) {
-        return res.status(404).json(err);
-      }
-      res.status(200).json(data);
-    });
-  });
+  // coordinates.route('/:id').get((req, res) => {
+  //   connection.query('SELECT * FROM location WHERE user_id = ?', [req.params.id], (err, data) => {
+  //     if (err) {
+  //       return res.status(404).json(err);
+  //     }
+  //     res.status(200).json(data);
+  //   });
+  // });
 
-  coordinates.route('/transition/:oldId/:newId').get((req, res) => {
-    User.findById(req.params.oldId, (err, data) => {
-      if (err) {
-        return res.status(404).json(err);
-      }
-      if (!data) {
-        return res.status(404).end();
-      }
-      const locations = data.locations;
-      const newLocations = locations.map(x => [
-        req.params.newId,
-        x.latitude,
-        x.longitude,
-        x.timestamp,
-      ]);
+  // coordinates.route('/transition/:oldId/:newId').get((req, res) => {
+  //   User.findById(req.params.oldId, (err, data) => {
+  //     if (err) {
+  //       return res.status(404).json(err);
+  //     }
+  //     if (!data) {
+  //       return res.status(404).end();
+  //     }
+  //     const locations = data.locations;
+  //     const newLocations = locations.map(x => [
+  //       req.params.newId,
+  //       x.latitude,
+  //       x.longitude,
+  //       x.timestamp,
+  //     ]);
 
-      connection.query(
-        'INSERT INTO location (user_id, latitude, longitude, timestamp) VALUES ?',
-        [newLocations],
-        (err, data) => {
-          if (err) console.log(err);
-          console.log('done');
-          res.status(200).end();
-        },
-      );
-    });
-  });
+  //     connection.query(
+  //       'INSERT INTO location (user_id, latitude, longitude, timestamp) VALUES ?',
+  //       [newLocations],
+  //       (err, data) => {
+  //         if (err) console.log(err);
+  //         console.log('done');
+  //         res.status(200).end();
+  //       },
+  //     );
+  //   });
+  // });
 
   coordinates.route('/generate').get((req, res) => {
     console.log('start generating coordinates');

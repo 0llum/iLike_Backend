@@ -57,7 +57,7 @@ location.route('/:id').get((req, res) => {
         locations: data,
       };
       res.status(200).json(locations);
-    }
+    },
   );
 });
 
@@ -97,7 +97,8 @@ location.route('/:id').post((req, res) => {
 
               const after = LevelUtils.getLevelFromExp(data[0].count);
               if (after > before) {
-                connection.query('SELECT user.push_token, B.username FROM user INNER JOIN friend AS A ON user.id = A.user_id INNER JOIN user AS B on A.friend_id = B.id WHERE A.friend_id = ?',
+                connection.query(
+                  'SELECT user.push_token, B.username FROM user INNER JOIN friend AS A ON user.id = A.user_id INNER JOIN user AS B on A.friend_id = B.id WHERE A.friend_id = ?',
                   [req.params.id],
                   (err, data) => {
                     if (err) {
@@ -106,11 +107,13 @@ location.route('/:id').post((req, res) => {
 
                     const messages = [];
 
-                    data.forEach((x) => {
+                    data.forEach(x => {
                       messages.push({
                         to: x.push_token,
                         title: `${x.username} is now on level ${after}`,
-                        body: `Your friend ${x.username} is using WHIB to explore the world. You might want to check out!`,
+                        body: `Your friend ${
+                          x.username
+                        } is using WHIB to explore the world. You might want to check out!`,
                       });
                     });
 
@@ -124,14 +127,14 @@ location.route('/:id').post((req, res) => {
                         }
                       }
                     })();
-                  }
-                )
+                  },
+                );
               }
-            }
+            },
           );
-        }
+        },
       );
-    }
+    },
   );
 });
 
