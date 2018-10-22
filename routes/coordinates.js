@@ -116,16 +116,16 @@ const generateCoordinates = function(lat, long) {
     return;
   }
 
-  connection.query(
-    'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
-    ['POINT(' + longitude + ' ' + latitude + ')'],
-    (err, data) => {
-      generateCoordinates(latitude, long + EarthUtils.gridDistanceAtLatitude(latitude));
-    },
-  );
+  // connection.query(
+  //   'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
+  //   ['POINT(' + longitude + ' ' + latitude + ')'],
+  //   (err, data) => {
+  //     generateCoordinates(latitude, long + EarthUtils.gridDistanceAtLatitude(latitude));
+  //   },
+  // );
 
   connection.query(
-    'INSERT INTO location (latitude, longitude) VALUES (?, ?)',
+    'INSERT INTO coordinate (latitude, longitude) VALUES (?, ?)',
     [latitude, longitude],
     (err, data) => {
       if (err) console.log(err);
