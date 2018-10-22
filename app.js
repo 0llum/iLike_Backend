@@ -6,6 +6,7 @@ import location from './routes/location';
 import friend from './routes/friend';
 import country from './routes/country';
 import airport from './routes/airport';
+import flight from './routes/flight';
 
 const app = express();
 app.use(
@@ -20,6 +21,7 @@ app.use('/location', location);
 app.use('/friend', friend);
 app.use('/country', country);
 app.use('/airport', airport);
+app.use('/flight', flight);
 
 app.listen(3000, err => {
   if (err) {
