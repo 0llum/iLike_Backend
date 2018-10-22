@@ -42,6 +42,7 @@ flight.route('/:id').get((req, res) => {
 });
 
 flight.route(':/id').post((req, res) => {
+  console(req.params.id, req.body.from, req.body.to);
   connection.query('SELECT * FROM airport WHERE iata_code = ?',
     [req.body.from],
     (err, data) => {
