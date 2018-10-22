@@ -71,7 +71,7 @@ flight.route('/:id').post((req, res) => {
             return res.status(500).json(err);
           }
 
-          connection.query('SELECT * FROM flight WHERE userId = ?',
+          connection.query('SELECT * FROM flight WHERE user_id = ?',
           [req.params.id],
           (err, data) => {
             if (err) {
