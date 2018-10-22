@@ -22,6 +22,8 @@ connection.connect(err => {
     throw err;
   }
 
+  console.log('coordinates router connected');
+
   coordinates.route('/').get((req, res) => {
     connection.query('SELECT * FROM coordinates', (err, data) => {
       if (err) {
