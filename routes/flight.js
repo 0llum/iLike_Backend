@@ -41,4 +41,47 @@ flight.route('/:id').get((req, res) => {
   });
 });
 
+flight.route(':/id').post((req, res) => {
+  connection.query('SELECT * FROM airport WHERE iata_code = ?',
+    [req.body.from],
+    (err, data) => {
+      if (err) {
+        return res.status(500).json(err);
+      }
+      if (data.length < 1) {
+        return res.status(404).end();
+      }
+
+      const from = data[0];
+      connection.query('SELECT * FROM airport WHERE iata_code = ?',
+      [req.body.to],
+      (err, data) => {
+        if (err) {
+          return res.status(500).json(err);
+        }
+        if (data.length < 1) {
+          return res.status(404).end();
+        }
+
+        const to = data[0];
+        connection.query('INSERT INTO flight (user_id, start, destination) VALUES (?, ?)',
+        [req.params.id, from.id, to.id],
+        (err, data) => {
+          if (err) {
+            return res.status(500).json(err);
+          }
+
+          connection.query('SELECT * FROM flight WHERE userId = ?',
+          [req.params.id],
+          (err, data) => {
+            if (err) {
+              return res.status(500).json(err);
+            }
+            res.status(201).json(data);
+          });
+        });
+      });
+    });
+});
+
 export default flight;
