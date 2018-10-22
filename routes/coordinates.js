@@ -69,6 +69,7 @@ connection.connect(err => {
   });
 
   coordinates.route('/generate').get((req, res) => {
+    console.log('start generating coordinates');
     generateCoordinates(55, 6);
     // for (let y = 14; y > 13; y -= Earth.GRID_DISTANCE) {
     //   const latitude = EarthUtils.getRoundedLatitude(y);
@@ -130,6 +131,7 @@ const generateCoordinates = function(lat, long) {
     (err, data) => {
       if (err) console.log(err);
       console.log(latitude, longitude);
+      generateCoordinates(latitude, longitude + EarthUtils.gridDistanceAtLatitude(latitude));
     },
   );
 };
