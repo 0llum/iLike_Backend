@@ -24,7 +24,7 @@ app.use('/friend', friend);
 app.use('/country', country);
 app.use('/airport', airport);
 app.use('/flight', flight);
-app.use('/coordinates', coordinates);
+// app.use('/coordinates', coordinates);
 
 app.listen(3000, err => {
   if (err) {
