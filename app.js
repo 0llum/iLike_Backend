@@ -8,8 +8,6 @@ import country from './routes/country';
 import airport from './routes/airport';
 import flight from './routes/flight';
 
-import coordinates from './routes/coordinates';
-
 const app = express();
 app.use(
   bodyParser.json({
@@ -24,7 +22,6 @@ app.use('/friend', friend);
 app.use('/country', country);
 app.use('/airport', airport);
 app.use('/flight', flight);
-// app.use('/coordinates', coordinates);
 
 app.listen(3000, err => {
   if (err) {
