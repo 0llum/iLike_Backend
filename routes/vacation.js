@@ -41,4 +41,15 @@ vacation.route('/:id').get((req, res) => {
   });
 });
 
+vacation.route('/:id').post((req, res) => {
+  connection.query('INSERT INTO vacation (user_id, country_id, status) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE',
+  [req.params.id, req.body.countryId, req.body.status],
+  (err, data) => {
+    if (err) {
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data);
+  });
+});
+
 export default vacation;
