@@ -41,4 +41,4 @@ vacation.route('/:id').get((req, res) => {
   });
 });
 
-export defaul vacation;
+export default vacation;
