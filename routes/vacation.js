@@ -31,7 +31,7 @@ function handleDisconnect() {
 handleDisconnect();
 
 vacation.route('/:id').get((req, res) => {
-  connection.query('SELECT * FROM country LEFT JOIN vacation ON country.id = vacation.country_id WHERE user_id = ? OR user_id IS NULL ORDER BY name ASC',
+  connection.query('SELECT country.id, country.name FROM country LEFT JOIN vacation ON country.id = vacation.country_id WHERE user_id = ? OR user_id IS NULL ORDER BY name ASC',
   [req.params.id],
   (err, data) => {
     if (err) {
