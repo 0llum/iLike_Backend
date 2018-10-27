@@ -39,7 +39,7 @@ friend.route('/:id').get((req, res) => {
         return res.status(500).json(err);
       }
       res.status(200).json(data);
-    }
+    },
   );
 });
 
@@ -75,11 +75,11 @@ friend.route('/:id').post((req, res) => {
                 return res.status(500).json(err);
               }
               res.status(201).json(data);
-            }
+            },
           );
-        }
+        },
       );
-    }
+    },
   );
 });
 
@@ -100,9 +100,9 @@ friend.route('/:id').delete((req, res) => {
             return res.status(500).json(err);
           }
           res.status(200).json(data);
-        }
+        },
       );
-    }
+    },
   );
 });
 
