@@ -138,4 +138,18 @@ location.route('/:id').post((req, res) => {
   );
 });
 
+location.route('/:id').delete((req, res) => {
+  connection.query(
+    'DELETE FROM location WHERE user_id = ? AND latitude = ? AND longitude = ?',
+    [req.params.id, req.body.location.latitude, req.body.location.longitude],
+    (err, data) => {
+      if (err) {
+        console.log(err);
+      }
+
+      res.status(200).json(req.body.location);
+    }
+  );
+});
+
 export default location;
