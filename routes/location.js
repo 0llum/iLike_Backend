@@ -44,9 +44,13 @@ location.route('/').get((req, res) => {
 });
 
 location.route('/:id').get((req, res) => {
+  const latitude = req.query.latitude || 0;
+  const longitude = req.query.longitude || 0;
+  const radius = req.query.radius || 999999999;
+
   connection.query(
-    'SELECT * FROM location WHERE user_id = ? ORDER BY latitude DESC, longitude ASC',
-    [req.params.id],
+    'SELECT * FROM location WHERE user_id = ? AND (latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?) <= (radius) * (radius) ORDER BY latitude DESC, longitude ASC',
+    [req.params.id, latitude, latitude, longitude, longitude, radius, radius],
     (err, data) => {
       if (err) {
         return res.status(500).json(err);
