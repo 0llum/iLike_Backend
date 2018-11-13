@@ -49,7 +49,7 @@ location.route('/:id').get((req, res) => {
   const radius = req.query.radius || 999999999;
 
   connection.query(
-    'SELECT * FROM location WHERE user_id = ? AND (latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?) <= (radius) * (radius) ORDER BY latitude DESC, longitude ASC',
+    'SELECT * FROM location WHERE user_id = ? AND (latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?) <= (?) * (?) ORDER BY latitude DESC, longitude ASC',
     [req.params.id, latitude, latitude, longitude, longitude, radius, radius],
     (err, data) => {
       if (err) {
@@ -152,7 +152,7 @@ location.route('/:id').delete((req, res) => {
       }
 
       res.status(200).json(req.body.location);
-    }
+    },
   );
 });
 
