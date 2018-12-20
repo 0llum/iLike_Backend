@@ -82,4 +82,16 @@ user.route('/:id').get((req, res) => {
   });
 });
 
+user.route('/:id').post((req, res) => {
+  connection.query(
+    'UPDATE user SET push_token = ? WHERE id = ?',
+    [req.body.pushToken, req.params.id],
+    (err, token) => {
+      if (err) {
+        console.log(err);
+      }
+    },
+  );
+})
+
 export default user;
