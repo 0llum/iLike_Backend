@@ -121,15 +121,17 @@ location.route('/:id').post((req, res) => {
                     });
 
                     if (messages.length > 0) {
-                      console.log(messages[0]);
                       const chunks = expo.chunkPushNotifications(messages);
-                      for (const chunk of chunks) {
-                        try {
-                          expo.sendPushNotificationsAsync(chunk);
-                        } catch (error) {
-                          console.error(error);
+                      (async () => {
+                        for (const chunk of chunks) {
+                          try {
+                            const ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+                            console.log(ticketChunk);
+                          } catch (error) {
+                            console.error(error);
+                          }
                         }
-                      }
+                      })();
                     }
                   },
                 );
