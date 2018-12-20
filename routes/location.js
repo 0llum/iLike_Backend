@@ -124,16 +124,18 @@ location.route('/:id').post((req, res) => {
                       });
                     });
 
-                    const chunks = expo.chunkPushNotifications(messages);
-                    (async () => {
-                      for (const chunk of chunks) {
-                        try {
-                          const ticketChunk = await expo.sendPushNotificationsAsync(chunk);
-                        } catch (error) {
-                          console.error(error);
+                    if (messages.length > 0) {
+                      const chunks = expo.chunkPushNotifications(messages);
+                      (async () => {
+                        for (const chunk of chunks) {
+                          try {
+                            const ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+                          } catch (error) {
+                            console.error(error);
+                          }
                         }
-                      }
-                    })();
+                      })();
+                    }
                   },
                 );
               }
