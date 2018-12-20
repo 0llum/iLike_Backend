@@ -76,6 +76,7 @@ location.route('/:id').post((req, res) => {
     'SELECT COUNT(location.id) AS count FROM location WHERE user_id = ?',
     [req.params.id],
     (err, data) => {
+      console.log('1: ', data);
       if (err) {
         console.log(err);
       }
@@ -95,6 +96,7 @@ location.route('/:id').post((req, res) => {
             'SELECT COUNT(location.id) AS count FROM location WHERE user_id = ?',
             [req.params.id],
             (err, data) => {
+              console.log('2: ', data);
               if (err) {
                 console.log(err);
               }
@@ -112,6 +114,7 @@ location.route('/:id').post((req, res) => {
                     const messages = [];
 
                     data.forEach(x => {
+                      console.log('x: ', data);
                       messages.push({
                         to: x.push_token,
                         title: `${x.username} is now on level ${after}`,
