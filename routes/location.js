@@ -113,8 +113,8 @@ location.route('/:id').post((req, res) => {
 
                     const messages = [];
 
+                    console.log('data: ', data);
                     data.forEach(x => {
-                      console.log('x: ', data);
                       messages.push({
                         to: x.push_token,
                         title: `${x.username} is now on level ${after}`,
