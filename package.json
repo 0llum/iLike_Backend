@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/0llum/iLike_Backend#readme",
   "dependencies": {
-    "bcrypt": "^3.0.2",
+    "bcrypt": "^3.0.1",
     "body-parser": "^1.18.3",
     "expo-server-sdk": "^3.1.0",
     "express": "^4.16.4",
