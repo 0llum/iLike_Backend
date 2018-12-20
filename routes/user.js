@@ -90,8 +90,9 @@ user.route('/:id').post((req, res) => {
       if (err) {
         console.log(err);
       }
+      res.status(200).end();
     },
   );
-})
+});
 
 export default user;
