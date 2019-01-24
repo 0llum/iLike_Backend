@@ -32,7 +32,7 @@ handleDisconnect();
 
 friend.route('/:id').get((req, res) => {
   connection.query(
-    'SELECT user.id, user.username, COUNT(location.id) AS locations FROM user INNER JOIN friend ON friend.friend_id = user.id INNER JOIN location ON location.user_id = friend.friend_id WHERE friend.user_id = ? GROUP BY location.user_id ORDER BY user.username',
+    'SELECT user.id, user.username, COUNT(location2.id) AS locations FROM user INNER JOIN friend ON friend.friend_id = user.id INNER JOIN location2 ON location2.user_id = friend.friend_id WHERE friend.user_id = ? GROUP BY location2.user_id ORDER BY user.username',
     [req.params.id],
     (err, data) => {
       if (err) {
@@ -68,7 +68,7 @@ friend.route('/:id').post((req, res) => {
           }
 
           connection.query(
-            'SELECT user.id, user.username, COUNT(location.id) AS locations FROM user INNER JOIN friend ON friend.friend_id = user.id INNER JOIN location ON location.user_id = friend.friend_id WHERE friend.user_id = ? GROUP BY location.user_id ORDER BY user.username',
+            'SELECT user.id, user.username, COUNT(location2.id) AS locations FROM user INNER JOIN friend ON friend.friend_id = user.id INNER JOIN location2 ON location2.user_id = friend.friend_id WHERE friend.user_id = ? GROUP BY location2.user_id ORDER BY user.username',
             [req.params.id],
             (err, data) => {
               if (err) {
@@ -93,7 +93,7 @@ friend.route('/:id').delete((req, res) => {
       }
 
       connection.query(
-        'SELECT user.id, user.username, COUNT(location.id) AS locations FROM user INNER JOIN friend ON friend.friend_id = user.id INNER JOIN location ON location.user_id = friend.friend_id WHERE friend.user_id = ? GROUP BY location.user_id ORDER BY user.username',
+        'SELECT user.id, user.username, COUNT(location2.id) AS locations FROM user INNER JOIN friend ON friend.friend_id = user.id INNER JOIN location2 ON location2.user_id = friend.friend_id WHERE friend.user_id = ? GROUP BY location2.user_id ORDER BY user.username',
         [req.params.id],
         (err, data) => {
           if (err) {

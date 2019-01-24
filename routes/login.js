@@ -64,7 +64,7 @@ login.route('/').post((req, res) => {
       }
 
       connection.query(
-        'SELECT * FROM location WHERE user_id = ? ORDER BY latitude DESC, longitude ASC',
+        'SELECT * FROM location2 WHERE user_id = ? ORDER BY latitude DESC, longitude ASC',
         [user.id],
         (err, locations) => {
           if (err) {
