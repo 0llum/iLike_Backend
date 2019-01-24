@@ -166,7 +166,7 @@ location.route('/:id/copy').get((req, res) => {
 
       const resizedLocations = GeoArray.removeDuplicates(data.map(x => GeoLocation.getRoundedLocation(x, Earth.NEW_GRID_DISTANCE)));
 
-      const finalLocations = resizedLocations.map(x => [req.params.id, roundedLocation.latitude, roundedLocation.longitude, x.timestamp]);
+      const finalLocations = resizedLocations.map(x => [req.params.id, x.latitude, x.longitude, x.timestamp]);
       
       // connection.query(
       //   'INSERT INTO location2 (user_id, latitude, longitude, timestamp) VALUES ?',
