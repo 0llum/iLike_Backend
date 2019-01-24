@@ -177,7 +177,7 @@ location.route('/:id/copy').get((req, res) => {
 
       //     res.status(201).json(req.body.locations);
       
-      res.status(200).json(finalLocations);
+      res.status(200).json(resizedLocations);
     },
   );
 });
