@@ -163,10 +163,13 @@ location.route('/:id/copy').get((req, res) => {
         return res.status(500).json(err);
       }
 
-      // const resizedLocations = GeoArray.removeDuplicates(
-      //   data.map(x => {
-      //     GeoLocation.getRoundedLocation(x, Earth.NEW_GRID_DISTANCE)),
-      // );
+      const resizedLocations = GeoArray.removeDuplicates(
+        data.map(x => {
+          GeoLocation.getRoundedLocation(x, Earth.NEW_GRID_DISTANCE)),
+      );
+
+      const finalLocations = resizedLocations.map(x => [req.params.id, roundedLocation.latitude, roundedLocation.longitude, x.timestamp]);
+      console.log(finalLocations);
       
       // connection.query(
       //   'INSERT INTO location2 (user_id, latitude, longitude, timestamp) VALUES ?',
