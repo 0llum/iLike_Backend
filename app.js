@@ -22,7 +22,7 @@ app.use(
 app.use('/login', login);
 app.use('/user', user);
 app.use('/location', location);
-app.use('/location2', location2);
+app.use('/location2', location_2);
 app.use('/friend', friend);
 app.use('/country', country);
 app.use('/airport', airport);
