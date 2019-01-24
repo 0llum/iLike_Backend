@@ -1,8 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import User from '../models/user';
-import * as MathUtils from '../utils/MathUtils';
-import * as EarthUtils from '../utils/EarthUtils';
+import GeoLocation from '../model/GeoLocation';
+import GeoArray from '../model/GeoArray';
 
 // clear database count, picks and matches
 // mongo
@@ -188,7 +188,7 @@ users.route('/:id/locations/removeduplicates').get((req, res) => {
     }
     const user = data;
     let locations = data.locations;
-    const uniqueLocations = MathUtils.removeDuplicateLocations(locations);
+    const uniqueLocations = GeoArray.removeDuplicates(locations);
     user.locations = uniqueLocations;
     user.save();
     User.findById(req.params.id, (err, data) => {
@@ -213,14 +213,7 @@ users.route('/:id/locations/normalize').get((req, res) => {
     }
     const user = data;
     const locations = data.locations;
-    const normalized = locations.map(x => {
-      const latitude = EarthUtils.getRoundedLatitude(x.latitude);
-      return {
-        latitude,
-        longitude: EarthUtils.getRoundedLongitude(x.longitude, latitude),
-        timestamp: x.timestamp,
-      };
-    });
+    const normalized = locations.map(x => GeoLocation.getRoundedLocation(x);
     user.locations = normalized;
     user.save((err, data) => {
       if (err) {

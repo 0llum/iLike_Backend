@@ -2,7 +2,7 @@ import express from 'express';
 import mysql from 'mysql';
 import mongoose from 'mongoose';
 import User from '../models/user';
-import * as EarthUtils from '../utils/EarthUtils';
+import GeoLocation from '../model/GeoLocation';
 import * as Earth from '../constants/Earth';
 
 const connection = mysql.createConnection({
@@ -74,12 +74,12 @@ connection.connect(err => {
     console.log('start generating coordinates');
     generateCoordinates(55, 6);
     // for (let y = 14; y > 13; y -= Earth.GRID_DISTANCE) {
-    //   const latitude = EarthUtils.getRoundedLatitude(y);
-    //   for (let x = 0; x < 360; x += EarthUtils.gridDistanceAtLatitude(latitude)) {
+    //   const latitude = GeoLocation.getRoundedLatitude(y);
+    //   for (let x = 0; x < 360; x += GeoLocation.gridDistanceAtLatitude(latitude)) {
     //     const longitude =
     //       x > 180
-    //         ? EarthUtils.getRoundedLongitude(x - 360, latitude)
-    //         : EarthUtils.getRoundedLongitude(x, latitude);
+    //         ? GeoLocation.getRoundedLongitude(x - 360, latitude)
+    //         : GeoLocation.getRoundedLongitude(x, latitude);
     //     if (!Object.is(longitude, -0)) {
     //       connection.query(
     //         'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
@@ -103,11 +103,11 @@ connection.connect(err => {
 });
 
 const generateCoordinates = function(lat, long) {
-  const latitude = EarthUtils.getRoundedLatitude(lat);
+  const latitude = GeoLocation.getRoundedLatitude(lat);
   const longitude =
     long > 180
-      ? EarthUtils.getRoundedLongitude(long - 360, latitude)
-      : EarthUtils.getRoundedLongitude(long, latitude);
+      ? GeoLocation.getRoundedLongitude(long - 360, latitude)
+      : GeoLocation.getRoundedLongitude(long, latitude);
 
   if (latitude < 47) {
     console.log('done');
@@ -123,7 +123,7 @@ const generateCoordinates = function(lat, long) {
   //   'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
   //   ['POINT(' + longitude + ' ' + latitude + ')'],
   //   (err, data) => {
-  //     generateCoordinates(latitude, long + EarthUtils.gridDistanceAtLatitude(latitude));
+  //     generateCoordinates(latitude, long + GeoLocation.gridDistanceAtLatitude(latitude));
   //   },
   // );
 
@@ -133,7 +133,7 @@ const generateCoordinates = function(lat, long) {
     (err, data) => {
       if (err) console.log(err);
       console.log(latitude, longitude);
-      generateCoordinates(latitude, longitude + EarthUtils.gridDistanceAtLatitude(latitude));
+      generateCoordinates(latitude, longitude + GeoLocation.gridDistanceAtLatitude(latitude));
     },
   );
 };

@@ -3,7 +3,7 @@ import mysql from 'mysql';
 import Expo from 'expo-server-sdk';
 
 import Connection from '../constants/Connection';
-import * as EarthUtils from '../utils/EarthUtils';
+import GeoLocation from '../model/GeoLocation';
 import * as LevelUtils from '../utils/LevelUtils';
 
 const location = express.Router();
@@ -67,9 +67,8 @@ location.route('/:id').get((req, res) => {
 
 location.route('/:id').post((req, res) => {
   const locations = req.body.locations.map(x => {
-    const latitude = EarthUtils.getRoundedLatitude(x.latitude);
-    const longitude = EarthUtils.getRoundedLongitude(x.longitude, latitude);
-    return [req.params.id, latitude, longitude, x.timestamp];
+    const roundedLocation = GeoLocation.getRoundedLocation(x);
+    return [req.params.id, roundedLocation.latitude, roundedLocation.longitude, x.timestamp];
   });
 
   connection.query(
