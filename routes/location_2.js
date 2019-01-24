@@ -4,6 +4,7 @@ import Expo from 'expo-server-sdk';
 
 import Connection from '../constants/Connection';
 import GeoLocation from '../model/GeoLocation';
+import GeoArray from '../model/GeoArray';
 import * as LevelUtils from '../utils/LevelUtils';
 import * as Earth from '../constants/Earth';
 
@@ -177,7 +178,7 @@ location.route('/:id/copy').get((req, res) => {
 
       //     res.status(201).json(req.body.locations);
       
-      res.status(200).json(resizedLocations);
+      res.status(200).json(finalLocations);
     },
   );
 });
