@@ -168,17 +168,17 @@ location.route('/:id/copy').get((req, res) => {
 
       const finalLocations = resizedLocations.map(x => [req.params.id, x.latitude, x.longitude, x.timestamp]);
       
-      // connection.query(
-      //   'INSERT INTO location2 (user_id, latitude, longitude, timestamp) VALUES ?',
-      //   [resizedLocations],
-      //   (err, data) => {
-      //     if (err) {
-      //       console.log(err);
-      //     }
+      connection.query(
+        'INSERT INTO location2 (user_id, latitude, longitude, timestamp) VALUES ?',
+        [finalLocations],
+        (err, data) => {
+          if (err) {
+            console.log(err);
+          }
 
-      //     res.status(201).json(req.body.locations);
-      
-      res.status(200).json(finalLocations);
+          res.status(201).end();
+        }
+      );
     },
   );
 });
