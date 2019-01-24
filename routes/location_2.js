@@ -5,6 +5,7 @@ import Expo from 'expo-server-sdk';
 import Connection from '../constants/Connection';
 import GeoLocation from '../model/GeoLocation';
 import * as LevelUtils from '../utils/LevelUtils';
+import * as Earth from '../constants/Earth';
 
 const location = express.Router();
 let expo = new Expo();
@@ -63,7 +64,7 @@ location.route('/:id').get((req, res) => {
 
 location.route('/:id').post((req, res) => {
   const locations = req.body.locations.map(x => {
-    const roundedLocation = GeoLocation.getRoundedLocation(x);
+    const roundedLocation = GeoLocation.getRoundedLocation(x, Earth.NEW_GRID_DISTANCE);
     return [req.params.id, roundedLocation.latitude, roundedLocation.longitude, x.timestamp];
   });
 
