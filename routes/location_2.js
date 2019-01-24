@@ -18,7 +18,7 @@ function handleDisconnect() {
       console.log(err);
       setTimeout(handleDisconnect, 2000);
     } else {
-      console.log('location router connected');
+      console.log('location_2 router connected');
     }
   });
 
