@@ -35,7 +35,7 @@ function handleDisconnect() {
 handleDisconnect();
 
 location.route('/').get((req, res) => {
-  connection.query('SELECT * FROM location', (err, data) => {
+  connection.query('SELECT * FROM location2', (err, data) => {
     if (err) {
       return res.status(500).json(err);
     }
@@ -45,7 +45,7 @@ location.route('/').get((req, res) => {
 
 location.route('/:id').get((req, res) => {
   connection.query(
-    'SELECT * FROM location WHERE user_id = ? ORDER BY latitude DESC, longitude ASC',
+    'SELECT * FROM location2 WHERE user_id = ? ORDER BY latitude DESC, longitude ASC',
     [req.params.id],
     (err, data) => {
       if (err) {
@@ -68,7 +68,7 @@ location.route('/:id').post((req, res) => {
   });
 
   connection.query(
-    'SELECT COUNT(location.id) AS count FROM location WHERE user_id = ?',
+    'SELECT COUNT(location2.id) AS count FROM location2 WHERE user_id = ?',
     [req.params.id],
     (err, data) => {
       if (err) {
@@ -77,7 +77,7 @@ location.route('/:id').post((req, res) => {
       const before = LevelUtils.getLevelFromExp(data[0].count);
 
       connection.query(
-        'INSERT INTO location (user_id, latitude, longitude, timestamp) VALUES ?',
+        'INSERT INTO location2 (user_id, latitude, longitude, timestamp) VALUES ?',
         [locations],
         (err, data) => {
           if (err) {
@@ -87,7 +87,7 @@ location.route('/:id').post((req, res) => {
           res.status(201).json(req.body.locations);
 
           connection.query(
-            'SELECT COUNT(location.id) AS count FROM location WHERE user_id = ?',
+            'SELECT COUNT(location2.id) AS count FROM location2 WHERE user_id = ?',
             [req.params.id],
             (err, data) => {
               if (err) {
@@ -141,7 +141,7 @@ location.route('/:id').post((req, res) => {
 
 location.route('/:id').delete((req, res) => {
   connection.query(
-    'DELETE FROM location WHERE user_id = ? AND latitude = ? AND longitude = ?',
+    'DELETE FROM location2 WHERE user_id = ? AND latitude = ? AND longitude = ?',
     [req.params.id, req.body.location.latitude, req.body.location.longitude],
     (err, data) => {
       if (err) {
