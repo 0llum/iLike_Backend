@@ -1,6 +1,5 @@
 import express from 'express';
 import mysql from 'mysql';
-import mongoose from 'mongoose';
 import User from '../models/user';
 import GeoLocation from '../model/GeoLocation';
 import * as Earth from '../constants/Earth';

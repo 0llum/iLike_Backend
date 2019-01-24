@@ -154,4 +154,33 @@ location.route('/:id').delete((req, res) => {
   );
 });
 
+location.route('/:id/copy').get((req, res) => {
+  connection.query(
+    'SELECT * FROM location WHERE user_id = ? ORDER BY latitude DESC, longitude ASC',
+    [req.params.id],
+    (err, data) => {
+      if (err) {
+        return res.status(500).json(err);
+      }
+
+      // const resizedLocations = GeoArray.removeDuplicates(
+      //   data.map(x => {
+      //     GeoLocation.getRoundedLocation(x, Earth.NEW_GRID_DISTANCE)),
+      // );
+      
+      // connection.query(
+      //   'INSERT INTO location2 (user_id, latitude, longitude, timestamp) VALUES ?',
+      //   [resizedLocations],
+      //   (err, data) => {
+      //     if (err) {
+      //       console.log(err);
+      //     }
+
+      //     res.status(201).json(req.body.locations);
+      
+      res.status(200).json(data);
+    },
+  );
+});
+
 export default location;
