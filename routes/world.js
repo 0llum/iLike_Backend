@@ -48,7 +48,7 @@ world.route('/').post((req, res) => {
   });
 
   connection.query(
-    'INSERT INTO world (latitude, longitude) VALUES (?, ?)',
+    'INSERT INTO world (latitude, longitude) VALUES (?)',
     [locations],
     (err, data) => {
       if (err) {
