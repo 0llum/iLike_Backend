@@ -2,7 +2,7 @@ import express from 'express';
 import mysql from 'mysql';
 
 import Connection from '../constants/Connection';
-import GeoArray from '../model/GeoArray';
+import GeoLocation from '../model/GeoLocation';
 import * as Earth from '../constants/Earth';
 
 const world = express.Router();
