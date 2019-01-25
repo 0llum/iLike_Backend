@@ -11,6 +11,7 @@ import country from './routes/country';
 import airport from './routes/airport';
 import flight from './routes/flight';
 import vacation from './routes/vacation';
+import world from './routes/world';
 
 const app = express();
 app.use(
@@ -28,6 +29,8 @@ app.use('/country', country);
 app.use('/airport', airport);
 app.use('/flight', flight);
 app.use('/vacation', vacation);
+app.use('/world', world);
+
 
 app.listen(3000, err => {
   if (err) {
