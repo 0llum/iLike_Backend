@@ -65,59 +65,30 @@ world.route('/:id').get((req, res) => {
   });
 });
 
-const generateCoordinates = (lat, long) => {
+const generateCoordinates = (lat = 90) => {
+  const tiles = [];
   const latitude = GeoLocation.getRoundedLatitude(lat);
+  const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
 
-  if (latitude < -90) {
-    console.log('done');
-    return;
+  for (let lng = 0; lng < 360; lng += gridDistanceAtLatitude) {
+    console.log(lat, lng);
+    let temp = lng;
+    if (temp > 180) {
+      temp -= 360;
+    }
+    const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
+    tiles.push([latitude, longitude]);
   }
 
-  if (long >= 180) {
-    generateCoordinates(latitude - Earth.GRID_DISTANCE, -180);
-    return;
-  }
-
-  const longitude = GeoLocation.getRoundedLongitude(long, latitude);
-
-  // connection.query(
-  //   'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
-  //   ['POINT(' + longitude + ' ' + latitude + ')'],
-  //   (err, data) => {
-  //     generateCoordinates(latitude, long + GeoLocation.gridDistanceAtLatitude(latitude));
-  //   },
-  // );
-
-  connection.query(
-    'INSERT INTO world (latitude, longitude) VALUES (?, ?)',
-    [latitude, longitude],
-    (err) => {
-      if (err) console.log(err);
-      console.log(latitude, longitude);
-      generateCoordinates(latitude, longitude + GeoLocation.gridDistanceAtLatitude(latitude));
-    },
-  );
+  connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [tiles], (err) => {
+    if (err) console.log(err);
+    generateCoordinates(latitude - Earth.GRID_DISTANCE);
+  });
 };
 
 world.route('/generate/all').get(() => {
   console.log('start generating coordinates');
-
-  for (let lat = 90; lat >= -90; lat -= Earth.GRID_DISTANCE) {
-    const tiles = [];
-    const latitude = GeoLocation.getRoundedLatitude(lat);
-    const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
-    for (let lng = 0; lng < 360; lng += gridDistanceAtLatitude) {
-      console.log(lat, lng);
-      let temp = lng;
-      if (temp > 180) {
-        temp -= 360;
-      }
-      const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
-      tiles.push([latitude, longitude]);
-    }
-
-    connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [tiles]);
-  }
+  generateCoordinates();
 
   // generateCoordinates(90, -180);
 
