@@ -16,10 +16,7 @@ export default class GeoLocation {
   }
 
   static gridDistanceAtLatitude(latitude, gridDistance = Earth.GRID_DISTANCE) {
-    return RoundUtils.roundToDecimals(
-      360 / GeoLocation.pointsAtLatitude(latitude, gridDistance),
-      6,
-    );
+    return 360 / GeoLocation.pointsAtLatitude(latitude, gridDistance);
   }
 
   static isEqual = (a, b) => a.latitude == b.latitude && a.longitude == b.longitude;
