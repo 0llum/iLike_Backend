@@ -107,6 +107,7 @@ world.route('/generate/all').get(() => {
     const latitude = GeoLocation.getRoundedLatitude(lat);
     const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
     for (let lng = 0; lng < 360; lng += gridDistanceAtLatitude) {
+      console.log(lat, lng);
       let temp = lng;
       if (temp > 180) {
         temp -= 360;
