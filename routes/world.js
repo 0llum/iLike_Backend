@@ -67,9 +67,6 @@ world.route('/:id').get((req, res) => {
 
 const generateCoordinates = (lat, long) => {
   const latitude = GeoLocation.getRoundedLatitude(lat);
-  const longitude = long > 180
-    ? GeoLocation.getRoundedLongitude(long - 360, latitude)
-    : GeoLocation.getRoundedLongitude(long, latitude);
 
   if (latitude < -90) {
     console.log('done');
@@ -80,6 +77,8 @@ const generateCoordinates = (lat, long) => {
     generateCoordinates(latitude - Earth.GRID_DISTANCE, 6);
     return;
   }
+
+  const longitude = GeoLocation.getRoundedLongitude(long, latitude);
 
   // connection.query(
   //   'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
