@@ -33,7 +33,6 @@ function handleDisconnect() {
 handleDisconnect();
 
 world.route('/').get((req, res) => {
-  console.log('get');
   connection.query('SELECT * FROM world', (err, data) => {
     if (err) {
       return res.status(500).json(err);
@@ -64,37 +63,6 @@ world.route('/:id').get((req, res) => {
     }
     res.status(200).json(data);
   });
-});
-
-world.route('/generate').get((req, res) => {
-  console.log('start generating coordinates');
-  generateCoordinates(90, -180);
-  // for (let y = 14; y > 13; y -= Earth.GRID_DISTANCE) {
-  //   const latitude = GeoLocation.getRoundedLatitude(y);
-  //   for (let x = 0; x < 360; x += GeoLocation.gridDistanceAtLatitude(latitude)) {
-  //     const longitude =
-  //       x > 180
-  //         ? GeoLocation.getRoundedLongitude(x - 360, latitude)
-  //         : GeoLocation.getRoundedLongitude(x, latitude);
-  //     if (!Object.is(longitude, -0)) {
-  //       connection.query(
-  //         'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
-  //         ['POINT(' + longitude + ' ' + latitude + ')'],
-  //         (err, data) => {
-  //           if (err) console.log(err);
-  //         },
-  //       );
-  //       connection.query(
-  //         'INSERT INTO locations (latitude, longitude) VALUES (?, ?)',
-  //         [latitude, longitude],
-  //         (err, data) => {
-  //           if (err) console.log(err);
-  //           console.log(latitude, longitude);
-  //         },
-  //       );
-  //     }
-  //   }
-  // }
 });
 
 const generateCoordinates = (lat, long) => {
@@ -131,5 +99,37 @@ const generateCoordinates = (lat, long) => {
     },
   );
 };
+
+world.route('/generate').get((req, res) => {
+  console.log('start generating coordinates');
+  // generateCoordinates(90, -180);
+
+  // for (let y = 14; y > 13; y -= Earth.GRID_DISTANCE) {
+  //   const latitude = GeoLocation.getRoundedLatitude(y);
+  //   for (let x = 0; x < 360; x += GeoLocation.gridDistanceAtLatitude(latitude)) {
+  //     const longitude =
+  //       x > 180
+  //         ? GeoLocation.getRoundedLongitude(x - 360, latitude)
+  //         : GeoLocation.getRoundedLongitude(x, latitude);
+  //     if (!Object.is(longitude, -0)) {
+  //       connection.query(
+  //         'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
+  //         ['POINT(' + longitude + ' ' + latitude + ')'],
+  //         (err, data) => {
+  //           if (err) console.log(err);
+  //         },
+  //       );
+  //       connection.query(
+  //         'INSERT INTO locations (latitude, longitude) VALUES (?, ?)',
+  //         [latitude, longitude],
+  //         (err, data) => {
+  //           if (err) console.log(err);
+  //           console.log(latitude, longitude);
+  //         },
+  //       );
+  //     }
+  //   }
+  // }
+});
 
 export default world;
