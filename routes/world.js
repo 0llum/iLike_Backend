@@ -101,7 +101,23 @@ const generateCoordinates = (lat, long) => {
 
 world.route('/generate/all').get(() => {
   console.log('start generating coordinates');
-  generateCoordinates(90, -180);
+
+  for (let lat = 90; lat >= -90; lat -= Earth.GRID_DISTANCE) {
+    const tiles = [];
+    const latitude = GeoLocation.getRoundedLatitude(lat);
+    const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
+    for (let lng = 0; lng < 360; lng += gridDistanceAtLatitude) {
+      if (lng > 180) {
+        lng -= 360;
+      }
+      const longitude = GeoLocation.getRoundedLongitude(lng, latitude);
+      tiles.push([latitude, longitude]);
+    }
+
+    connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [tiles]);
+  }
+
+  // generateCoordinates(90, -180);
 
   // for (let y = 14; y > 13; y -= Earth.GRID_DISTANCE) {
   //   const latitude = GeoLocation.getRoundedLatitude(y);
