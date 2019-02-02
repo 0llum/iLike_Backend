@@ -74,7 +74,7 @@ const generateCoordinates = (lat, long) => {
   }
 
   if (long >= 180) {
-    generateCoordinates(latitude - Earth.GRID_DISTANCE, 6);
+    generateCoordinates(latitude - Earth.GRID_DISTANCE, -180);
     return;
   }
 
