@@ -82,7 +82,7 @@ const generateCoordinates = (lat = 90) => {
     }
     const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
     console.log(latitude, longitude);
-    if (!(longitude == 0 || tiles.length > 0)) {
+    if (!(longitude == 0 && tiles.length > 0)) {
       tiles.push([latitude, longitude]);
     }
   }
