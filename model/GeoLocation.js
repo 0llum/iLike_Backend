@@ -9,18 +9,23 @@ export default class GeoLocation {
   }
 
   static pointsAtLatitude(latitude, gridDistance = Earth.GRID_DISTANCE) {
-    const rounded = Math.round((360 / gridDistance) * Math.cos(ConversionUtils.toRadians(latitude)));
+    const rounded = Math.round(
+      (360 / gridDistance) * Math.cos(ConversionUtils.toRadians(latitude)),
+    );
     return rounded < 1 ? 1 : rounded;
   }
 
   static gridDistanceAtLatitude(latitude, gridDistance = Earth.GRID_DISTANCE) {
-    return 360 / GeoLocation.pointsAtLatitude(latitude, gridDistance);
+    return RoundUtils.roundToDecimals(
+      Math.round(360 / GeoLocation.pointsAtLatitude(latitude, gridDistance)),
+      6,
+    );
   }
 
   static isEqual = (a, b) => a.latitude == b.latitude && a.longitude == b.longitude;
 
   static getRoundedLatitude(latitude, gridDistance = Earth.GRID_DISTANCE) {
-    return RoundUtils.roundToDecimals(Math.round(latitude / gridDistance) * gridDistance, 6);
+    return RoundUtils.roundToDecimals(Math.round(latitude / gridDistance) * gridDistance, 4);
   }
 
   static getRoundedLongitude(longitude, latitude, gridDistance = Earth.GRID_DISTANCE) {
