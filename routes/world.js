@@ -102,7 +102,7 @@ const generateCoordinates = (lat, long) => {
 
 world.route('/generate/all').get(() => {
   console.log('start generating coordinates');
-  // generateCoordinates(90, -180);
+  generateCoordinates(90, -180);
 
   // for (let y = 14; y > 13; y -= Earth.GRID_DISTANCE) {
   //   const latitude = GeoLocation.getRoundedLatitude(y);
