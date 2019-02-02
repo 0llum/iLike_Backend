@@ -65,7 +65,7 @@ location.route('/:id').get((req, res) => {
 
 location.route('/:id').post((req, res) => {
   const locations = req.body.locations.map((x) => {
-    const roundedLocation = GeoLocation.getRoundedLocation(x, Earth.NEW_GRID_DISTANCE);
+    const roundedLocation = GeoLocation.getRoundedLocation(x, Earth.GRID_DISTANCE);
     return [req.params.id, roundedLocation.latitude, roundedLocation.longitude, x.timestamp];
   });
 
@@ -165,7 +165,7 @@ location.route('/:id/copy').get((req, res) => {
       }
 
       const resizedLocations = GeoArray.removeDuplicates(
-        data.map(x => GeoLocation.getRoundedLocation(x, Earth.NEW_GRID_DISTANCE)),
+        data.map(x => GeoLocation.getRoundedLocation(x, Earth.GRID_DISTANCE)),
       );
 
       const finalLocations = resizedLocations.map(x => [

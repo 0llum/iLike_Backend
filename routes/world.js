@@ -43,7 +43,7 @@ world.route('/').get((req, res) => {
 
 world.route('/').post((req, res) => {
   const locations = req.body.locations.map((x) => {
-    const roundedLocation = GeoLocation.getRoundedLocation(x, Earth.NEW_GRID_DISTANCE);
+    const roundedLocation = GeoLocation.getRoundedLocation(x, Earth.GRID_DISTANCE);
     return [roundedLocation.latitude, roundedLocation.longitude];
   });
 
@@ -67,7 +67,7 @@ world.route('/:id').get((req, res) => {
 
 world.route('/generate').get((req, res) => {
   console.log('start generating coordinates');
-  generateCoordinates(55, 6);
+  generateCoordinates(90, -180);
   // for (let y = 14; y > 13; y -= Earth.GRID_DISTANCE) {
   //   const latitude = GeoLocation.getRoundedLatitude(y);
   //   for (let x = 0; x < 360; x += GeoLocation.gridDistanceAtLatitude(latitude)) {
@@ -102,12 +102,12 @@ const generateCoordinates = (lat, long) => {
     ? GeoLocation.getRoundedLongitude(long - 360, latitude)
     : GeoLocation.getRoundedLongitude(long, latitude);
 
-  if (latitude < 47) {
+  if (latitude < -90) {
     console.log('done');
     return;
   }
 
-  if (long >= 15) {
+  if (long >= 180) {
     generateCoordinates(latitude - Earth.GRID_DISTANCE, 6);
     return;
   }
