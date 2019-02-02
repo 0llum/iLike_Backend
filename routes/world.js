@@ -33,6 +33,7 @@ function handleDisconnect() {
 handleDisconnect();
 
 world.route('/').get((req, res) => {
+  console.log('get /');
   connection.query('SELECT * FROM world', (err, data) => {
     if (err) {
       return res.status(500).json(err);
@@ -57,6 +58,7 @@ world.route('/').post((req, res) => {
 });
 
 world.route('/:id').get((req, res) => {
+  console.log('get /:id');
   connection.query('SELECT * FROM world WHERE id = ?', [req.params.id], (err, data) => {
     if (err) {
       return res.status(500).json(err);
