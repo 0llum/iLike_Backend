@@ -53,6 +53,7 @@
     "max-len": "off",
     "no-param-reassign": "off",
     "eqeqeq": "off",
-    "react-native/sort-styles": "off"
+    "react-native/sort-styles": "off",
+    "no-console": "off"
   }
 }

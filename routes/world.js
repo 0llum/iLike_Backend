@@ -37,7 +37,7 @@ world.route('/').get((req, res) => {
     if (err) {
       return res.status(500).json(err);
     }
-    res.status(200).json(data);
+    return res.status(200).json(data);
   });
 });
 
@@ -47,7 +47,7 @@ world.route('/').post((req, res) => {
     return [roundedLocation.latitude, roundedLocation.longitude];
   });
 
-  connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [locations], (err, data) => {
+  connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [locations], (err) => {
     if (err) {
       console.log(err);
     }
@@ -61,7 +61,7 @@ world.route('/:id').get((req, res) => {
     if (err) {
       return res.status(500).json(err);
     }
-    res.status(200).json(data);
+    return res.status(200).json(data);
   });
 });
 
@@ -92,7 +92,7 @@ const generateCoordinates = (lat, long) => {
   connection.query(
     'INSERT INTO world (latitude, longitude) VALUES (?, ?)',
     [latitude, longitude],
-    (err, data) => {
+    (err) => {
       if (err) console.log(err);
       console.log(latitude, longitude);
       generateCoordinates(latitude, longitude + GeoLocation.gridDistanceAtLatitude(latitude));
@@ -100,7 +100,7 @@ const generateCoordinates = (lat, long) => {
   );
 };
 
-world.route('/generate').get((req, res) => {
+world.route('/generate').get(() => {
   console.log('start generating coordinates');
   // generateCoordinates(90, -180);
 
