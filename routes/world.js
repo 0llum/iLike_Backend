@@ -66,7 +66,7 @@ world.route('/:id').get((req, res) => {
 });
 
 const generateCoordinates = (lat = 90) => {
-  if (lat < -89.99) {
+  if (lat <= 89.99) {
     console.log('done');
     return;
   }
