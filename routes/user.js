@@ -65,7 +65,7 @@ user.route('/').post((req, res) => {
           }
           res.status(201).json(user[0]);
         });
-      },
+      }
     );
   });
 });
@@ -91,7 +91,20 @@ user.route('/:id').post((req, res) => {
         console.log(err);
       }
       res.status(200).end();
-    },
+    }
+  );
+});
+
+user.route('/:id/tile').post((req, res) => {
+  connection.query(
+    'UPDATE user SET latitude = ?, longitude = ? WHERE id = ?',
+    [req.body.latitude, req.body.longitude, req.params.id],
+    (err, token) => {
+      if (err) {
+        console.log(err);
+      }
+      res.status(200).end();
+    }
   );
 });
 
