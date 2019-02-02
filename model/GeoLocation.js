@@ -17,7 +17,7 @@ export default class GeoLocation {
 
   static gridDistanceAtLatitude(latitude, gridDistance = Earth.GRID_DISTANCE) {
     return RoundUtils.roundToDecimals(
-      Math.round(360 / GeoLocation.pointsAtLatitude(latitude, gridDistance)),
+      360 / GeoLocation.pointsAtLatitude(latitude, gridDistance),
       6,
     );
   }
