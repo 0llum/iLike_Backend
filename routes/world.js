@@ -66,6 +66,11 @@ world.route('/:id').get((req, res) => {
 });
 
 const generateCoordinates = (lat = 90) => {
+  if (lat < -89.99) {
+    console.log('done');
+    return;
+  }
+
   const tiles = [];
   const latitude = GeoLocation.getRoundedLatitude(lat);
   const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
@@ -89,35 +94,6 @@ const generateCoordinates = (lat = 90) => {
 world.route('/generate/all').get(() => {
   console.log('start generating coordinates');
   generateCoordinates();
-
-  // generateCoordinates(90, -180);
-
-  // for (let y = 14; y > 13; y -= Earth.GRID_DISTANCE) {
-  //   const latitude = GeoLocation.getRoundedLatitude(y);
-  //   for (let x = 0; x < 360; x += GeoLocation.gridDistanceAtLatitude(latitude)) {
-  //     const longitude =
-  //       x > 180
-  //         ? GeoLocation.getRoundedLongitude(x - 360, latitude)
-  //         : GeoLocation.getRoundedLongitude(x, latitude);
-  //     if (!Object.is(longitude, -0)) {
-  //       connection.query(
-  //         'INSERT INTO coordinates SET coordinate = GeomFromText(?)',
-  //         ['POINT(' + longitude + ' ' + latitude + ')'],
-  //         (err, data) => {
-  //           if (err) console.log(err);
-  //         },
-  //       );
-  //       connection.query(
-  //         'INSERT INTO locations (latitude, longitude) VALUES (?, ?)',
-  //         [latitude, longitude],
-  //         (err, data) => {
-  //           if (err) console.log(err);
-  //           console.log(latitude, longitude);
-  //         },
-  //       );
-  //     }
-  //   }
-  // }
 });
 
 export default world;
