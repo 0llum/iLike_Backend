@@ -12,7 +12,7 @@ let connection;
 function handleDisconnect() {
   connection = mysql.createConnection(Connection);
 
-  connection.connect(err => {
+  connection.connect((err) => {
     if (err) {
       console.log(err);
       setTimeout(handleDisconnect, 2000);
@@ -21,7 +21,7 @@ function handleDisconnect() {
     }
   });
 
-  connection.on('error', err => {
+  connection.on('error', (err) => {
     console.log(err);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       handleDisconnect();
@@ -43,7 +43,7 @@ login.route('/').post((req, res) => {
     }
 
     const user = data[0];
-    bcrypt.compare(req.body.password, user.password, function(err, isMatch) {
+    bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
       if (err) {
         return res.status(500).json(err);
       }

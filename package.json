@@ -38,6 +38,20 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
     "nodemon": "^1.18.9",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "@babel/core": "^7.0.0-0",
+    "babel-eslint": "^10.0.1",
+    "babel-preset-airbnb": "^3.2.0",
+    "babel-preset-react-native": "^4.0.1",
+    "eslint": "^5.12.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-import-resolver-reactnative": "^1.0.2",
+    "eslint-plugin-import": "^2.15.0",
+    "eslint-plugin-jsx-a11y": "^6.2.0",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-react-native": "^3.6.0",
+    "jest-expo": "^32.0.0",
+    "prettier-eslint": "^8.8.2",
+    "react-test-renderer": "^16.7.0"
   }
 }

@@ -16,7 +16,7 @@ const connection = mysql.createConnection({
 // const users = express.Router();
 const coordinates = express.Router();
 
-connection.connect(err => {
+connection.connect((err) => {
   if (err) {
     throw err;
   }
@@ -101,12 +101,11 @@ connection.connect(err => {
   });
 });
 
-const generateCoordinates = function(lat, long) {
+const generateCoordinates = function (lat, long) {
   const latitude = GeoLocation.getRoundedLatitude(lat);
-  const longitude =
-    long > 180
-      ? GeoLocation.getRoundedLongitude(long - 360, latitude)
-      : GeoLocation.getRoundedLongitude(long, latitude);
+  const longitude = long > 180
+    ? GeoLocation.getRoundedLongitude(long - 360, latitude)
+    : GeoLocation.getRoundedLongitude(long, latitude);
 
   if (latitude < 47) {
     console.log('done');

@@ -9,13 +9,13 @@ import * as LevelUtils from '../utils/LevelUtils';
 import * as Earth from '../constants/Earth';
 
 const location = express.Router();
-let expo = new Expo();
+const expo = new Expo();
 let connection;
 
 function handleDisconnect() {
   connection = mysql.createConnection(Connection);
 
-  connection.connect(err => {
+  connection.connect((err) => {
     if (err) {
       console.log(err);
       setTimeout(handleDisconnect, 2000);
@@ -24,7 +24,7 @@ function handleDisconnect() {
     }
   });
 
-  connection.on('error', err => {
+  connection.on('error', (err) => {
     console.log(err);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       handleDisconnect();
@@ -64,7 +64,7 @@ location.route('/:id').get((req, res) => {
 });
 
 location.route('/:id').post((req, res) => {
-  const locations = req.body.locations.map(x => {
+  const locations = req.body.locations.map((x) => {
     const roundedLocation = GeoLocation.getRoundedLocation(x, Earth.NEW_GRID_DISTANCE);
     return [req.params.id, roundedLocation.latitude, roundedLocation.longitude, x.timestamp];
   });
@@ -107,7 +107,7 @@ location.route('/:id').post((req, res) => {
                     }
 
                     const messages = [];
-                    data.forEach(x => {
+                    data.forEach((x) => {
                       messages.push({
                         to: x.push_token,
                         title: `${x.username} is now on level ${after}`,
@@ -164,10 +164,17 @@ location.route('/:id/copy').get((req, res) => {
         return res.status(500).json(err);
       }
 
-      const resizedLocations = GeoArray.removeDuplicates(data.map(x => GeoLocation.getRoundedLocation(x, Earth.NEW_GRID_DISTANCE)));
+      const resizedLocations = GeoArray.removeDuplicates(
+        data.map(x => GeoLocation.getRoundedLocation(x, Earth.NEW_GRID_DISTANCE)),
+      );
 
-      const finalLocations = resizedLocations.map(x => [req.params.id, x.latitude, x.longitude, x.timestamp]);
-      
+      const finalLocations = resizedLocations.map(x => [
+        req.params.id,
+        x.latitude,
+        x.longitude,
+        x.timestamp,
+      ]);
+
       connection.query(
         'INSERT INTO location2 (user_id, latitude, longitude, timestamp) VALUES ?',
         [finalLocations],
@@ -177,7 +184,7 @@ location.route('/:id/copy').get((req, res) => {
           }
 
           res.status(201).end();
-        }
+        },
       );
     },
   );

@@ -11,7 +11,7 @@ let connection;
 function handleDisconnect() {
   connection = mysql.createConnection(Connection);
 
-  connection.connect(err => {
+  connection.connect((err) => {
     if (err) {
       console.log(err);
       setTimeout(handleDisconnect, 2000);
@@ -20,7 +20,7 @@ function handleDisconnect() {
     }
   });
 
-  connection.on('error', err => {
+  connection.on('error', (err) => {
     console.log(err);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       handleDisconnect();
@@ -45,7 +45,7 @@ user.route('/').get((req, res) => {
 });
 
 user.route('/').post((req, res) => {
-  bcrypt.hash(req.body.password, SALT_WORK_FACTOR, function(err, hash) {
+  bcrypt.hash(req.body.password, SALT_WORK_FACTOR, (err, hash) => {
     if (err) {
       return res.status(500).json(err);
     }
@@ -65,7 +65,7 @@ user.route('/').post((req, res) => {
           }
           res.status(201).json(user[0]);
         });
-      }
+      },
     );
   });
 });
@@ -91,7 +91,7 @@ user.route('/:id').post((req, res) => {
         console.log(err);
       }
       res.status(200).end();
-    }
+    },
   );
 });
 
@@ -104,7 +104,7 @@ user.route('/:id/tile').post((req, res) => {
         console.log(err);
       }
       res.status(200).end();
-    }
+    },
   );
 });
 

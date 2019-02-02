@@ -9,7 +9,7 @@ let connection;
 function handleDisconnect() {
   connection = mysql.createConnection(Connection);
 
-  connection.connect(err => {
+  connection.connect((err) => {
     if (err) {
       console.log(err);
       setTimeout(handleDisconnect, 2000);
@@ -18,7 +18,7 @@ function handleDisconnect() {
     }
   });
 
-  connection.on('error', err => {
+  connection.on('error', (err) => {
     console.log(err);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       handleDisconnect();

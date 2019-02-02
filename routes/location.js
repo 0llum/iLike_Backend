@@ -7,13 +7,13 @@ import GeoLocation from '../model/GeoLocation';
 import * as LevelUtils from '../utils/LevelUtils';
 
 const location = express.Router();
-let expo = new Expo();
+const expo = new Expo();
 let connection;
 
 function handleDisconnect() {
   connection = mysql.createConnection(Connection);
 
-  connection.connect(err => {
+  connection.connect((err) => {
     if (err) {
       console.log(err);
       setTimeout(handleDisconnect, 2000);
@@ -22,7 +22,7 @@ function handleDisconnect() {
     }
   });
 
-  connection.on('error', err => {
+  connection.on('error', (err) => {
     console.log(err);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       handleDisconnect();
@@ -62,7 +62,7 @@ location.route('/:id').get((req, res) => {
 });
 
 location.route('/:id').post((req, res) => {
-  const locations = req.body.locations.map(x => {
+  const locations = req.body.locations.map((x) => {
     const roundedLocation = GeoLocation.getRoundedLocation(x);
     return [req.params.id, roundedLocation.latitude, roundedLocation.longitude, x.timestamp];
   });
@@ -105,7 +105,7 @@ location.route('/:id').post((req, res) => {
                     }
 
                     const messages = [];
-                    data.forEach(x => {
+                    data.forEach((x) => {
                       messages.push({
                         to: x.push_token,
                         title: `${x.username} is now on level ${after}`,

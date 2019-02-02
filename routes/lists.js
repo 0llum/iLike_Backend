@@ -25,7 +25,7 @@ lists
   })
   .post((req, res) => {
     const list = new List(req.body);
-    list.save(err => {
+    list.save((err) => {
       if (err) {
         return res.status(406).json(err);
       }
@@ -55,11 +55,11 @@ lists
         if (!users) {
           return res.status(404).end();
         }
-        list.items.forEach(item => {
-          item.matches.forEach(match => {
+        list.items.forEach((item) => {
+          item.matches.forEach((match) => {
             let countSum = 0;
             let picksSum = 0;
-            users.forEach(user => {
+            users.forEach((user) => {
               const userMatch = user.matches.find(x => x.matchId == match.id);
               if (userMatch) {
                 countSum++;
@@ -92,16 +92,16 @@ lists
         list.count = list.count ? list.count + 1 : 1;
       }
       if (req.body.items) {
-        req.body.items.forEach(bodyItem => {
+        req.body.items.forEach((bodyItem) => {
           const listItem = list.items.id(bodyItem.id);
           if (bodyItem.count) {
-            listItem.count = listItem.count + 1;
+            listItem.count += 1;
           }
           if (bodyItem.picks) {
-            listItem.picks = listItem.picks + 1;
+            listItem.picks += 1;
           }
           if (bodyItem.matches) {
-            bodyItem.matches.forEach(x => {
+            bodyItem.matches.forEach((x) => {
               let match = listItem.matches.find(y => y.itemId == x.itemId);
               if (!match) {
                 match = {};
@@ -109,18 +109,18 @@ lists
                 match.count = 0;
                 match.picks = 0;
                 if (x.count) {
-                  match.count = match.count + 1;
+                  match.count += 1;
                 }
                 if (x.picks) {
-                  match.picks = match.picks + 1;
+                  match.picks += 1;
                 }
                 listItem.matches.push(match);
               } else {
                 if (x.count) {
-                  match.count = match.count + 1;
+                  match.count += 1;
                 }
                 if (x.picks) {
-                  match.picks = match.picks + 1;
+                  match.picks += 1;
                 }
               }
 
@@ -143,11 +143,11 @@ lists
                     }
                     user.matches.push(userMatch);
                   } else {
-                    match.count = match.count - 1;
-                    match.picks = match.picks - userMatch.picks;
+                    match.count -= 1;
+                    match.picks -= userMatch.picks;
                     if (x.picks) {
                       userMatch.picks = 1;
-                      match.picks = match.picks + 1;
+                      match.picks += 1;
                     } else {
                       userMatch.picks = 0;
                     }
@@ -173,7 +173,7 @@ lists.route('/:id/:itemId').get((req, res) => {
     if (!item) {
       return res.status(404).end();
     }
-    item.matches.forEach(element => {
+    item.matches.forEach((element) => {
       const ref = data.items.find(x => x.id == element.itemId);
       element.name = ref.name;
       element.image = ref.image;
