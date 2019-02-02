@@ -107,10 +107,11 @@ world.route('/generate/all').get(() => {
     const latitude = GeoLocation.getRoundedLatitude(lat);
     const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
     for (let lng = 0; lng < 360; lng += gridDistanceAtLatitude) {
-      if (lng > 180) {
-        lng -= 360;
+      let temp = lng;
+      if (temp > 180) {
+        temp -= 360;
       }
-      const longitude = GeoLocation.getRoundedLongitude(lng, latitude);
+      const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
       tiles.push([latitude, longitude]);
     }
 
