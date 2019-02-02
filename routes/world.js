@@ -76,13 +76,15 @@ const generateCoordinates = (lat = 90) => {
   const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
 
   for (let lng = 0; lng < 360; lng += gridDistanceAtLatitude) {
-    console.log(lat, lng);
     let temp = lng;
     if (temp > 180) {
       temp -= 360;
     }
     const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
-    tiles.push([latitude, longitude]);
+    console.log(latitude, longitude);
+    if (!(longitude == 0 || tiles.length > 0)) {
+      tiles.push([latitude, longitude]);
+    }
   }
 
   connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [tiles], (err) => {
