@@ -33,6 +33,7 @@ function handleDisconnect() {
 handleDisconnect();
 
 world.route('/').get((req, res) => {
+  console.log('get');
   connection.query('SELECT * FROM world', (err, data) => {
     if (err) {
       return res.status(500).json(err);
