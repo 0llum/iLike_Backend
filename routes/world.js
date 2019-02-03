@@ -94,9 +94,10 @@ const generateCoordinates = (latMin, latMax, lngMin, lngMax, lat = latMax) => {
 };
 
 world.route('/generate/:latMin/:latMax/:lngMin/:lngMax').get((req) => {
-  const {
-    latMin, lngMin, latMax, lngMax,
-  } = req.params;
+  const latMin = parseFloat(req.params.latMin);
+  const latMax = parseFloat(req.params.latMax);
+  const lngMin = parseFloat(req.params.lngMin);
+  const lngMax = parseFloat(req.params.lngMax);
   console.log(`generating coordinates from ${latMin}, ${lngMin} to ${latMax}, ${lngMax}`);
   generateCoordinates(latMin, latMax, lngMin, lngMax);
 });
