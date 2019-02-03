@@ -65,8 +65,8 @@ world.route('/:id').get((req, res) => {
   });
 });
 
-const generateCoordinates = (lat = 90) => {
-  if (lat <= 89.99) {
+const generateCoordinates = (latMin, latMax, lngMin, lngMax, lat = latMax) => {
+  if (lat <= latMin) {
     console.log('done');
     return;
   }
@@ -75,7 +75,7 @@ const generateCoordinates = (lat = 90) => {
   const latitude = GeoLocation.getRoundedLatitude(lat);
   const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
 
-  for (let lng = 0; lng < 360; lng += gridDistanceAtLatitude) {
+  for (let lng = lngMin; lng <= lngMax; lng += gridDistanceAtLatitude) {
     let temp = lng;
     if (temp > 180) {
       temp -= 360;
@@ -89,13 +89,16 @@ const generateCoordinates = (lat = 90) => {
 
   connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [tiles], (err) => {
     if (err) console.log(err);
-    generateCoordinates(latitude - Earth.GRID_DISTANCE);
+    generateCoordinates(latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
   });
 };
 
-world.route('/generate/all').get(() => {
-  console.log('start generating coordinates');
-  generateCoordinates();
+world.route('/generate/:latMin/:latMax/:lngMin/:lngMax').get((req) => {
+  const {
+    latMin, lngMin, latMax, lngMax,
+  } = req.params;
+  console.log(`generating coordinates from ${latMin}, ${lngMin} to ${latMax}, ${lngMax}`);
+  generateCoordinates(latMin, latMax, lngMin, lngMax);
 });
 
 export default world;
