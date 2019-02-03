@@ -66,7 +66,7 @@ world.route('/:id').get((req, res) => {
 });
 
 const generateCoordinates = (latMin, latMax, lngMin, lngMax, lat = latMax) => {
-  if (lat <= latMin) {
+  if (lat < latMin) {
     console.log('done');
     return;
   }
@@ -75,7 +75,7 @@ const generateCoordinates = (latMin, latMax, lngMin, lngMax, lat = latMax) => {
   const latitude = GeoLocation.getRoundedLatitude(lat);
   const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
 
-  for (let lng = lngMin; lng <= lngMax; lng += gridDistanceAtLatitude) {
+  for (let lng = lngMin; lng < lngMax; lng += gridDistanceAtLatitude) {
     let temp = lng;
     if (temp > 180) {
       temp -= 360;
