@@ -3,6 +3,7 @@ import mysql from 'mysql';
 
 import Connection from '../constants/Connection';
 import GeoLocation from '../model/GeoLocation';
+import GeoArray from '../model/GeoArray';
 import * as Earth from '../constants/Earth';
 import Berlin from '../countries/germany/Berlin';
 
