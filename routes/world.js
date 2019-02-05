@@ -4,6 +4,7 @@ import mysql from 'mysql';
 import Connection from '../constants/Connection';
 import GeoLocation from '../model/GeoLocation';
 import * as Earth from '../constants/Earth';
+import Berlin from '../countries/germany/Berlin';
 
 const world = express.Router();
 let connection;
@@ -11,7 +12,7 @@ let connection;
 function handleDisconnect() {
   connection = mysql.createConnection(Connection);
 
-  connection.connect((err) => {
+  connection.connect(err => {
     if (err) {
       console.log(err);
       setTimeout(handleDisconnect, 2000);
@@ -20,7 +21,7 @@ function handleDisconnect() {
     }
   });
 
-  connection.on('error', (err) => {
+  connection.on('error', err => {
     console.log(err);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       handleDisconnect();
@@ -42,26 +43,17 @@ world.route('/').get((req, res) => {
 });
 
 world.route('/').post((req, res) => {
-  const locations = req.body.locations.map((x) => {
+  const locations = req.body.locations.map(x => {
     const roundedLocation = GeoLocation.getRoundedLocation(x, Earth.GRID_DISTANCE);
     return [roundedLocation.latitude, roundedLocation.longitude];
   });
 
-  connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [locations], (err) => {
+  connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [locations], err => {
     if (err) {
       console.log(err);
     }
 
     res.status(201).end();
-  });
-});
-
-world.route('/:id').get((req, res) => {
-  connection.query('SELECT * FROM world WHERE id = ?', [req.params.id], (err, data) => {
-    if (err) {
-      return res.status(500).json(err);
-    }
-    return res.status(200).json(data);
   });
 });
 
@@ -87,19 +79,25 @@ const generateCoordinates = (latMin, latMax, lngMin, lngMax, lat = latMax) => {
     }
   }
 
-  connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [tiles], (err) => {
+  connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [tiles], err => {
     if (err) console.log(err);
     generateCoordinates(latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
   });
 };
 
-world.route('/generate/:latMin/:latMax/:lngMin/:lngMax').get((req) => {
+world.route('/generate/:latMin/:latMax/:lngMin/:lngMax').get(req => {
   const latMin = parseFloat(req.params.latMin);
   const latMax = parseFloat(req.params.latMax);
   const lngMin = parseFloat(req.params.lngMin);
   const lngMax = parseFloat(req.params.lngMax);
   console.log(`generating coordinates from ${latMin}, ${lngMin} to ${latMax}, ${lngMax}`);
   generateCoordinates(latMin, latMax, lngMin, lngMax);
+});
+
+world.route('/generate').get(req => {
+  console.log(`generating...`);
+  const locations = GeoLocation.getTilesInPolygon(Berlin);
+  console.log('tiles: ', locations.length);
 });
 
 export default world;

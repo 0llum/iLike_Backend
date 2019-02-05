@@ -1,3 +1,5 @@
+import geolib from 'geolib';
+
 import GeoArray from './GeoArray';
 import * as ConversionUtils from '../utils/ConversionUtils';
 import * as RoundUtils from '../utils/RoundUtils';
@@ -10,7 +12,7 @@ export default class GeoLocation {
 
   static pointsAtLatitude(latitude, gridDistance = Earth.GRID_DISTANCE) {
     const rounded = Math.round(
-      (360 / gridDistance) * Math.cos(ConversionUtils.toRadians(latitude)),
+      (360 / gridDistance) * Math.cos(ConversionUtils.toRadians(latitude))
     );
     return rounded < 1 ? 1 : rounded;
   }
@@ -28,9 +30,9 @@ export default class GeoLocation {
   static getRoundedLongitude(longitude, latitude, gridDistance = Earth.GRID_DISTANCE) {
     const roundedLatitude = GeoLocation.getRoundedLatitude(latitude, gridDistance);
     return RoundUtils.roundToDecimals(
-      Math.round(longitude / GeoLocation.gridDistanceAtLatitude(roundedLatitude, gridDistance))
-        * GeoLocation.gridDistanceAtLatitude(roundedLatitude, gridDistance),
-      6,
+      Math.round(longitude / GeoLocation.gridDistanceAtLatitude(roundedLatitude, gridDistance)) *
+        GeoLocation.gridDistanceAtLatitude(roundedLatitude, gridDistance),
+      6
     );
   }
 
@@ -69,6 +71,65 @@ export default class GeoLocation {
     return [topLeft, topRight, botRight, botLeft];
   }
 
+  static getRoundedRectangle(left, right, gridDistance = Earth.GRID_DISTANCE) {
+    const centerLatitude = left.latitude;
+    const centerGridDistance = GeoLocation.gridDistanceAtLatitude(centerLatitude, gridDistance);
+    const horizontalOffset = centerGridDistance / Earth.SQUARE_OFFSET;
+    const verticalOffset = gridDistance / Earth.SQUARE_OFFSET;
+
+    const radiusVertical = gridDistance / 10;
+    const radiusHorizontal = GeoLocation.gridDistanceAtLatitude(centerLatitude, radiusVertical);
+    const count = 16;
+    const points = [];
+
+    const topLeft = {
+      latitude: left.latitude + verticalOffset - radiusVertical,
+      longitude: left.longitude - horizontalOffset + radiusHorizontal,
+    };
+    const topRight = {
+      latitude: right.latitude + verticalOffset - radiusVertical,
+      longitude: right.longitude + horizontalOffset - radiusHorizontal,
+    };
+    const botRight = {
+      latitude: right.latitude - verticalOffset + radiusVertical,
+      longitude: right.longitude + horizontalOffset - radiusHorizontal,
+    };
+    const botLeft = {
+      latitude: left.latitude - verticalOffset + radiusVertical,
+      longitude: left.longitude - horizontalOffset + radiusHorizontal,
+    };
+
+    for (let i = count / 2; i >= count / 4; i--) {
+      const latitude = topLeft.latitude + radiusVertical * Math.sin(((2 * Math.PI) / count) * i);
+      const longitude =
+        topLeft.longitude + radiusHorizontal * Math.cos(((2 * Math.PI) / count) * i);
+      points.push({ latitude, longitude });
+    }
+
+    for (let i = count / 4; i >= 0; i--) {
+      const latitude = topRight.latitude + radiusVertical * Math.sin(((2 * Math.PI) / count) * i);
+      const longitude =
+        topRight.longitude + radiusHorizontal * Math.cos(((2 * Math.PI) / count) * i);
+      points.push({ latitude, longitude });
+    }
+
+    for (let i = count; i >= (count * 3) / 4; i--) {
+      const latitude = botRight.latitude + radiusVertical * Math.sin(((2 * Math.PI) / count) * i);
+      const longitude =
+        botRight.longitude + radiusHorizontal * Math.cos(((2 * Math.PI) / count) * i);
+      points.push({ latitude, longitude });
+    }
+
+    for (let i = (count * 3) / 4; i >= count / 2; i--) {
+      const latitude = botLeft.latitude + radiusVertical * Math.sin(((2 * Math.PI) / count) * i);
+      const longitude =
+        botLeft.longitude + radiusHorizontal * Math.cos(((2 * Math.PI) / count) * i);
+      points.push({ latitude, longitude });
+    }
+
+    return points;
+  }
+
   static getDiamond(left, right, gridDistance = Earth.GRID_DISTANCE) {
     const centerLatitude = left.latitude;
     const centerGridDistance = GeoLocation.gridDistanceAtLatitude(centerLatitude, gridDistance);
@@ -80,12 +141,12 @@ export default class GeoLocation {
     const topLongitudeLeft = GeoLocation.getRoundedLongitude(
       left.longitude,
       topLatitude,
-      gridDistance,
+      gridDistance
     );
     const topLongitudeRight = GeoLocation.getRoundedLongitude(
       right.longitude,
       topLatitude,
-      gridDistance,
+      gridDistance
     );
 
     const botLatitude = GeoLocation.getRoundedLatitude(centerLatitude - gridDistance, gridDistance);
@@ -93,12 +154,12 @@ export default class GeoLocation {
     const botLongitudeLeft = GeoLocation.getRoundedLongitude(
       left.longitude,
       botLatitude,
-      gridDistance,
+      gridDistance
     );
     const botLongitudeRight = GeoLocation.getRoundedLongitude(
       right.longitude,
       botLatitude,
-      gridDistance,
+      gridDistance
     );
 
     const topLeftLongitude = (centerLongitudeLeft + topLongitudeLeft - topGridDistance / 2) / 2;
@@ -127,15 +188,17 @@ export default class GeoLocation {
     return [topLeft, topRight, botRight, botLeft];
   }
 
-  static getSquare = (location, gridDistance = Earth.GRID_DISTANCE) => GeoLocation.getRectangle(location, location, gridDistance);
+  static getSquare = (location, gridDistance = Earth.GRID_DISTANCE) =>
+    GeoLocation.getRectangle(location, location, gridDistance);
 
   static getCircle(center, radius, count) {
     const points = [];
     for (let i = 0; i < count; i++) {
       const latitude = center.latitude + radius * Math.sin(((2 * Math.PI) / count) * i);
-      const longitude = center.longitude
-        + GeoLocation.gridDistanceAtLatitude(latitude, radius)
-          * Math.cos(((2 * Math.PI) / count) * i);
+      const longitude =
+        center.longitude +
+        GeoLocation.gridDistanceAtLatitude(latitude, radius) *
+          Math.cos(((2 * Math.PI) / count) * i);
       points.push({
         latitude,
         longitude,
@@ -149,9 +212,10 @@ export default class GeoLocation {
     const points = [];
     for (let i = 0; i < count; i++) {
       const latitude = center.latitude + radius * Math.sin(((2 * Math.PI) / count) * i);
-      const longitude = center.longitude
-        + GeoLocation.gridDistanceAtLatitude(latitude, radius)
-          * Math.cos(((2 * Math.PI) / count) * i);
+      const longitude =
+        center.longitude +
+        GeoLocation.gridDistanceAtLatitude(latitude, radius) *
+          Math.cos(((2 * Math.PI) / count) * i);
       const tile = GeoLocation.getRoundedLocation({ latitude, longitude });
       points.push({
         latitude: tile.latitude,
@@ -189,8 +253,42 @@ export default class GeoLocation {
 
   static isInRegion(location, region, factor = 1) {
     return (
-      GeoLocation.isLatitudeInRegion(location.latitude, region, factor)
-      && GeoLocation.isLongitudeInRegion(location.longitude, region, factor)
+      GeoLocation.isLatitudeInRegion(location.latitude, region, factor) &&
+      GeoLocation.isLongitudeInRegion(location.longitude, region, factor)
     );
+  }
+
+  static getTilesInPolygon(polygon) {
+    const array = polygon.features[0].geometry.coordinates[0];
+    const coords = array.map(x => ({ latitude: x[1], longitude: x[0] }));
+    const boundingBox = GeoArray.getBoundingBox(coords);
+
+    const candidates = [];
+
+    console.log('coords: ', coords.length);
+
+    geolib.preparePolygonForIsPointInsideOptimized(coords);
+
+    for (
+      let lat = boundingBox.latMax + 0.1;
+      lat > boundingBox.latMin - 0.1;
+      lat -= Earth.GRID_DISTANCE
+    ) {
+      const latitude = GeoLocation.getRoundedLatitude(lat);
+      const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(lat);
+      for (
+        let lng = boundingBox.longMin - 0.1;
+        lng < boundingBox.longMax + 0.1;
+        lng += gridDistanceAtLatitude
+      ) {
+        const longitude = GeoLocation.getRoundedLongitude(lng, latitude);
+        const location = { latitude, longitude };
+        if (geolib.isPointInsideWithPreparedPolygon(location, coords)) {
+          candidates.push({ latitude, longitude });
+        }
+      }
+    }
+
+    return candidates;
   }
 }

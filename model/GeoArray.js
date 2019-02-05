@@ -44,11 +44,12 @@ export default class GeoArray {
     return unique;
   }
 
-  static fromArray = array => array.map(x => ({
-    latitude: x.latitude,
-    longitude: x.longitude,
-    timestamp: x.timestamp,
-  }));
+  static fromArray = array =>
+    array.map(x => ({
+      latitude: x.latitude,
+      longitude: x.longitude,
+      timestamp: x.timestamp,
+    }));
 
   static toGrid(array) {
     if (array.length < 1) {
@@ -88,13 +89,13 @@ export default class GeoArray {
     return grid;
   }
 
-  static toRegion(array) {
+  static getBoundingBox(array) {
     let latMin = array[0].latitude;
     let latMax = array[0].latitude;
     let longMin = array[0].longitude;
     let longMax = array[0].longitude;
 
-    array.forEach((location) => {
+    array.forEach(location => {
       latMin = Math.min(latMin, location.latitude);
       latMax = Math.max(latMax, location.latitude);
       longMin = Math.min(longMin, location.longitude);
@@ -102,10 +103,20 @@ export default class GeoArray {
     });
 
     return {
-      latitude: (latMin + latMax) / 2,
-      longitude: (longMin + longMax) / 2,
-      latitudeDelta: latMax - latMin,
-      longitudeDelta: longMax - longMin,
+      latMin,
+      latMax,
+      longMin,
+      longMax,
+    };
+  }
+
+  static toRegion(array) {
+    const boundingBox = GeoArray.getBoundingBox(array);
+    return {
+      latitude: (boundingBox.latMin + boundingBox.latMax) / 2,
+      longitude: (boundingBox.longMin + boundingBox.longMax) / 2,
+      latitudeDelta: boundingBox.latMax - boundingBox.latMin,
+      longitudeDelta: boundingBox.longMax - boundingBox.longMin,
     };
   }
 }
