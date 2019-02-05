@@ -14,7 +14,7 @@ let connection;
 function handleDisconnect() {
   connection = mysql.createConnection(Connection);
 
-  connection.connect(err => {
+  connection.connect((err) => {
     if (err) {
       console.log(err);
       setTimeout(handleDisconnect, 2000);
@@ -23,7 +23,7 @@ function handleDisconnect() {
     }
   });
 
-  connection.on('error', err => {
+  connection.on('error', (err) => {
     console.log(err);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       handleDisconnect();
@@ -45,12 +45,12 @@ world.route('/').get((req, res) => {
 });
 
 world.route('/').post((req, res) => {
-  const locations = req.body.locations.map(x => {
+  const locations = req.body.locations.map((x) => {
     const roundedLocation = GeoLocation.getRoundedLocation(x, Earth.GRID_DISTANCE);
     return [roundedLocation.latitude, roundedLocation.longitude];
   });
 
-  connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [locations], err => {
+  connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [locations], (err) => {
     if (err) {
       console.log(err);
     }
@@ -59,7 +59,7 @@ world.route('/').post((req, res) => {
   });
 });
 
-const generateCoordinates = (latMin, latMax, lngMin, lngMax, lat = latMax) => {
+const generateCoordinates = (region, latMin, latMax, lngMin, lngMax, lat = latMax) => {
   if (lat < latMin) {
     console.log('done');
     return;
@@ -77,23 +77,23 @@ const generateCoordinates = (latMin, latMax, lngMin, lngMax, lat = latMax) => {
     const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
     console.log(latitude, longitude);
     if (!(longitude == 0 && tiles.length > 0)) {
-      tiles.push([latitude, longitude]);
+      tiles.push([latitude, longitude, region]);
     }
   }
 
-  connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [tiles], err => {
+  connection.query('INSERT INTO world (latitude, longitude, region_id) VALUES ?', [tiles], (err) => {
     if (err) console.log(err);
-    generateCoordinates(latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
+    generateCoordinates(region, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
   });
 };
 
-world.route('/generate/:latMin/:latMax/:lngMin/:lngMax').get(req => {
+world.route('/generate/:region/:latMin/:latMax/:lngMin/:lngMax').get((req) => {
   const latMin = parseFloat(req.params.latMin);
   const latMax = parseFloat(req.params.latMax);
   const lngMin = parseFloat(req.params.lngMin);
   const lngMax = parseFloat(req.params.lngMax);
   console.log(`generating coordinates from ${latMin}, ${lngMin} to ${latMax}, ${lngMax}`);
-  generateCoordinates(latMin, latMax, lngMin, lngMax);
+  generateCoordinates(req.params.region, latMin, latMax, lngMin, lngMax);
 });
 
 const generate = (polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
@@ -120,15 +120,15 @@ const generate = (polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
 
   console.log(tiles);
 
-  connection.query('INSERT INTO world (latitude, longitude, region_id) VALUES ?', [tiles], err => {
+  connection.query('INSERT INTO world (latitude, longitude, region_id) VALUES ?', [tiles], (err) => {
     if (err) console.log(err);
     console.log('inserted');
     generate(polygon, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
   });
 };
 
-world.route('/generate').get(req => {
-  console.log(`generating...`);
+world.route('/generate').get((req) => {
+  console.log('generating...');
   const polygon = Polygon;
   const array = polygon.features[0].geometry.coordinates[0];
   const coords = array.map(x => ({ latitude: x[1], longitude: x[0] }));
@@ -141,7 +141,7 @@ world.route('/generate').get(req => {
     boundingBox.latMin,
     boundingBox.latMax,
     boundingBox.longMin,
-    boundingBox.longMax
+    boundingBox.longMax,
   );
 });
 
