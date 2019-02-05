@@ -275,6 +275,7 @@ export default class GeoLocation {
       lat -= Earth.GRID_DISTANCE
     ) {
       const latitude = GeoLocation.getRoundedLatitude(lat);
+      console.log(latitude);
       const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(lat);
       for (
         let lng = boundingBox.longMin - 0.1;
