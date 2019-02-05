@@ -96,8 +96,45 @@ world.route('/generate/:latMin/:latMax/:lngMin/:lngMax').get(req => {
 
 world.route('/generate').get(req => {
   console.log(`generating...`);
-  const locations = GeoLocation.getTilesInPolygon(Berlin);
-  console.log('tiles: ', locations.length);
+  const polygon = GeoLocation.getTilesInPolygon(Berlin);
+  const array = polygon.features[0].geometry.coordinates[0];
+  const coords = array.map(x => ({ latitude: x[1], longitude: x[0] }));
+  const boundingBox = GeoArray.getBoundingBox(coords);
+
+  geolib.preparePolygonForIsPointInsideOptimized(coords);
+
+  for (
+    let lat = boundingBox.latMax + Earth.GRID_DISTANCE;
+    lat > boundingBox.latMin - Earth.GRID_DISTANCE;
+    lat -= Earth.GRID_DISTANCE
+  ) {
+    const candidates = [];
+    const latitude = GeoLocation.getRoundedLatitude(lat);
+    const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(lat);
+    for (
+      let lng = boundingBox.longMin - Earth.GRID_DISTANCE;
+      lng < boundingBox.longMax + Earth.GRID_DISTANCE;
+      lng += gridDistanceAtLatitude
+    ) {
+      const longitude = GeoLocation.getRoundedLongitude(lng, latitude);
+      const location = { latitude, longitude };
+      if (geolib.isPointInsideWithPreparedPolygon(location, coords)) {
+        candidates.push({ latitude, longitude });
+      }
+    }
+
+    const locations = candidates.map(x => {
+      const roundedLocation = GeoLocation.getRoundedLocation(x, Earth.GRID_DISTANCE);
+      return [roundedLocation.latitude, roundedLocation.longitude];
+    });
+
+    connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [locations], err => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(latitude, candidates);
+    });
+  }
 });
 
 export default world;
