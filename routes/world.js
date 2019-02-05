@@ -96,6 +96,34 @@ world.route('/generate/:latMin/:latMax/:lngMin/:lngMax').get(req => {
   generateCoordinates(latMin, latMax, lngMin, lngMax);
 });
 
+const generate = (polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
+  if (lat < latMin) {
+    console.log('done');
+    return;
+  }
+
+  const tiles = [];
+  const latitude = GeoLocation.getRoundedLatitude(lat);
+  const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
+
+  for (let lng = lngMin; lng < lngMax; lng += gridDistanceAtLatitude) {
+    let temp = lng;
+    if (temp > 180) {
+      temp -= 360;
+    }
+    const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
+    const location = { latitude, longitude };
+    if (geolib.isPointInsideWithPreparedPolygon(location, coords)) {
+      tiles.push([latitude, longitude]);
+    }
+  }
+
+  connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [tiles], err => {
+    if (err) console.log(err);
+    generateCoordinates(latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
+  });
+};
+
 world.route('/generate').get(req => {
   console.log(`generating...`);
   const polygon = Berlin;
@@ -105,35 +133,13 @@ world.route('/generate').get(req => {
 
   geolib.preparePolygonForIsPointInsideOptimized(coords);
 
-  for (
-    let lat = boundingBox.latMax + Earth.GRID_DISTANCE;
-    lat > boundingBox.latMin - Earth.GRID_DISTANCE;
-    lat -= Earth.GRID_DISTANCE
-  ) {
-    const candidates = [];
-    const latitude = GeoLocation.getRoundedLatitude(lat);
-    const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(lat);
-    for (
-      let lng = boundingBox.longMin - Earth.GRID_DISTANCE;
-      lng < boundingBox.longMax + Earth.GRID_DISTANCE;
-      lng += gridDistanceAtLatitude
-    ) {
-      const longitude = GeoLocation.getRoundedLongitude(lng, latitude);
-      const location = { latitude, longitude };
-      if (geolib.isPointInsideWithPreparedPolygon(location, coords)) {
-        candidates.push([latitude, longitude]);
-      }
-    }
-
-    console.log(candidates);
-
-    connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [candidates], err => {
-      if (err) {
-        console.log(err);
-      }
-      console.log('inserted');
-    });
-  }
+  generate(
+    coords,
+    boundingBox.latMin,
+    boundingBox.latMax,
+    boundingBox.longMin,
+    boundingBox.longMax
+  );
 });
 
 export default world;
