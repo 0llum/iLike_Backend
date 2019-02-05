@@ -130,6 +130,7 @@ world.route('/generate').get(req => {
       if (err) {
         console.log(err);
       }
+      console.log('inserted');
     });
   }
 });
