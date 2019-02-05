@@ -87,7 +87,7 @@ const generateCoordinates = (region, latMin, latMax, lngMin, lngMax, lat = latMa
   });
 };
 
-world.route('/generate/:region/:latMin/:latMax/:lngMin/:lngMax').get((req) => {
+world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
   const latMin = parseFloat(req.params.latMin);
   const latMax = parseFloat(req.params.latMax);
   const lngMin = parseFloat(req.params.lngMin);
