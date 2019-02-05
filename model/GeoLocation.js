@@ -263,23 +263,21 @@ export default class GeoLocation {
     const coords = array.map(x => ({ latitude: x[1], longitude: x[0] }));
     const boundingBox = GeoArray.getBoundingBox(coords);
 
-    const candidates = [];
-
     console.log('coords: ', coords.length);
 
     geolib.preparePolygonForIsPointInsideOptimized(coords);
 
     for (
-      let lat = boundingBox.latMax + 0.1;
-      lat > boundingBox.latMin - 0.1;
+      let lat = boundingBox.latMax + 0.005;
+      lat > boundingBox.latMin - 0.005;
       lat -= Earth.GRID_DISTANCE
     ) {
+      const candidates = [];
       const latitude = GeoLocation.getRoundedLatitude(lat);
-      console.log(latitude);
       const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(lat);
       for (
-        let lng = boundingBox.longMin - 0.1;
-        lng < boundingBox.longMax + 0.1;
+        let lng = boundingBox.longMin - 0.005;
+        lng < boundingBox.longMax + 0.005;
         lng += gridDistanceAtLatitude
       ) {
         const longitude = GeoLocation.getRoundedLongitude(lng, latitude);
@@ -288,6 +286,7 @@ export default class GeoLocation {
           candidates.push({ latitude, longitude });
         }
       }
+      console.log(latitude, candidates.length);
     }
 
     return candidates;
