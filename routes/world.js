@@ -75,7 +75,6 @@ const generateCoordinates = (region, latMin, latMax, lngMin, lngMax, lat = latMa
       temp -= 360;
     }
     const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
-    console.log(latitude, longitude);
     if (!(longitude == 0 && tiles.length > 0)) {
       tiles.push([latitude, longitude, region]);
     }
@@ -83,6 +82,7 @@ const generateCoordinates = (region, latMin, latMax, lngMin, lngMax, lat = latMa
 
   connection.query('INSERT INTO world (latitude, longitude, region_id) VALUES ?', [tiles], (err) => {
     if (err) console.log(err);
+    console.log(latitude);
     generateCoordinates(region, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
   });
 };
