@@ -97,7 +97,7 @@ world.route('/generate/:latMin/:latMax/:lngMin/:lngMax').get(req => {
 
 world.route('/generate').get(req => {
   console.log(`generating...`);
-  const polygon = GeoLocation.getTilesInPolygon(Berlin);
+  const polygon = Berlin;
   const array = polygon.features[0].geometry.coordinates[0];
   const coords = array.map(x => ({ latitude: x[1], longitude: x[0] }));
   const boundingBox = GeoArray.getBoundingBox(coords);
