@@ -263,8 +263,6 @@ export default class GeoLocation {
     const coords = array.map(x => ({ latitude: x[1], longitude: x[0] }));
     const boundingBox = GeoArray.getBoundingBox(coords);
 
-    console.log('coords: ', coords.length);
-
     geolib.preparePolygonForIsPointInsideOptimized(coords);
 
     for (
@@ -286,7 +284,6 @@ export default class GeoLocation {
           candidates.push({ latitude, longitude });
         }
       }
-      console.log(latitude, candidates);
     }
 
     return candidates;
