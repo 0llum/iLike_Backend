@@ -113,7 +113,7 @@ const generate = (polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
     }
     const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
     const location = { latitude, longitude };
-    if (geolib.isPointInsideWithPreparedPolygon(location, coords)) {
+    if (geolib.isPointInsideWithPreparedPolygon(location, polygon)) {
       tiles.push([latitude, longitude]);
     }
   }
@@ -121,7 +121,7 @@ const generate = (polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
   connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [tiles], err => {
     if (err) console.log(err);
     console.log('inserted');
-    generateCoordinates(latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
+    generateCoordinates(polygon, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
   });
 };
 
