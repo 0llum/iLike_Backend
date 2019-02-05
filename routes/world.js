@@ -6,7 +6,7 @@ import Connection from '../constants/Connection';
 import GeoLocation from '../model/GeoLocation';
 import GeoArray from '../model/GeoArray';
 import * as Earth from '../constants/Earth';
-import Berlin from '../countries/germany/Berlin';
+import Polygon from '../countries/germany/Brandenburg';
 
 const world = express.Router();
 let connection;
@@ -114,13 +114,13 @@ const generate = (polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
     const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
     const location = { latitude, longitude };
     if (geolib.isPointInsideWithPreparedPolygon(location, polygon)) {
-      tiles.push([latitude, longitude]);
+      tiles.push([latitude, longitude, 62504]);
     }
   }
 
   console.log(tiles);
 
-  connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [tiles], err => {
+  connection.query('INSERT INTO world (latitude, longitude, region_id) VALUES ?', [tiles], err => {
     if (err) console.log(err);
     console.log('inserted');
     generate(polygon, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
@@ -129,7 +129,7 @@ const generate = (polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
 
 world.route('/generate').get(req => {
   console.log(`generating...`);
-  const polygon = Berlin;
+  const polygon = Polygon;
   const array = polygon.features[0].geometry.coordinates[0];
   const coords = array.map(x => ({ latitude: x[1], longitude: x[0] }));
   const boundingBox = GeoArray.getBoundingBox(coords);
