@@ -1,5 +1,6 @@
 import express from 'express';
 import mysql from 'mysql';
+import geolib from 'geolib';
 
 import Connection from '../constants/Connection';
 import GeoLocation from '../model/GeoLocation';
