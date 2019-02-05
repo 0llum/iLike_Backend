@@ -120,18 +120,13 @@ world.route('/generate').get(req => {
       const longitude = GeoLocation.getRoundedLongitude(lng, latitude);
       const location = { latitude, longitude };
       if (geolib.isPointInsideWithPreparedPolygon(location, coords)) {
-        candidates.push({ latitude, longitude });
+        candidates.push([latitude, longitude]);
       }
     }
 
-    const locations = candidates.map(x => {
-      const roundedLocation = GeoLocation.getRoundedLocation(x, Earth.GRID_DISTANCE);
-      return [roundedLocation.latitude, roundedLocation.longitude];
-    });
+    console.log(candidates);
 
-    console.log(locations);
-
-    connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [locations], err => {
+    connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [candidates], err => {
       if (err) {
         console.log(err);
       }
