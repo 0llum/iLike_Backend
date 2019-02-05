@@ -129,11 +129,12 @@ world.route('/generate').get(req => {
       return [roundedLocation.latitude, roundedLocation.longitude];
     });
 
+    console.log(locations);
+
     connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [locations], err => {
       if (err) {
         console.log(err);
       }
-      console.log(latitude, candidates);
     });
   }
 });
