@@ -268,16 +268,16 @@ export default class GeoLocation {
     geolib.preparePolygonForIsPointInsideOptimized(coords);
 
     for (
-      let lat = boundingBox.latMax + 0.005;
-      lat > boundingBox.latMin - 0.005;
+      let lat = boundingBox.latMax + Earth.GRID_DISTANCE;
+      lat > boundingBox.latMin - Earth.GRID_DISTANCE;
       lat -= Earth.GRID_DISTANCE
     ) {
       const candidates = [];
       const latitude = GeoLocation.getRoundedLatitude(lat);
       const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(lat);
       for (
-        let lng = boundingBox.longMin - 0.005;
-        lng < boundingBox.longMax + 0.005;
+        let lng = boundingBox.longMin - Earth.GRID_DISTANCE;
+        lng < boundingBox.longMax + Earth.GRID_DISTANCE;
         lng += gridDistanceAtLatitude
       ) {
         const longitude = GeoLocation.getRoundedLongitude(lng, latitude);
@@ -286,7 +286,7 @@ export default class GeoLocation {
           candidates.push({ latitude, longitude });
         }
       }
-      console.log(latitude, candidates.length);
+      console.log(latitude, candidates);
     }
 
     return candidates;
