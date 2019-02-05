@@ -118,8 +118,10 @@ const generate = (polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
     }
   }
 
+  console.log(tiles);
+
   connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [tiles], err => {
-    if (err) console.log(err);
+    // if (err) console.log(err);
     console.log('inserted');
     generateCoordinates(polygon, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
   });
