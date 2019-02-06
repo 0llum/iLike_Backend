@@ -80,11 +80,15 @@ const generateCoordinates = (region, latMin, latMax, lngMin, lngMax, lat = latMa
     }
   }
 
-  connection.query('INSERT INTO world (latitude, longitude, region_id) VALUES ?', [tiles], (err) => {
-    if (err) console.log(err);
-    console.log(latitude);
-    generateCoordinates(region, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
-  });
+  connection.query(
+    'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE',
+    [tiles],
+    (err) => {
+      if (err) console.log(err);
+      console.log(latitude);
+      generateCoordinates(region, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
+    },
+  );
 };
 
 world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
@@ -120,11 +124,15 @@ const generate = (polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
 
   console.log(tiles);
 
-  connection.query('INSERT INTO world (latitude, longitude, region_id) VALUES ?', [tiles], (err) => {
-    if (err) console.log(err);
-    console.log('inserted');
-    generate(polygon, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
-  });
+  connection.query(
+    'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE',
+    [tiles],
+    (err) => {
+      if (err) console.log(err);
+      console.log('inserted');
+      generate(polygon, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
+    },
+  );
 };
 
 world.route('/generate').get((req) => {
