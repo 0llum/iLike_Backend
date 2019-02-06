@@ -81,8 +81,8 @@ const generateCoordinates = (region, latMin, latMax, lngMin, lngMax, lat = latMa
   }
 
   connection.query(
-    'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE',
-    [tiles],
+    'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
+    [tiles, region],
     (err) => {
       if (err) console.log(err);
       console.log(latitude);
