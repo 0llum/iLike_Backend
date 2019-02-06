@@ -79,8 +79,8 @@ location.route('/:id').post((req, res) => {
       const before = LevelUtils.getLevelFromExp(data[0].count);
 
       connection.query(
-        'INSERT INTO location2 (user_id, latitude, longitude, timestamp) VALUES ?',
-        [locations],
+        'INSERT INTO location2 (user_id, latitude, longitude, timestamp) VALUES ? ON DUPLICATE KEY UPDATE user_id = ?',
+        [locations, req.params.id],
         (err, data) => {
           if (err) {
             console.log(err);
@@ -176,8 +176,8 @@ location.route('/:id/copy').get((req, res) => {
       ]);
 
       connection.query(
-        'INSERT INTO location2 (user_id, latitude, longitude, timestamp) VALUES ?',
-        [finalLocations],
+        'INSERT INTO location2 (user_id, latitude, longitude, timestamp) VALUES ? ON DUPLICATE KEY UPDATE user_id = ?',
+        [finalLocations, req.params.id],
         (err, data) => {
           if (err) {
             console.log(err);
