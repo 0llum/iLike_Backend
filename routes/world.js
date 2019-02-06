@@ -100,7 +100,7 @@ world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
   generateCoordinates(req.params.region, latMin, latMax, lngMin, lngMax);
 });
 
-const generate = (polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
+const generate = (region, polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
   if (lat < latMin) {
     console.log('done');
     return;
@@ -118,15 +118,15 @@ const generate = (polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
     const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
     const location = { latitude, longitude };
     if (geolib.isPointInsideWithPreparedPolygon(location, polygon)) {
-      tiles.push([latitude, longitude, 62504]);
+      tiles.push([latitude, longitude, region]);
     }
   }
 
   console.log(tiles);
 
   connection.query(
-    'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE',
-    [tiles],
+    'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
+    [tiles, region],
     (err) => {
       if (err) console.log(err);
       console.log('inserted');
@@ -135,7 +135,7 @@ const generate = (polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
   );
 };
 
-world.route('/generate').get((req) => {
+world.route('/generate/:region').get((req) => {
   console.log('generating...');
   const polygon = Polygon;
   const array = polygon.features[0].geometry.coordinates[0];
@@ -145,6 +145,7 @@ world.route('/generate').get((req) => {
   geolib.preparePolygonForIsPointInsideOptimized(coords);
 
   generate(
+    req.params.region,
     coords,
     boundingBox.latMin,
     boundingBox.latMax,
