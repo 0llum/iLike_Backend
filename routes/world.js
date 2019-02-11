@@ -109,14 +109,6 @@ world.route('/generate/:region').get(req => {
 
   geolib.preparePolygonForIsPointInsideOptimized(coords);
 
-  console.log(
-    req.params.region,
-    boundingBox.latMin,
-    boundingBox.latMax,
-    boundingBox.longMin,
-    boundingBox.longMax
-  );
-
   generate(
     req.params.region,
     coords,
@@ -128,6 +120,7 @@ world.route('/generate/:region').get(req => {
 });
 
 const generate = (region, polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
+  console.log(lat);
   if (lat < latMin) {
     console.log('done');
     return;
