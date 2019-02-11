@@ -100,6 +100,25 @@ world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get(req => {
   generateCoordinates(req.params.region, latMin, latMax, lngMin, lngMax);
 });
 
+world.route('/generate/:region').get(req => {
+  console.log('generating...');
+  const polygon = Polygon;
+  const array = polygon.features[0].geometry.coordinates[0];
+  const coords = array.map(x => ({ latitude: x[1], longitude: x[0] }));
+  const boundingBox = GeoArray.getBoundingBox(coords);
+
+  geolib.preparePolygonForIsPointInsideOptimized(coords);
+
+  generate(
+    req.params.region,
+    coords,
+    boundingBox.latMin,
+    boundingBox.latMax,
+    boundingBox.longMin,
+    boundingBox.longMax
+  );
+});
+
 const generate = (region, polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
   if (lat < latMin) {
     console.log('done');
@@ -134,24 +153,5 @@ const generate = (region, polygon, latMin, latMax, lngMin, lngMax, lat = latMax)
     }
   );
 };
-
-world.route('/generate/:region').get(req => {
-  console.log('generating...');
-  const polygon = Polygon;
-  const array = polygon.features[0].geometry.coordinates[0];
-  const coords = array.map(x => ({ latitude: x[1], longitude: x[0] }));
-  const boundingBox = GeoArray.getBoundingBox(coords);
-
-  geolib.preparePolygonForIsPointInsideOptimized(coords);
-
-  generate(
-    req.params.region,
-    coords,
-    boundingBox.latMin,
-    boundingBox.latMax,
-    boundingBox.longMin,
-    boundingBox.longMax
-  );
-});
 
 export default world;
