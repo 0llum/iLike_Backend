@@ -120,7 +120,6 @@ world.route('/generate/:region').get(req => {
 });
 
 const generate = (region, polygon, latMin, latMax, lngMin, lngMax, lat = latMax) => {
-  console.log(lat);
   if (lat < latMin) {
     console.log('done');
     return;
@@ -148,7 +147,7 @@ const generate = (region, polygon, latMin, latMax, lngMin, lngMax, lat = latMax)
     err => {
       if (err) console.log(err);
       console.log(latitude);
-      generate(polygon, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
+      generate(region, polygon, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
     }
   );
 };
