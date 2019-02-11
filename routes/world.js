@@ -141,8 +141,6 @@ const generate = (region, polygon, latMin, latMax, lngMin, lngMax, lat = latMax)
     }
   }
 
-  console.log(tiles);
-
   connection.query(
     'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
     [tiles, region],
