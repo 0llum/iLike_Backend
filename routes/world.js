@@ -143,15 +143,11 @@ const generate = (region, polygon, latMin, latMax, lngMin, lngMax, lat = latMax)
 
   console.log(region);
 
-  connection.query(
-    'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
-    [tiles, region],
-    err => {
-      if (err) console.log(err);
-      console.log(latitude);
-      generate(polygon, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
-    }
-  );
+  connection.query('INSERT INTO world (latitude, longitude, region_id) VALUES ?', [tiles], err => {
+    if (err) console.log(err);
+    console.log(latitude);
+    generate(polygon, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
+  });
 };
 
 export default world;
