@@ -110,7 +110,7 @@ world.route('/generate/:region').get(req => {
   geolib.preparePolygonForIsPointInsideOptimized(coords);
 
   generate(
-    req.params.region,
+    parseInt(req.params.region),
     coords,
     boundingBox.latMin,
     boundingBox.latMax,
@@ -148,7 +148,7 @@ const generate = (region, polygon, latMin, latMax, lngMin, lngMax, lat = latMax)
     [tiles, region],
     err => {
       if (err) console.log(err);
-      console.log('inserted');
+      console.log(latitude);
       generate(polygon, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
     }
   );
