@@ -6,7 +6,7 @@ import Connection from '../constants/Connection';
 import GeoLocation from '../model/GeoLocation';
 import GeoArray from '../model/GeoArray';
 import * as Earth from '../constants/Earth';
-import Polygon from '../countries/germany/Brandenburg';
+import Polygon from '../countries/germany/Berlin';
 
 const world = express.Router();
 let connection;
@@ -14,7 +14,7 @@ let connection;
 function handleDisconnect() {
   connection = mysql.createConnection(Connection);
 
-  connection.connect((err) => {
+  connection.connect(err => {
     if (err) {
       console.log(err);
       setTimeout(handleDisconnect, 2000);
@@ -23,7 +23,7 @@ function handleDisconnect() {
     }
   });
 
-  connection.on('error', (err) => {
+  connection.on('error', err => {
     console.log(err);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       handleDisconnect();
@@ -45,12 +45,12 @@ world.route('/').get((req, res) => {
 });
 
 world.route('/').post((req, res) => {
-  const locations = req.body.locations.map((x) => {
+  const locations = req.body.locations.map(x => {
     const roundedLocation = GeoLocation.getRoundedLocation(x, Earth.GRID_DISTANCE);
     return [roundedLocation.latitude, roundedLocation.longitude];
   });
 
-  connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [locations], (err) => {
+  connection.query('INSERT INTO world (latitude, longitude) VALUES ?', [locations], err => {
     if (err) {
       console.log(err);
     }
@@ -83,15 +83,15 @@ const generateCoordinates = (region, latMin, latMax, lngMin, lngMax, lat = latMa
   connection.query(
     'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
     [tiles, region],
-    (err) => {
+    err => {
       if (err) console.log(err);
       console.log(latitude);
       generateCoordinates(region, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
-    },
+    }
   );
 };
 
-world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
+world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get(req => {
   const latMin = parseFloat(req.params.latMin);
   const latMax = parseFloat(req.params.latMax);
   const lngMin = parseFloat(req.params.lngMin);
@@ -127,15 +127,15 @@ const generate = (region, polygon, latMin, latMax, lngMin, lngMax, lat = latMax)
   connection.query(
     'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
     [tiles, region],
-    (err) => {
+    err => {
       if (err) console.log(err);
       console.log('inserted');
       generate(polygon, latMin, latMax, lngMin, lngMax, latitude - Earth.GRID_DISTANCE);
-    },
+    }
   );
 };
 
-world.route('/generate/:region').get((req) => {
+world.route('/generate/:region').get(req => {
   console.log('generating...');
   const polygon = Polygon;
   const array = polygon.features[0].geometry.coordinates[0];
@@ -150,7 +150,7 @@ world.route('/generate/:region').get((req) => {
     boundingBox.latMin,
     boundingBox.latMax,
     boundingBox.longMin,
-    boundingBox.longMax,
+    boundingBox.longMax
   );
 });
 
