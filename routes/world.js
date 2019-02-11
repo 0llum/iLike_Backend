@@ -110,7 +110,7 @@ world.route('/generate/:region').get(req => {
   geolib.preparePolygonForIsPointInsideOptimized(coords);
 
   generate(
-    parseInt(req.params.region),
+    req.params.region,
     coords,
     boundingBox.latMin,
     boundingBox.latMax,
@@ -140,6 +140,8 @@ const generate = (region, polygon, latMin, latMax, lngMin, lngMax, lat = latMax)
       tiles.push([latitude, longitude, region]);
     }
   }
+
+  console.log(region);
 
   connection.query(
     'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
