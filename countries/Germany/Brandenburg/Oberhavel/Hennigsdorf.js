@@ -1,4 +1,6 @@
 export default {
+  type: "FeatureCollection",
+  features: [
   type: "Feature",
   properties: {
     srid: "4326",
@@ -387,4 +389,5 @@ export default {
       ]
     ]
   }
+]
 };
