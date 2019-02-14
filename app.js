@@ -4,7 +4,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import user from './routes/user';
 import login from './routes/login';
-import location from './routes/location';
 import location_2 from './routes/location_2';
 import friend from './routes/friend';
 import country from './routes/country';
@@ -23,7 +22,6 @@ app.use(
 
 app.use('/login', login);
 app.use('/user', user);
-app.use('/location', location);
 app.use('/location2', location_2);
 app.use('/friend', friend);
 app.use('/country', country);

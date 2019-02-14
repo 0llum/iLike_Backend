@@ -1,15 +1,12 @@
 import express from 'express';
 import mysql from 'mysql';
-import Expo from 'expo-server-sdk';
 
 import Connection from '../constants/Connection';
 import GeoLocation from '../model/GeoLocation';
 import GeoArray from '../model/GeoArray';
-import * as LevelUtils from '../utils/LevelUtils';
 import * as Earth from '../constants/Earth';
 
 const location = express.Router();
-const expo = new Expo();
 let connection;
 
 function handleDisconnect() {
@@ -70,73 +67,14 @@ location.route('/:id').post((req, res) => {
   });
 
   connection.query(
-    'SELECT COUNT(location2.id) AS count FROM location2 WHERE user_id = ?',
-    [req.params.id],
+    'INSERT INTO location2 (user_id, latitude, longitude, timestamp) VALUES ? ON DUPLICATE KEY UPDATE user_id = ?',
+    [locations, req.params.id],
     (err, data) => {
       if (err) {
         console.log(err);
       }
-      const before = LevelUtils.getLevelFromExp(data[0].count);
 
-      connection.query(
-        'INSERT INTO location2 (user_id, latitude, longitude, timestamp) VALUES ? ON DUPLICATE KEY UPDATE user_id = ?',
-        [locations, req.params.id],
-        (err, data) => {
-          if (err) {
-            console.log(err);
-          }
-
-          res.status(201).json(req.body.locations);
-
-          connection.query(
-            'SELECT COUNT(location2.id) AS count FROM location2 WHERE user_id = ?',
-            [req.params.id],
-            (err, data) => {
-              if (err) {
-                console.log(err);
-              }
-
-              const after = LevelUtils.getLevelFromExp(data[0].count);
-              if (after > before) {
-                connection.query(
-                  'SELECT user.push_token, B.username FROM user INNER JOIN friend AS A ON user.id = A.user_id INNER JOIN user AS B on A.friend_id = B.id WHERE A.friend_id = ?',
-                  [req.params.id],
-                  (err, data) => {
-                    if (err) {
-                      console.log(err);
-                    }
-
-                    const messages = [];
-                    data.forEach((x) => {
-                      messages.push({
-                        to: x.push_token,
-                        title: `${x.username} is now on level ${after}`,
-                        body: `Your friend ${
-                          x.username
-                        } is using WHIB to explore the world. You might want to check out!`,
-                      });
-                    });
-
-                    if (messages.length > 0) {
-                      const chunks = expo.chunkPushNotifications(messages);
-                      (async () => {
-                        for (const chunk of chunks) {
-                          try {
-                            const ticketChunk = await expo.sendPushNotificationsAsync(chunk);
-                            console.log(ticketChunk);
-                          } catch (error) {
-                            console.error(error);
-                          }
-                        }
-                      })();
-                    }
-                  },
-                );
-              }
-            },
-          );
-        },
-      );
+      res.status(201).json(req.body.locations);
     },
   );
 });
