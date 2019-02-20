@@ -146,14 +146,16 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
   const latitude = GeoLocation.getRoundedLatitude(lat);
   const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
 
+  console.log(boundingBox);
+
   for (let lng = boundingBox.lngMin; lng < boundingBox.lngMax; lng += gridDistanceAtLatitude) {
     let temp = lng;
     if (temp > 180) {
       temp -= 360;
     }
     const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
+    console.log(longitude);
     const location = { latitude, longitude };
-    console.log(location);
     if (geolib.isPointInsideWithPreparedPolygon(location, polygon)) {
       tiles.push([latitude, longitude, regionId]);
     }
