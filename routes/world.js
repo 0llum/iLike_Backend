@@ -6,7 +6,7 @@ import Connection from '../constants/Connection';
 import GeoLocation from '../model/GeoLocation';
 import GeoArray from '../model/GeoArray';
 import * as Earth from '../constants/Earth';
-import Polygon from '../countries/Germany/Berlin/Mitte_16347_AL9.json';
+import Polygon from '../countries/Germany/Berlin/Charlottenburg-Wilmersdorf_404538_AL9.json';
 
 const world = express.Router();
 let connection;
@@ -152,24 +152,26 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
       temp -= 360;
     }
     const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
-    console.log(longitude);
     const location = { latitude, longitude };
     if (geolib.isPointInsideWithPreparedPolygon(location, polygon)) {
       tiles.push([latitude, longitude, regionId]);
     }
   }
 
-  console.log(tiles);
-
-  connection.query(
-    'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
-    [tiles, regionId],
-    (err) => {
-      if (err) console.log(err);
-      console.log(latitude);
-      generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
-    },
-  );
+  if (tiles.length > 0) {
+    connection.query(
+      'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
+      [tiles, regionId],
+      (err) => {
+        if (err) console.log(err);
+        console.log(latitude);
+        generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
+      },
+    );
+  } else {
+    console.log(latitude);
+    generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
+  }
 };
 
 export default world;
