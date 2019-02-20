@@ -123,7 +123,9 @@ world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
 });
 
 world.route('/generate/:region').get((req) => {
-  console.log(Polygon.geometry.coordinates);
+  const { coordinates } = Polygon.geometry;
+  console.log(coordinates.length);
+
   // console.log('generating...');
   // const polygon = Polygon;
   // const array = polygon.features[0].geometry.coordinates[0];
