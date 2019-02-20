@@ -123,41 +123,21 @@ world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
 });
 
 world.route('/generate/:region').get((req) => {
-  console.log(`generating tiles for ${Polygon.properties.name} with region_id = ${req.params.region}`);
+  const regionId = req.params.region;
+  console.log(`generating tiles for ${Polygon.properties.name} with region_id = ${regionId}`);
   const multiPolygon = Polygon.geometry.coordinates;
   multiPolygon.forEach((polygon) => {
     polygon.forEach((region) => {
-      console.log(region);
+      const coords = region.map(x => ({ latitude: x[1], longitude: x[0] }));
+      const boundingBox = GeoArray.getBoundingBox(coords);
+      geolib.preparePolygonForIsPointInsideOptimized(coords);
+      generate(regionId, coords, boundingBox);
     });
   });
-
-  // const polygon = Polygon;
-  // const array = polygon.features[0].geometry.coordinates[0];
-  // const coords = array.map(x => ({ latitude: x[1], longitude: x[0] }));
-  // const boundingBox = GeoArray.getBoundingBox(coords);
-
-  // geolib.preparePolygonForIsPointInsideOptimized(coords);
-
-  // generate(
-  //   req.params.region,
-  //   coords,
-  //   boundingBox.latMin,
-  //   boundingBox.latMax,
-  //   boundingBox.longMin,
-  //   boundingBox.longMax,
-  // );
 });
 
-const generate = (
-  region,
-  polygon,
-  latMin,
-  latMax,
-  lngMin,
-  lngMax,
-  lat = latMax,
-) => {
-  if (lat < latMin) {
+const generate = (region, polygon, boundingBox, lat = boundingBox.latMax) => {
+  if (lat < boundingBox.latMin) {
     console.log('done');
     return;
   }
@@ -166,7 +146,7 @@ const generate = (
   const latitude = GeoLocation.getRoundedLatitude(lat);
   const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
 
-  for (let lng = lngMin; lng < lngMax; lng += gridDistanceAtLatitude) {
+  for (let lng = boundingBox.lngMin; lng < boundingBox.lngMax; lng += gridDistanceAtLatitude) {
     let temp = lng;
     if (temp > 180) {
       temp -= 360;
@@ -184,15 +164,7 @@ const generate = (
     (err) => {
       if (err) console.log(err);
       console.log(latitude);
-      generate(
-        region,
-        polygon,
-        latMin,
-        latMax,
-        lngMin,
-        lngMax,
-        latitude - Earth.GRID_DISTANCE,
-      );
+      generate(region, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
     },
   );
 };
