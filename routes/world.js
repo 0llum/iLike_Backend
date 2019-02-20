@@ -123,14 +123,14 @@ world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
 });
 
 world.route('/generate/:region').get((req) => {
+  console.log(`generating tiles for ${Polygon.properties.name} with region_id = ${req.params.region}`);
   const multiPolygon = Polygon.geometry.coordinates;
   multiPolygon.forEach((polygon) => {
     polygon.forEach((region) => {
-      console.log(region.length);
+      console.log(region);
     });
   });
 
-  // console.log('generating...');
   // const polygon = Polygon;
   // const array = polygon.features[0].geometry.coordinates[0];
   // const coords = array.map(x => ({ latitude: x[1], longitude: x[0] }));
