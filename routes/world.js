@@ -146,7 +146,7 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
   const latitude = GeoLocation.getRoundedLatitude(lat);
   const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
 
-  for (let lng = boundingBox.lngMin; lng < boundingBox.longMax; lng += gridDistanceAtLatitude) {
+  for (let lng = boundingBox.longMin; lng < boundingBox.longMax; lng += gridDistanceAtLatitude) {
     let temp = lng;
     if (temp > 180) {
       temp -= 360;
