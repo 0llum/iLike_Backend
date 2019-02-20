@@ -126,21 +126,18 @@ world.route('/generate/:regionId').get((req) => {
   const { regionId } = req.params;
   console.log(`generating tiles for ${Polygon.properties.name} with region_id = ${regionId}`);
   const multiPolygon = Polygon.geometry.coordinates;
-  // multiPolygon.forEach((polygon) => {
-  //   polygon.forEach((region) => {
-  //     const coords = region.map(x => ({ latitude: x[1], longitude: x[0] }));
-  //     const boundingBox = GeoArray.getBoundingBox(coords);
-  //     geolib.preparePolygonForIsPointInsideOptimized(coords);
-  //     generate(regionId, coords, boundingBox);
-  //   });
-  // });
-  const coords = multiPolygon[0][0].map(x => ({ latitude: x[1], longitude: x[0] }));
-  const boundingBox = GeoArray.getBoundingBox(coords);
-  geolib.preparePolygonForIsPointInsideOptimized(coords);
-  generate(regionId, coords, boundingBox);
+  multiPolygon.forEach((polygon) => {
+    polygon.forEach((region) => {
+      const coords = region.map(x => ({ latitude: x[1], longitude: x[0] }));
+      const boundingBox = GeoArray.getBoundingBox(coords);
+      geolib.preparePolygonForIsPointInsideOptimized(coords);
+      generate(regionId, coords, boundingBox);
+    });
+  });
 });
 
 const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
+  console.log(regionId);
   if (lat < boundingBox.latMin) {
     console.log('done');
     return;
@@ -166,7 +163,7 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
     'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
     [tiles, regionId],
     (err) => {
-      if (err) console.log(err);
+      // if (err) console.log(err);
       console.log(latitude);
       generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
     },
