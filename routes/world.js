@@ -130,9 +130,8 @@ world.route('/generate/:region').get((req) => {
     polygon.forEach((region) => {
       const coords = region.map(x => ({ latitude: x[1], longitude: x[0] }));
       const boundingBox = GeoArray.getBoundingBox(coords);
-      console.log(boundingBox);
-      // geolib.preparePolygonForIsPointInsideOptimized(coords);
-      // generate(regionId, coords, boundingBox);
+      geolib.preparePolygonForIsPointInsideOptimized(coords);
+      generate(regionId, coords, boundingBox);
     });
   });
 });
@@ -163,7 +162,7 @@ const generate = (region, polygon, boundingBox, lat = boundingBox.latMax) => {
     'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
     [tiles, region],
     (err) => {
-      if (err) console.log(err);
+      // if (err) console.log(err);
       console.log(latitude);
       generate(region, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
     },
