@@ -29,6 +29,19 @@ function handleDisconnect() {
 
 handleDisconnect();
 
+progress.route('/').get((req, res) => {
+  connection.query(
+    'UPDATE `location2` INNER JOIN world ON location2.latitude = world.latitude AND location2.longitude = world.longitude SET location2.region_id = world.region_id',
+    [],
+    (err) => {
+      if (err) {
+        return res.status(500).json(err);
+      }
+      res.status(200).end();
+    },
+  );
+});
+
 progress.route('/:id').get((req, res) => {
   connection.query(
     'SELECT region.id, name, COUNT(*) as count, region.count as total, COUNT(*) * 100 /region.count as percent FROM location2 INNER JOIN region on location2.region_id = region.id WHERE user_id = ? GROUP BY region.id ORDER BY percent DESC',

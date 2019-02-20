@@ -8,8 +8,6 @@ import GeoArray from '../model/GeoArray';
 import * as Earth from '../constants/Earth';
 import Polygon from '../countries/Germany/Brandenburg/Oberhavel/Velten';
 
-// UPDATE `location2` INNER JOIN world ON location2.latitude = world.latitude AND location2.longitude = world.longitude SET location2.region_id = world.region_id
-
 const world = express.Router();
 let connection;
 
