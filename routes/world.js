@@ -126,14 +126,18 @@ world.route('/generate/:regionId').get((req) => {
   const { regionId } = req.params;
   console.log(`generating tiles for ${Polygon.properties.name} with region_id = ${regionId}`);
   const multiPolygon = Polygon.geometry.coordinates;
-  multiPolygon.forEach((polygon) => {
-    polygon.forEach((region) => {
-      const coords = region.map(x => ({ latitude: x[1], longitude: x[0] }));
-      const boundingBox = GeoArray.getBoundingBox(coords);
-      geolib.preparePolygonForIsPointInsideOptimized(coords);
-      generate(regionId, coords, boundingBox);
-    });
-  });
+  // multiPolygon.forEach((polygon) => {
+  //   polygon.forEach((region) => {
+  //     const coords = region.map(x => ({ latitude: x[1], longitude: x[0] }));
+  //     const boundingBox = GeoArray.getBoundingBox(coords);
+  //     geolib.preparePolygonForIsPointInsideOptimized(coords);
+  //     generate(regionId, coords, boundingBox);
+  //   });
+  // });
+  const coords = multiPolygon[0][0].map(x => ({ latitude: x[1], longitude: x[0] }));
+  const boundingBox = GeoArray.getBoundingBox(coords);
+  geolib.preparePolygonForIsPointInsideOptimized(coords);
+  generate(regionId, coords, boundingBox);
 });
 
 const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
@@ -164,7 +168,7 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
     (err) => {
       if (err) console.log(err);
       console.log(latitude);
-      setTimeout(() => generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE), 1000);
+      generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
     },
   );
 };
