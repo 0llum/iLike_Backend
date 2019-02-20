@@ -122,8 +122,8 @@ world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
   generateCoordinates(req.params.region, latMin, latMax, lngMin, lngMax);
 });
 
-world.route('/generate/:region').get((req) => {
-  const regionId = req.params.region;
+world.route('/generate/:regionId').get((req) => {
+  const { regionId } = req.params;
   console.log(`generating tiles for ${Polygon.properties.name} with region_id = ${regionId}`);
   const multiPolygon = Polygon.geometry.coordinates;
   multiPolygon.forEach((polygon) => {
@@ -136,7 +136,8 @@ world.route('/generate/:region').get((req) => {
   });
 });
 
-const generate = (region, polygon, boundingBox, lat = boundingBox.latMax) => {
+const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
+  console.log(lat);
   if (lat < boundingBox.latMin) {
     console.log('done');
     return;
@@ -154,17 +155,17 @@ const generate = (region, polygon, boundingBox, lat = boundingBox.latMax) => {
     const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
     const location = { latitude, longitude };
     if (geolib.isPointInsideWithPreparedPolygon(location, polygon)) {
-      tiles.push([latitude, longitude, region]);
+      tiles.push([latitude, longitude, regionId]);
     }
   }
 
   connection.query(
     'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
-    [tiles, region],
+    [tiles, regionId],
     (err) => {
       // if (err) console.log(err);
       console.log(latitude);
-      generate(region, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
+      generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
     },
   );
 };
