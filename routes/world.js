@@ -125,7 +125,9 @@ world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
 world.route('/generate/:region').get((req) => {
   const multiPolygon = Polygon.geometry.coordinates;
   multiPolygon.forEach((polygon) => {
-    console.log(polygon.length);
+    polygon.forEach((region) => {
+      console.log(region.length);
+    });
   });
 
   // console.log('generating...');
