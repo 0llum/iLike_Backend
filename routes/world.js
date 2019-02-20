@@ -146,9 +146,7 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
   const latitude = GeoLocation.getRoundedLatitude(lat);
   const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
 
-  console.log(boundingBox);
-
-  for (let lng = boundingBox.lngMin; lng < boundingBox.lngMax; lng += gridDistanceAtLatitude) {
+  for (let lng = boundingBox.lngMin; lng < boundingBox.longMax; lng += gridDistanceAtLatitude) {
     let temp = lng;
     if (temp > 180) {
       temp -= 360;
@@ -167,9 +165,9 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
     'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
     [tiles, regionId],
     (err) => {
-      // if (err) console.log(err);
+      if (err) console.log(err);
       console.log(latitude);
-      // generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
+      generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
     },
   );
 };
