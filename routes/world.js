@@ -6,7 +6,7 @@ import Connection from '../constants/Connection';
 import GeoLocation from '../model/GeoLocation';
 import GeoArray from '../model/GeoArray';
 import * as Earth from '../constants/Earth';
-import Polygon from '../countries/Germany/Brandenburg/Potsdam';
+import Polygon from '../countries/Germany/Berlin/Spandau_16343_AL9.GeoJson';
 
 const world = express.Router();
 let connection;
@@ -123,22 +123,23 @@ world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
 });
 
 world.route('/generate/:region').get((req) => {
-  console.log('generating...');
-  const polygon = Polygon;
-  const array = polygon.features[0].geometry.coordinates[0];
-  const coords = array.map(x => ({ latitude: x[1], longitude: x[0] }));
-  const boundingBox = GeoArray.getBoundingBox(coords);
+  console.log(Polygon.geometry.coordinates);
+  // console.log('generating...');
+  // const polygon = Polygon;
+  // const array = polygon.features[0].geometry.coordinates[0];
+  // const coords = array.map(x => ({ latitude: x[1], longitude: x[0] }));
+  // const boundingBox = GeoArray.getBoundingBox(coords);
 
-  geolib.preparePolygonForIsPointInsideOptimized(coords);
+  // geolib.preparePolygonForIsPointInsideOptimized(coords);
 
-  generate(
-    req.params.region,
-    coords,
-    boundingBox.latMin,
-    boundingBox.latMax,
-    boundingBox.longMin,
-    boundingBox.longMax,
-  );
+  // generate(
+  //   req.params.region,
+  //   coords,
+  //   boundingBox.latMin,
+  //   boundingBox.latMax,
+  //   boundingBox.longMin,
+  //   boundingBox.longMax,
+  // );
 });
 
 const generate = (
