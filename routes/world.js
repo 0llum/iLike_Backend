@@ -127,11 +127,9 @@ world.route('/generate/:region').get((req) => {
   console.log(`generating tiles for ${Polygon.properties.name} with region_id = ${regionId}`);
   const multiPolygon = Polygon.geometry.coordinates;
   multiPolygon.forEach((polygon) => {
-    let i = 0;
     polygon.forEach((region) => {
-      i += 1;
-      console.log(i);
-      // const coords = region.map(x => ({ latitude: x[1], longitude: x[0] }));
+      const coords = region.map(x => ({ latitude: x[1], longitude: x[0] }));
+      console.log(coords);
       // const boundingBox = GeoArray.getBoundingBox(coords);
       // geolib.preparePolygonForIsPointInsideOptimized(coords);
       // generate(regionId, coords, boundingBox);
