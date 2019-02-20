@@ -5,6 +5,7 @@ import Connection from '../constants/Connection';
 
 const progress = express.Router();
 let connection;
+let progressListener;
 const PROGRESS_INTERVAL = 60000;
 
 function handleDisconnect() {
@@ -16,8 +17,8 @@ function handleDisconnect() {
       setTimeout(handleDisconnect, 2000);
     } else {
       console.log('progress router connected');
-      if (!this.progressListener) {
-        this.progressListener = setInterval(() => {
+      if (!progressListener) {
+        progressListener = setInterval(() => {
           console.log('update progress');
           connection.query(
             'UPDATE `location2` INNER JOIN world ON location2.latitude = world.latitude AND location2.longitude = world.longitude SET location2.region_id = world.region_id',
