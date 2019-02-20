@@ -136,7 +136,8 @@ world.route('/generate/:regionId').get((req) => {
   });
 });
 
-const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax - 0.1) => {
+const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
+  console.log(polygon);
   if (lat < boundingBox.latMin) {
     console.log('done');
     return;
@@ -153,7 +154,7 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax - 0.1
     }
     const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
     const location = { latitude, longitude };
-    if (geolib.isPointInside(location, polygon)) {
+    if (geolib.isPointInsideWithPreparedPolygon(location, polygon)) {
       tiles.push([latitude, longitude, regionId]);
     }
   }
@@ -166,7 +167,7 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax - 0.1
     (err) => {
       // if (err) console.log(err);
       console.log(latitude);
-      generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
+      // generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
     },
   );
 };
