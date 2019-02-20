@@ -137,7 +137,6 @@ world.route('/generate/:regionId').get((req) => {
 });
 
 const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
-  console.log(regionId);
   if (lat < boundingBox.latMin) {
     console.log('done');
     return;
@@ -159,13 +158,15 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
     }
   }
 
+  console.log(tiles);
+
   connection.query(
     'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
     [tiles, regionId],
     (err) => {
       // if (err) console.log(err);
       console.log(latitude);
-      generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
+      // generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
     },
   );
 };
