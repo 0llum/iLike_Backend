@@ -35,7 +35,7 @@ function handleDisconnect() {
 handleDisconnect();
 
 world.route('/').get((req, res) => {
-  connection.query('SELECT * FROM world', (err, data) => {
+  connection.query('SELECT region.id, name, COUNT(*) as count FROM world INNER JOIN region on world.region_id = region.id GROUP BY region.id', (err, data) => {
     if (err) {
       return res.status(500).json(err);
     }
