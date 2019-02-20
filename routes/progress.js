@@ -19,7 +19,6 @@ function handleDisconnect() {
       console.log('progress router connected');
       if (!progressListener) {
         progressListener = setInterval(() => {
-          console.log('update progress');
           connection.query(
             'UPDATE `location2` INNER JOIN world ON location2.latitude = world.latitude AND location2.longitude = world.longitude SET location2.region_id = world.region_id',
           );
