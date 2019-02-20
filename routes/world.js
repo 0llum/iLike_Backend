@@ -166,7 +166,7 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax - 0.1
     (err) => {
       // if (err) console.log(err);
       console.log(latitude);
-      // generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
+      generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
     },
   );
 };
