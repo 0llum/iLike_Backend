@@ -153,7 +153,7 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax - 0.1
     }
     const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
     const location = { latitude, longitude };
-    if (geolib.isPointInsideWithPreparedPolygon(location, polygon)) {
+    if (geolib.isPointInside(location, polygon)) {
       tiles.push([latitude, longitude, regionId]);
     }
   }
@@ -164,7 +164,7 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax - 0.1
     'INSERT INTO world (latitude, longitude, region_id) VALUES ? ON DUPLICATE KEY UPDATE region_id = ?',
     [tiles, regionId],
     (err) => {
-      // if (err) console.log(err);
+      if (err) console.log(err);
       console.log(latitude);
       generate(regionId, polygon, boundingBox, latitude - Earth.GRID_DISTANCE);
     },
