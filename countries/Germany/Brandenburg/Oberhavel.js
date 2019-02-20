@@ -1,41 +1,41 @@
 export default {
-  type: "FeatureCollection",
+  type: 'FeatureCollection',
   features: [
     {
-      type: "Feature",
+      type: 'Feature',
       properties: {
-        srid: "4326",
-        id: "62488",
-        name: "Oberhavel",
-        localname: "Oberhavel",
-        official_name: "Landkreis Oberhavel",
-        boundary: "adminstrative",
-        admin_level: "6",
-        note: "",
-        wikidata: "Q6119",
-        wikipedia: "de:Landkreis Oberhavel",
-        timestamp: "2019-02-13 07:18:16",
-        rpath: "62488,62504,51477,0",
+        srid: '4326',
+        id: '62488',
+        name: 'Oberhavel',
+        localname: 'Oberhavel',
+        official_name: 'Landkreis Oberhavel',
+        boundary: 'adminstrative',
+        admin_level: '6',
+        note: '',
+        wikidata: 'Q6119',
+        wikipedia: 'de:Landkreis Oberhavel',
+        timestamp: '2019-02-13 07:18:16',
+        rpath: '62488,62504,51477,0',
         alltags: {
-          name: "Oberhavel",
-          "name:de": "Oberhavel",
-          "name:ru": "Верхний Хафель",
-          boundary: "administrative",
-          wikidata: "Q6119",
-          wikipedia: "de:Landkreis Oberhavel",
-          admin_level: "6",
-          "name:prefix": "Landkreis",
-          official_name: "Landkreis Oberhavel",
-          license_plate_code: "OHV",
-          "de:regionalschluessel": "12065",
-          "TMC:cid_58:tabcd_1:Class": "Area",
-          "TMC:cid_58:tabcd_1:LCLversion": "8.00",
-          "TMC:cid_58:tabcd_1:LocationCode": "576",
-          "de:amtlicher_gemeindeschluessel": "12065"
-        }
+          name: 'Oberhavel',
+          'name:de': 'Oberhavel',
+          'name:ru': 'Верхний Хафель',
+          boundary: 'administrative',
+          wikidata: 'Q6119',
+          wikipedia: 'de:Landkreis Oberhavel',
+          admin_level: '6',
+          'name:prefix': 'Landkreis',
+          official_name: 'Landkreis Oberhavel',
+          license_plate_code: 'OHV',
+          'de:regionalschluessel': '12065',
+          'TMC:cid_58:tabcd_1:Class': 'Area',
+          'TMC:cid_58:tabcd_1:LCLversion': '8.00',
+          'TMC:cid_58:tabcd_1:LocationCode': '576',
+          'de:amtlicher_gemeindeschluessel': '12065',
+        },
       },
       geometry: {
-        type: "MultiPolygon",
+        type: 'MultiPolygon',
         coordinates: [
           [
             [12.824549, 52.708626],
@@ -4951,10 +4951,10 @@ export default {
             [12.8256782, 52.7041435],
             [12.8251777, 52.7059867],
             [12.8248113, 52.707351],
-            [12.824549, 52.708626]
-          ]
-        ]
-      }
-    }
-  ]
+            [12.824549, 52.708626],
+          ],
+        ],
+      },
+    },
+  ],
 };

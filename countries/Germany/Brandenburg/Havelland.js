@@ -1,41 +1,41 @@
 export default {
-  type: "FeatureCollection",
+  type: 'FeatureCollection',
   features: [
     {
-      type: "Feature",
+      type: 'Feature',
       properties: {
-        srid: "4326",
-        id: "62413",
-        name: "Havelland",
-        localname: "Havelland",
-        official_name: "Landkreis Havelland",
-        boundary: "adminstrative",
-        admin_level: "6",
-        note: "",
-        wikidata: "Q6139",
-        wikipedia: "de:Landkreis Havelland",
-        timestamp: "2019-02-13 07:18:20",
-        rpath: "62413,62504,51477,0",
+        srid: '4326',
+        id: '62413',
+        name: 'Havelland',
+        localname: 'Havelland',
+        official_name: 'Landkreis Havelland',
+        boundary: 'adminstrative',
+        admin_level: '6',
+        note: '',
+        wikidata: 'Q6139',
+        wikipedia: 'de:Landkreis Havelland',
+        timestamp: '2019-02-13 07:18:20',
+        rpath: '62413,62504,51477,0',
         alltags: {
-          name: "Havelland",
-          "name:de": "Havelland",
-          "name:ru": "Хафельланд",
-          boundary: "administrative",
-          wikidata: "Q6139",
-          wikipedia: "de:Landkreis Havelland",
-          admin_level: "6",
-          "name:prefix": "Landkreis",
-          official_name: "Landkreis Havelland",
-          license_plate_code: "HVL",
-          "de:regionalschluessel": "12063",
-          "TMC:cid_58:tabcd_1:Class": "Area",
-          "TMC:cid_58:tabcd_1:LCLversion": "8.00",
-          "TMC:cid_58:tabcd_1:LocationCode": "455",
-          "de:amtlicher_gemeindeschluessel": "12063"
-        }
+          name: 'Havelland',
+          'name:de': 'Havelland',
+          'name:ru': 'Хафельланд',
+          boundary: 'administrative',
+          wikidata: 'Q6139',
+          wikipedia: 'de:Landkreis Havelland',
+          admin_level: '6',
+          'name:prefix': 'Landkreis',
+          official_name: 'Landkreis Havelland',
+          license_plate_code: 'HVL',
+          'de:regionalschluessel': '12063',
+          'TMC:cid_58:tabcd_1:Class': 'Area',
+          'TMC:cid_58:tabcd_1:LCLversion': '8.00',
+          'TMC:cid_58:tabcd_1:LocationCode': '455',
+          'de:amtlicher_gemeindeschluessel': '12063',
+        },
       },
       geometry: {
-        type: "MultiPolygon",
+        type: 'MultiPolygon',
         coordinates: [
           [
             [12.1421717, 52.5282849],
@@ -4147,10 +4147,10 @@ export default {
             [12.144145, 52.5290856],
             [12.1440426, 52.5289648],
             [12.1431085, 52.5280636],
-            [12.1421717, 52.5282849]
-          ]
-        ]
-      }
-    }
-  ]
+            [12.1421717, 52.5282849],
+          ],
+        ],
+      },
+    },
+  ],
 };
