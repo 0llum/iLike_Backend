@@ -136,8 +136,8 @@ world.route('/generate/:regionId').get((req) => {
   });
 });
 
-const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax + 0.01) => {
-  if (lat < boundingBox.latMin - 0.01) {
+const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax + Earth.GRID_DISTANCE) => {
+  if (lat < boundingBox.latMin - Earth.GRID_DISTANCE) {
     console.log('done');
     return;
   }
@@ -146,7 +146,7 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax + 0.0
   const latitude = GeoLocation.getRoundedLatitude(lat);
   const gridDistanceAtLatitude = GeoLocation.gridDistanceAtLatitude(latitude);
 
-  for (let lng = boundingBox.longMin - 0.01; lng < boundingBox.longMax + 0.01; lng += gridDistanceAtLatitude) {
+  for (let lng = boundingBox.longMin - Earth.GRID_DISTANCE; lng < boundingBox.longMax + Earth.GRID_DISTANCE; lng += gridDistanceAtLatitude) {
     let temp = lng;
     if (temp > 180) {
       temp -= 360;
