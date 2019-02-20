@@ -137,7 +137,6 @@ world.route('/generate/:regionId').get((req) => {
 });
 
 const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
-  console.log(polygon);
   if (lat < boundingBox.latMin) {
     console.log('done');
     return;
@@ -154,6 +153,7 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
     }
     const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
     const location = { latitude, longitude };
+    console.log(location);
     if (geolib.isPointInsideWithPreparedPolygon(location, polygon)) {
       tiles.push([latitude, longitude, regionId]);
     }
