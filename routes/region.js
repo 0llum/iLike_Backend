@@ -33,11 +33,11 @@ region.route('/').get((req, res) => {
   connection.query(
     'SELECT * FROM region',
     [],
-    (err) => {
+    (err, data) => {
       if (err) {
         return res.status(500).json(err);
       }
-      res.status(200).end();
+      res.status(200).json(data);
     },
   );
 });
