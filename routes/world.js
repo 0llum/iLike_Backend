@@ -129,8 +129,8 @@ world.route('/generate/:region').get((req) => {
   multiPolygon.forEach((polygon) => {
     polygon.forEach((region) => {
       const coords = region.map(x => ({ latitude: x[1], longitude: x[0] }));
-      console.log(coords);
-      // const boundingBox = GeoArray.getBoundingBox(coords);
+      const boundingBox = GeoArray.getBoundingBox(coords);
+      console.log(boundingBox);
       // geolib.preparePolygonForIsPointInsideOptimized(coords);
       // generate(regionId, coords, boundingBox);
     });
