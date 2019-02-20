@@ -136,7 +136,7 @@ world.route('/generate/:regionId').get((req) => {
   });
 });
 
-const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax) => {
+const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax - 0.1) => {
   if (lat < boundingBox.latMin) {
     console.log('done');
     return;
