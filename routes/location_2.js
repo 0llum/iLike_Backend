@@ -9,6 +9,10 @@ import * as Earth from '../constants/Earth';
 const location = express.Router();
 let connection;
 
+let progressListener;
+const PROGRESS_INTERVAL = 30000;
+let newLocation = false;
+
 function handleDisconnect() {
   connection = mysql.createConnection(Connection);
 
@@ -18,6 +22,17 @@ function handleDisconnect() {
       setTimeout(handleDisconnect, 2000);
     } else {
       console.log('location_2 router connected');
+      if (!progressListener) {
+        progressListener = setInterval(() => {
+          if (newLocation) {
+            console.log('update progress');
+            connection.query(
+              'UPDATE `location2` INNER JOIN world ON location2.latitude = world.latitude AND location2.longitude = world.longitude SET location2.region_id = world.region_id',
+            );
+            newLocation = false;
+          }
+        }, PROGRESS_INTERVAL);
+      }
     }
   });
 
@@ -73,6 +88,7 @@ location.route('/:id').post((req, res) => {
         console.log(err);
       }
 
+      newLocation = true;
       res.status(201).json(req.body.locations);
     },
   );
