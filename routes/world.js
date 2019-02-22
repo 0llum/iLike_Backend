@@ -153,6 +153,7 @@ const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax + Ear
     }
     const longitude = GeoLocation.getRoundedLongitude(temp, latitude);
     const location = { latitude, longitude };
+    console.log(location);
     if (geolib.isPointInsideWithPreparedPolygon(location, polygon)) {
       tiles.push([latitude, longitude, regionId]);
     }
