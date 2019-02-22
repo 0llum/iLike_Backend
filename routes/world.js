@@ -124,7 +124,8 @@ world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
 
 world.route('/generate/:regionId').get((req) => {
   const { regionId } = req.params;
-  console.log(`generating tiles for ${Polygon.properties.name} with region_id = ${regionId}`);
+  // console.log(`generating tiles for ${Polygon.properties.name} with region_id = ${regionId}`);
+  console.log(`genereating tiles for region_id = ${regionId}`);
   const multiPolygon = Polygon.geometry.coordinates;
   multiPolygon.forEach((polygon) => {
     polygon.forEach((region) => {
