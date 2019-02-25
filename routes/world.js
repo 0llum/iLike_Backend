@@ -6,7 +6,7 @@ import Connection from '../constants/Connection';
 import GeoLocation from '../model/GeoLocation';
 import GeoArray from '../model/GeoArray';
 import * as Earth from '../constants/Earth';
-import Polygon from '../countries/Croatia/Zadar County_226726_AL6.json';
+import Polygon from '../countries/Singapore/Singapore_536780_AL2.json';
 
 const world = express.Router();
 let connection;
