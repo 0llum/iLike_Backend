@@ -6,7 +6,7 @@ import Connection from '../constants/Connection';
 import GeoLocation from '../model/GeoLocation';
 import GeoArray from '../model/GeoArray';
 import * as Earth from '../constants/Earth';
-import Polygon from '../countries/Germany/Berlin/Charlottenburg/Wilmersdorf_55740_AL10.json';
+import Polygon from '../countries/Germany/Berlin/Friedrichshain/Friedrichshain_55763_AL10.json';
 
 const world = express.Router();
 let connection;
@@ -122,10 +122,9 @@ world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
   generateCoordinates(req.params.region, latMin, latMax, lngMin, lngMax);
 });
 
-world.route('/generate/:regionId').get((req) => {
+world.route('/generate').get((req) => {
   const { regionId } = req.params;
-  // console.log(`generating tiles for ${Polygon.properties.name} with region_id = ${regionId}`);
-  console.log(`genereating tiles for region_id = ${regionId}`);
+  console.log(`generating tiles for ${Polygon.properties.name} with region_id = ${regionId}`);
   const multiPolygon = Polygon.geometry.coordinates;
   multiPolygon.forEach((polygon) => {
     polygon.forEach((region) => {
