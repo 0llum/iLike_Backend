@@ -122,16 +122,16 @@ world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
   generateCoordinates(req.params.region, latMin, latMax, lngMin, lngMax);
 });
 
-world.route('/generate').get((req) => {
-  const { regionId } = req.params;
-  console.log(`generating tiles for ${Polygon.properties.name} with region_id = ${regionId}`);
+world.route('/generate').get(() => {
+  const { id, name } = Polygon.properties;
+  console.log(`generating tiles for ${name} with region_id = ${id}`);
   const multiPolygon = Polygon.geometry.coordinates;
   multiPolygon.forEach((polygon) => {
     polygon.forEach((region) => {
       const coords = region.map(x => ({ latitude: x[1], longitude: x[0] }));
       const boundingBox = GeoArray.getBoundingBox(coords);
       geolib.preparePolygonForIsPointInsideOptimized(coords);
-      generate(regionId, coords, boundingBox);
+      generate(id, coords, boundingBox);
     });
   });
 });
