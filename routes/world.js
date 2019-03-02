@@ -122,7 +122,7 @@ world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
   generateCoordinates(req.params.region, latMin, latMax, lngMin, lngMax);
 });
 
-world.route('/generate').get(() => {
+world.route('/generate').get((req, res) => {
   const { id, name } = Polygon.properties;
   console.log(`generating tiles for ${name} with region_id = ${id}`);
   const multiPolygon = Polygon.geometry.coordinates;
@@ -134,6 +134,18 @@ world.route('/generate').get(() => {
       generate(id, coords, boundingBox);
     });
   });
+
+  connection.query(
+    'INSERT INTO region (id, name) VALUES (?, ?)',
+    [id, name],
+    (err) => {
+      if (err) {
+        console.log(err);
+      }
+
+      res.status(201).end();
+    },
+  );
 });
 
 const generate = (regionId, polygon, boundingBox, lat = boundingBox.latMax + Earth.GRID_DISTANCE) => {
