@@ -38,24 +38,28 @@ region.route('/').get((req, res) => {
         return res.status(500).json(err);
       }
 
-      const map = {};
-      let node;
-      const roots = [];
-      let i;
+      // const map = {};
+      // let node;
+      // const roots = [];
+      // let i;
 
-      for (i = 0; i < list.length; i += 1) {
-        map[list[i].id] = i; // initialize the map
-        list[i].children = []; // initialize the children
-      }
-      for (i = 0; i < list.length; i += 1) {
-        node = list[i];
-        if (node.parent_id) {
-          // if you have dangling branches check that map[node.parentId] exists
-          list[map[node.parent_id]].children.push(node);
-        } else {
-          roots.push(node);
-        }
-      }
+      // for (i = 0; i < list.length; i += 1) {
+      //   map[list[i].id] = i; // initialize the map
+      //   list[i].children = []; // initialize the children
+      // }
+      // for (i = 0; i < list.length; i += 1) {
+      //   node = list[i];
+      //   if (node.parent_id) {
+      //     // if you have dangling branches check that map[node.parentId] exists
+      //     list[map[node.parent_id]].children.push(node);
+      //   } else {
+      //     roots.push(node);
+      //   }
+      // }
+
+      list.forEach((f) => { f.nodes = list.filter(g => g.parentId == f.id).value(); });
+
+      const roots = list.filter(f => f.parentId == null).value();
 
       res.status(200).json(roots);
     },
