@@ -33,37 +33,31 @@ region.route('/').get((req, res) => {
   connection.query(
     'SELECT * FROM region',
     [],
-    (err, arr) => {
+    (err, list) => {
       if (err) {
         return res.status(500).json(err);
       }
 
-      const tree = [];
-      const mappedArr = {};
-      let arrElem;
-      let mappedElem;
+      const map = {};
+      let node;
+      const roots = [];
+      let i;
 
-      for (let i = 0, len = arr.length; i < len; i++) {
-        arrElem = arr[i];
-        mappedArr[arrElem.id] = arrElem;
-        mappedArr[arrElem.id].children = [];
+      for (i = 0; i < list.length; i += 1) {
+        map[list[i].id] = i; // initialize the map
+        list[i].children = []; // initialize the children
       }
-
-      for (const id in mappedArr) {
-        if (mappedArr.hasOwnProperty(id)) {
-          mappedElem = mappedArr[id];
-          // If the element is not at the root level, add it to its parent array of children.
-          if (mappedElem.parentid) {
-            mappedArr[mappedElem.parent_id].children.push(mappedElem);
-          }
-          // If the element is at the root level, add it to first level elements array.
-          else {
-            tree.push(mappedElem);
-          }
+      for (i = 0; i < list.length; i += 1) {
+        node = list[i];
+        if (node.parent_id) {
+          // if you have dangling branches check that map[node.parentId] exists
+          list[map[node.parent_id]].children.push(node);
+        } else {
+          roots.push(node);
         }
       }
 
-      res.status(200).json(tree);
+      res.status(200).json(roots);
     },
   );
 });
