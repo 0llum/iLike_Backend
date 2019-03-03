@@ -33,19 +33,6 @@ region.route('/').get((req, res) => {
   connection.query(
     'SELECT * FROM region',
     [],
-    (err, data) => {
-      if (err) {
-        return res.status(500).json(err);
-      }
-      res.status(200).json(data);
-    },
-  );
-});
-
-region.route('/:id').get((req, res) => {
-  connection.query(
-    'SELECT * FROM region WHERE id = ?',
-    [req.params.id],
     (err, arr) => {
       if (err) {
         return res.status(500).json(err);
@@ -77,6 +64,20 @@ region.route('/:id').get((req, res) => {
       }
 
       res.status(200).json(tree);
+    },
+  );
+});
+
+region.route('/:id').get((req, res) => {
+  connection.query(
+    'SELECT * FROM region WHERE id = ?',
+    [req.params.id],
+    (err, data) => {
+      if (err) {
+        return res.status(500).json(err);
+      }
+
+      res.status(200).json(data);
     },
   );
 });
