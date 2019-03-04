@@ -6,7 +6,7 @@ import Connection from '../constants/Connection';
 import GeoLocation from '../model/GeoLocation';
 import GeoArray from '../model/GeoArray';
 import * as Earth from '../constants/Earth';
-import Polygon from '../countries/Germany/Baden-Württemberg_62611_AL4.json';
+import Polygon from '../countries/Germany/North Rhine-Westphalia_62761_AL4';
 
 const world = express.Router();
 let connection;
@@ -123,7 +123,7 @@ world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
 });
 
 world.route('/generate').get((req, res) => {
-  const { id, name } = Polygon.properties;
+  const { id, name, localname } = Polygon.properties;
   const level = Polygon.properties.admin_level;
   console.log(`generating tiles for ${name} with region_id = ${id}`);
   const multiPolygon = Polygon.geometry.coordinates;
@@ -149,8 +149,8 @@ world.route('/generate').get((req, res) => {
   });
 
   connection.query(
-    'INSERT INTO region (id, name, level, long_min, lat_min, long_max, lat_max) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id = VALUES(id), name = VALUES(name), level = VALUES(level), long_min = VALUES(long_min), lat_min = VALUES(lat_min), long_max = VALUES(long_max), lat_max = VALUES(lat_max)',
-    [id, name, level, longMin, latMin, longMax, latMax],
+    'INSERT INTO region (id, name, localname, level, long_min, lat_min, long_max, lat_max) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id = VALUES(id), name = VALUES(name), localname = VALUES(localname), level = VALUES(level), long_min = VALUES(long_min), lat_min = VALUES(lat_min), long_max = VALUES(long_max), lat_max = VALUES(lat_max)',
+    [id, name, localname, level, longMin, latMin, longMax, latMax],
     (err) => {
       if (err) {
         console.log(err);
