@@ -6,7 +6,7 @@ import Connection from '../constants/Connection';
 import GeoLocation from '../model/GeoLocation';
 import GeoArray from '../model/GeoArray';
 import * as Earth from '../constants/Earth';
-import Polygon from '../countries/Germany/Brandenburg/Uckermark_62537_AL6';
+import Polygon from '../countries/Germany/Sachsen/Görlitz_62345_AL6.json';
 
 const world = express.Router();
 let connection;
