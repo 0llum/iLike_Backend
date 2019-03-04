@@ -124,6 +124,7 @@ world.route('/generate/:region/:lngMin/:latMin/:lngMax/:latMax').get((req) => {
 
 world.route('/generate').get((req, res) => {
   const { id, name } = Polygon.properties;
+  const level = Polygon.properties.admin_level;
   console.log(`generating tiles for ${name} with region_id = ${id}`);
   const multiPolygon = Polygon.geometry.coordinates;
   const boundingBoxes = [];
@@ -132,8 +133,8 @@ world.route('/generate').get((req, res) => {
       const coords = region.map(x => ({ latitude: x[1], longitude: x[0] }));
       const boundingBox = GeoArray.getBoundingBox(coords);
       boundingBoxes.push(boundingBox);
-      geolib.preparePolygonForIsPointInsideOptimized(coords);
-      generate(id, coords, boundingBox);
+      // geolib.preparePolygonForIsPointInsideOptimized(coords);
+      // generate(id, coords, boundingBox);
     });
   });
 
@@ -148,8 +149,8 @@ world.route('/generate').get((req, res) => {
   });
 
   connection.query(
-    'INSERT INTO region (id, name, long_min, lat_min, long_max, lat_max) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id = VALUES(id), name = VALUES(name), long_min = VALUES(long_min), lat_min = VALUES(lat_min), long_max = VALUES(long_max), lat_max = VALUES(lat_max)',
-    [id, name, longMin, latMin, longMax, latMax],
+    'INSERT INTO region (id, name, level, long_min, lat_min, long_max, lat_max) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id = VALUES(id), name = VALUES(name), level = VALUES(level), long_min = VALUES(long_min), lat_min = VALUES(lat_min), long_max = VALUES(long_max), lat_max = VALUES(lat_max)',
+    [id, name, level, longMin, latMin, longMax, latMax],
     (err) => {
       if (err) {
         console.log(err);
