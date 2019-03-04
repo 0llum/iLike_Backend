@@ -149,7 +149,7 @@ world.route('/generate').get((req, res) => {
   });
 
   connection.query(
-    'INSERT INTO region (id, name, localname, level, long_min, lat_min, long_max, lat_max) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id = VALUES(id), name = VALUES(name), localname = VALUES(localname), level = VALUES(level), long_min = VALUES(long_min), lat_min = VALUES(lat_min), long_max = VALUES(long_max), lat_max = VALUES(lat_max)',
+    'INSERT INTO region (id, name, localname, level, long_min, lat_min, long_max, lat_max) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id = VALUES(id), name = VALUES(name), localname = VALUES(localname), level = VALUES(level), long_min = VALUES(long_min), lat_min = VALUES(lat_min), long_max = VALUES(long_max), lat_max = VALUES(lat_max)',
     [id, name, localname, level, longMin, latMin, longMax, latMax],
     (err) => {
       if (err) {
