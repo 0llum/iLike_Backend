@@ -31,7 +31,7 @@ handleDisconnect();
 
 region.route('/').get((req, res) => {
   connection.query(
-    'SELECT * FROM region',
+    'SELECT * FROM region ORDER BY level, name',
     [],
     (err, list) => {
       if (err) {
