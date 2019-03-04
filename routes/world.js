@@ -126,18 +126,30 @@ world.route('/generate').get((req, res) => {
   const { id, name } = Polygon.properties;
   console.log(`generating tiles for ${name} with region_id = ${id}`);
   const multiPolygon = Polygon.geometry.coordinates;
+  const boundingBoxes = [];
   multiPolygon.forEach((polygon) => {
     polygon.forEach((region) => {
       const coords = region.map(x => ({ latitude: x[1], longitude: x[0] }));
       const boundingBox = GeoArray.getBoundingBox(coords);
+      boundingBoxes.push(boundingBox);
       geolib.preparePolygonForIsPointInsideOptimized(coords);
       generate(id, coords, boundingBox);
     });
   });
 
+  let {
+    longMin, latMin, longMax, latMax,
+  } = boundingBoxes[0];
+  boundingBoxes.forEach((x) => {
+    longMin = Math.min(longMin, x.longMin);
+    latMin = Math.min(latMin, x.latMin);
+    longMax = Math.max(longMax, x.longMax);
+    latMax = Math.max(latMax, x.latMax);
+  });
+
   connection.query(
-    'INSERT INTO region (id, name) VALUES (?, ?)',
-    [id, name],
+    'INSERT INTO region (id, name, long_min, lat_min, long_max, lat_max) VALUES (?, ?, ?, ?, ?, ?)',
+    [id, name, longMin, latMin, longMax, latMax],
     (err) => {
       if (err) {
         console.log(err);
